@@ -1,0 +1,23 @@
+﻿@page "/debug"
+@using Hypomos.Interfaces
+@using global::Orleans
+@inject IClusterClient clusterClient
+
+<h1>Debugging stuff</h1>
+
+<button class="btn btn-primary" @onclick="Scan">Scan</button>
+<button class="btn btn-primary" @onclick="Organize">Organize</button>
+
+@code {
+
+    void Scan()
+    {
+        var grain = clusterClient.GetGrain<IUserGrain>("b.walti@live.de");
+
+    }
+
+    void Organize()
+    {
+
+    }
+}
