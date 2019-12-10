@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Humanizer.Core" Version="2.7.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.0" />
     <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -12,6 +13,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.0.1" />
     <PackageReference Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.0.1" />
+    <PackageReference Include="Minio" Version="3.1.7" />
   </ItemGroup>
 
   <ItemGroup>

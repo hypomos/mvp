@@ -1,6 +1,7 @@
 namespace Hypomos.Web
 {
     using System.Threading.Tasks;
+    using Hypomos.Interfaces;
     using Hypomos.Web.Data;
     using Hypomos.Web.Orleans;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;

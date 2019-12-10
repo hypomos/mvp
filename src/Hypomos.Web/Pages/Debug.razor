@@ -1,7 +1,9 @@
 ﻿@page "/debug"
 @using Hypomos.Interfaces
 @using global::Orleans
+@using Microsoft.Extensions.Configuration
 @inject IClusterClient clusterClient
+@inject IConfiguration config;
 
 <h1>Debugging stuff</h1>
 
@@ -10,10 +12,26 @@
 
 @code {
 
-    void Scan()
+    async Task Scan()
     {
-        var grain = clusterClient.GetGrain<IUserGrain>("b.walti@live.de");
+        var configurationSection = config.GetSection("Storage:Configuration");
+        
+        var mcs = configurationSection.GetChildren().Select(bc =>
+        {
+            var mc = new MinioConfiguration();
+            bc.Bind(mc);
+            return mc;
+        }).ToList();
 
+        foreach (var mc in mcs)
+        {
+            var grain = clusterClient.GetGrain<IMinioStorageProvider>(Guid.NewGuid());
+            await grain.SetConfiguration(mc);
+
+            Console.WriteLine($"Bucket: {mc.BucketName} in grain: {grain.GetGrainIdentity()}");
+
+            await grain.Scan();
+        }
     }
 
     void Organize()
