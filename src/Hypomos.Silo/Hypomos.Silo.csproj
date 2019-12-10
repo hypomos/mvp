@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Hypomos.Grains\Hypomos.Grains.csproj" />
+    <ProjectReference Include="..\Hypomos.Grains\Hypomos.Grains.csproj" />
     <ProjectReference Include="..\Hypomos.Interfaces\Hypomos.Interfaces.csproj" />
   </ItemGroup>
 
