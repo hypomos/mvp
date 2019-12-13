@@ -1,4 +1,4 @@
-﻿namespace Hypomos.Interfaces
+﻿namespace Hypomos.Interfaces.Models
 {
     public class MinioConfiguration
     {

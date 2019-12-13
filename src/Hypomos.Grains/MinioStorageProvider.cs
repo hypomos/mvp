@@ -4,6 +4,8 @@
     using System.Threading.Tasks;
     using Humanizer;
     using Hypomos.Interfaces;
+    using Hypomos.Interfaces.Models;
+
     using Minio;
     using Orleans;
 
