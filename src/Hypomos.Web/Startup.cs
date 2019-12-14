@@ -4,6 +4,8 @@ namespace Hypomos.Web
     using Hypomos.Interfaces;
     using Hypomos.Web.Data;
     using Hypomos.Web.Orleans;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.AzureAD.UI;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -36,11 +38,11 @@ namespace Hypomos.Web
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
 
-            //services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
-            //    .AddAzureAD(options => this.Configuration.Bind("AzureAd", options))
-            //    .AddCookie();
+            services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
+                .AddAzureAD(options => this.Configuration.Bind("AzureAd", options))
+                .AddCookie();
 
-            //services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, ConfigureOpenIdConnectOptions);
+            services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, ConfigureOpenIdConnectOptions);
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -68,8 +70,8 @@ namespace Hypomos.Web
             app.UseRouting();
 
             //var microsoftAccountHandler = app.ApplicationServices.GetService<MicrosoftAccountHandler>();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

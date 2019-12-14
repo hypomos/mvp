@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metadata", "src\Metadata\Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Interfaces", "src\Hypomos.Interfaces\Hypomos.Interfaces.csproj", "{DD787198-FA8B-405C-B17A-FA4BE5D6A129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypomos.Silo", "src\Hypomos.Silo\Hypomos.Silo.csproj", "{0FFA9FAD-5B2A-4E8A-B053-FA9EC3FA5CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Silo", "src\Hypomos.Silo\Hypomos.Silo.csproj", "{0FFA9FAD-5B2A-4E8A-B053-FA9EC3FA5CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypomos.Grains", "src\Hypomos.Grains\Hypomos.Grains.csproj", "{7B8EFA65-0247-415D-BF37-B59C3F2CC140}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Grains", "src\Hypomos.Grains\Hypomos.Grains.csproj", "{7B8EFA65-0247-415D-BF37-B59C3F2CC140}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
