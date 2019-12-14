@@ -1,0 +1,73 @@
+﻿@page "/SetupWizard"
+
+@using System.Security.Claims
+@using global::Orleans;
+@inject IClusterClient clusterClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="Surname" class="col-sm-2 control-label">Surname</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="Surname" @bind="Surname">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="GivenName" class="col-sm-2 control-label">GivenName</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="GivenName" @bind="GivenName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Email" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="Email" @bind="Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-default" @onclick="Register">Register</button>
+        </div>
+    </div>
+</form>
+
+@code
+{
+    private ClaimsPrincipal user;
+    private IUserGrain userGrain;
+
+    private string GivenName { get; set; }
+    private string Surname { get; set; }
+    private string Email { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = state.User;
+
+        var uniqueUsername = user.FindFirst(claim => claim.Type == ClaimTypes.Name);
+        userGrain = clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
+
+        var emailClaim = user.FindFirst(claim => claim.Type == ClaimTypes.Email);
+        var surnameClaim = user.FindFirst(claim => claim.Type == ClaimTypes.Surname);
+        var givenNameClaim = user.FindFirst(claim => claim.Type == ClaimTypes.GivenName);
+
+        GivenName = givenNameClaim.Value;
+        Surname = surnameClaim.Value;
+        Email = emailClaim.Value;
+    }
+
+    private async Task Register()
+    {
+        await userGrain.Initialize(new UserInitializationContext
+        {
+            Username = user.Identity.Name,
+            EmailAddress = Email,
+            Surname = Surname,
+            GivenName = GivenName
+        });
+
+        NavigationManager.NavigateTo("/");
+    }
+}

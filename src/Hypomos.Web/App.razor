@@ -1,4 +1,34 @@
-﻿<CascadingAuthenticationState>
+﻿@using System.Security.Claims
+@using global::Orleans;
+@inject IClusterClient clusterClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
+
+        if (uniqueUsername != null)
+        {
+            var userGrain = clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
+
+            var isInitialized = await userGrain.IsInitialized();
+            var uri = new Uri(NavigationManager.Uri);
+
+            if (!isInitialized && uri.LocalPath != "/SetupWizard")
+            {
+                // todo: re-route to "setup wizard"?
+                NavigationManager.NavigateTo("SetupWizard");
+            }
+        }
+    }
+}
+
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
