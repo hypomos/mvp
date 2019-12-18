@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Content Remove="secrets.json" />
+	<Content Remove="wwwroot\tailwind\node_modules\**\*" />
   </ItemGroup>
 
   <ItemGroup>
