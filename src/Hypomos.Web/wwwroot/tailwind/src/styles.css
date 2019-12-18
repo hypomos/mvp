@@ -34,7 +34,7 @@ body {
 }
 
 .svg-defaults {
-    @apply h-6 w-6 fill-current stroke-current;
+    @apply h-6 w-6 fill-current;
 }
 
 .selected {
