@@ -109,7 +109,7 @@ const Index = () => {
 
                     <div className="flex-1 overflow-y-auto dark-scrollbar">
                         {/* depending on the width, divide by minWidth for item -> number of items, max 8 items */}
-                        <div id="recentlyAdded" className="pl-16 pt-8">
+                        <div id="recentlyAdded" className="px-16 pt-8">
                             <h1 className="mb-4"><span className="text-xl uppercase">Zuletzt hinzugefügt</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
 
                             <div class="flex">
@@ -151,7 +151,7 @@ const Index = () => {
                             </div>
                         </div>
 
-                        <div id="favorites" className="pl-16 pt-8 overflow-x-auto">
+                        <div id="favorites" className="px-16 pt-8 overflow-x-auto">
                             <h1 className="mb-4"><span className="text-xl uppercase">Favoriten</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
 
                             <div class="flex">
