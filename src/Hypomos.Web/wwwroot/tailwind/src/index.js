@@ -52,6 +52,7 @@ const Index = () => {
 
         <div id="content" className="flex-grow relative overflow-x-hidden overflow-y-auto">
             <div className="flex flex-row absolute inset-0 overflow-hidden bg-gray-800 text-gray-400">
+                {/* NavBar */}
                 <div className="flex flex-col">
                     <div className="flex-grow w-64 overflow-y-auto dark-scrollbar" >
                         <nav>
@@ -101,8 +102,98 @@ const Index = () => {
                     </div>
                 </div>
 
-                <div className="flex-1 main-content-background text-gray-100">
-                    Main Content
+                <div className="flex flex-col items-stretch flex-1 main-content-background text-gray-100">
+                    <div id="contentActionBar" className="h-12 bg-gray-700 text-gray-100">
+                        actions
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto dark-scrollbar">
+                        {/* depending on the width, divide by minWidth for item -> number of items, max 8 items */}
+                        <div id="recentlyAdded" className="pl-16 pt-8">
+                            <h1 className="mb-4"><span className="text-xl uppercase">Zuletzt hinzugefügt</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
+
+                            <div class="flex">
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="favorites" className="pl-16 pt-8 overflow-x-auto">
+                            <h1 className="mb-4"><span className="text-xl uppercase">Favoriten</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
+
+                            <div class="flex">
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
+                                    <div className="relative bg-red-500 pb-2/3">
+                                        <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
+                                    </div>
+                                    <div class="p-3">
+                                        <span>Image Size, File Size, Date Captured, ...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
