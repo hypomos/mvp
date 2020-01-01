@@ -32,3 +32,6 @@ _ReSharper*/
 packages/
 secrets.json
 node_modules
+
+tools/
+!tools/packages.config
