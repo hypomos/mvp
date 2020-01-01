@@ -3,6 +3,10 @@ stages:
   steps:
   - runScriptConfig:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
-      shellScript: ./build.sh -Target Clean
+      shellScript: |-
+        ls -al
+        chmod +x build.sh
+        ls -al
+        ./build.sh -Target Clean
 timeout: 60
 notification: {}
