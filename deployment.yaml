@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: List
 items:
-- apiVersion: app/v1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     labels:
@@ -22,10 +22,10 @@ items:
         imagePullSecrets:
         - name: pipeline-docker-registry
         containers:
-        - image: ${CICD_REGISTRY}/hypomos-web:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos/web:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-web
-- apiVersion: app/v1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     labels:
@@ -46,7 +46,7 @@ items:
         imagePullSecrets:
         - name: pipeline-docker-registry
         containers:
-        - image: ${CICD_REGISTRY}/hypomos-silo:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos/silo:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-silo
         restartPolicy: Always

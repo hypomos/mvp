@@ -7,20 +7,19 @@ stages:
         export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.35.0
         dotnet cake build.cake --target=Sample
-        ls -al artifacts
 - name: Dockerize
   steps:
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Web
-      tag: hypomos-web
+      tag: hypomos/web:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
     env:
       PLUGIN_STORAGE_PATH: /var/lib/docker/1
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
-      tag: hypomos-silo
+      tag: hypomos/silo:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
       env:
         PLUGIN_STORAGE_PATH: /var/lib/docker/2
