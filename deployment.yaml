@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: app/v1
+  kind: Deployment
+  metadata:
+    labels:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-web
+    name: hypomos-web
+    namespace: hypomos-dev
+  spec:
+    selector:
+      matchLabels:
+        workload.user.cattle.io/workloadselector: deployment-default-hypomos-web
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          workload.user.cattle.io/workloadselector: deployment-default-hypomos-web
+      spec:
+        imagePullSecrets:
+        - name: pipeline-docker-registry
+        containers:
+        - image: ${CICD_REGISTRY}/hypomos-web:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          name: hypomos-web
+- apiVersion: app/v1
+  kind: Deployment
+  metadata:
+    labels:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
+    name: hypomos-silo
+    namespace: hypomos-dev
+  spec:
+    selector:
+      matchLabels:
+        workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
+      spec:
+        imagePullSecrets:
+        - name: pipeline-docker-registry
+        containers:
+        - image: ${CICD_REGISTRY}/hypomos-silo:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          name: hypomos-silo
+        restartPolicy: Always
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: hypomos-web-lb
+    namespace: hypomos-dev
+  spec:
+    selector:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-web
+    type: LoadBalancer
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 80

@@ -13,12 +13,12 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Web
-      tag: hypomos-web
+      tag: hypomos-web:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
-      tag: hypomos-silo
+      tag: hypomos-silo:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
 timeout: 60
 notification: {}
