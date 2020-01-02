@@ -4,6 +4,7 @@ stages:
   - runScriptConfig:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
       shellScript: |-
+        export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.35.0
         dotnet cake build.cake --target=Clean
 timeout: 60
