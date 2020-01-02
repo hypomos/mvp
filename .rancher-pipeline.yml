@@ -3,6 +3,8 @@ stages:
   steps:
   - runScriptConfig:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
-      shellScript: sh build.sh -Target Clean
+      shellScript: |-
+        dotnet tool install --global Cake.Tool --version 0.35.0
+        dotnet cake build.cake --target=Clean
 timeout: 60
 notification: {}
