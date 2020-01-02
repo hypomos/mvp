@@ -9,10 +9,10 @@
     using Microsoft.Extensions.Logging;
     using Orleans;
     using Orleans.Configuration;
+    using Orleans.Clustering.Kubernetes;
     using Orleans.Hosting;
     using Orleans.Persistence.Minio;
     using Orleans.Persistence.Minio.Storage;
-    using Orleans.Providers;
     using Orleans.Runtime;
     using Orleans.Storage;
 
@@ -29,13 +29,13 @@
                 .UseOrleans(builder =>
                 {
                     builder
-                        .Configure<ClusterOptions>(options => config.GetSection("Orleans").Bind(options))
-                        //.AddMemoryGrainStorageAsDefault()
+                        .AddMemoryGrainStorageAsDefault()
 #if DEBUG
                         .UseLocalhostClustering()
 #else
-                        .UseKubeGatewayListProvider()
+                        .UseKubeMembership()
 #endif
+                        .Configure<ClusterOptions>(options => config.GetSection("Orleans").Bind(options))
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                         .ConfigureApplicationParts(parts =>
                             parts.AddApplicationPart(typeof(UserGrain).Assembly).WithReferences())

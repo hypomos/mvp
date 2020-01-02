@@ -6,6 +6,7 @@ stages:
       shellScript: |-
         export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.35.0
-        dotnet cake build.cake --target=Clean
+        dotnet cake build.cake --target=Sample
+        ls -al artifacts
 timeout: 60
 notification: {}

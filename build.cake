@@ -1,10 +1,12 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#addin "Cake.Docker"
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var framework = Argument("framework", "netcoreapp3.1");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -12,6 +14,7 @@ var configuration = Argument("configuration", "Release");
 
 // Define directories.
 var artifactsDir = Directory("./artifacts");
+var solution = "./hypomos-mvp.sln";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -23,38 +26,59 @@ Task("Clean")
     CleanDirectory(artifactsDir);
 });
 
-Task("Restore-NuGet-Packages")
+Task("Restore")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./src/Example.sln");
+    DotNetCoreRestore(solution);
 });
 
 Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
+    .IsDependentOn("Restore")
     .Does(() =>
 {
-    if(IsRunningOnWindows())
+    DotNetCoreBuild(solution, new DotNetCoreBuildSettings
     {
-      // Use MSBuild
-      MSBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
+        Framework = framework,
+        Configuration = configuration,
+        NoRestore = true,
+        ArgumentCustomization = args => 
+            args.Append("/p:DeployOnBuild=True")
+                .Append("/p:PublishProfile=FolderProfile")
+    });
 });
 
-Task("Run-Unit-Tests")
+// Task("Tests")
+//     .IsDependentOn("Build")
+//     .Does(() =>
+// {
+//     DotNetCoreTest();
+// });
+
+// Task("Publish")
+//     .IsDependentOn("Build")
+//     .Does(() => 
+// {
+//     DotNetCorePublish(solution, new DotNetCorePublishSettings
+//     {
+//         Framework = framework,
+//         Configuration = configuration,
+//         OutputDirectory = artifactsDir
+//     });
+// });
+
+Task("Sample")
     .IsDependentOn("Build")
-    .Does(() =>
+    .Does(() => 
 {
-    NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
-        NoResults = true
-        });
+    MoveFile("./artifacts/Hypomos.Web/secrets.json.sample", "./artifacts/Hypomos.Web/secrets.json");
+});
+
+Task("Dockerize")
+    // .IsDependentOn("Sample")
+    .Does(() => 
+{
+    DockerBuild("./artifacts/Hypomos.Web/");
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -62,7 +86,7 @@ Task("Run-Unit-Tests")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Build");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
