@@ -11,12 +11,12 @@ stages:
 - name: Dockerize
   steps:
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Web
       tag: Hypomos.Web
       registry: 127.0.0.1:34688
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
       tag: Hypomos.Silo
       registry: 127.0.0.1:34688
