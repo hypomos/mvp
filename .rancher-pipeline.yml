@@ -15,11 +15,15 @@ stages:
       buildContext: ./artifacts/Hypomos.Web
       tag: hypomos-web
       registry: 127.0.0.1:34688
+    env:
+      PLUGIN_STORAGE_PATH: /var/lib/docker/1
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
       tag: hypomos-silo
       registry: 127.0.0.1:34688
+      env:
+        PLUGIN_STORAGE_PATH: /var/lib/docker/2
 - name: Deploy
   steps:
   - applyYamlConfig:
