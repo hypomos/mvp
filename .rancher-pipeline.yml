@@ -14,11 +14,15 @@ stages:
       buildContext: ./artifacts/Hypomos.Web
       tag: hypomos/web:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
+    env:
+      PLUGIN_STORAGE_PATH: /var/lib/docker/1
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Silo/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
       tag: hypomos/silo:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
+    env:
+      PLUGIN_STORAGE_PATH: /var/lib/docker/2
 - name: Deploy
   steps:
   - applyYamlConfig:
