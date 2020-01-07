@@ -16,6 +16,7 @@ stages:
       registry: 127.0.0.1:34688
     env:
       PLUGIN_STORAGE_PATH: /var/lib/docker/1
+      DOCKER_DRIVER: overlay
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Silo/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
@@ -23,6 +24,7 @@ stages:
       registry: 127.0.0.1:34688
     env:
       PLUGIN_STORAGE_PATH: /var/lib/docker/2
+      DOCKER_DRIVER: overlay
 - name: Deploy
   steps:
   - applyYamlConfig:
