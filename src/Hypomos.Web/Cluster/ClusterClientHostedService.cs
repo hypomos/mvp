@@ -1,15 +1,15 @@
-﻿namespace Hypomos.Web.Orleans
+﻿namespace Hypomos.Web.Cluster
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using global::Orleans;
-    using global::Orleans.Configuration;
-    using global::Orleans.Runtime;
-    using global::Orleans.Clustering.Kubernetes;
+    using Orleans;
     using Hypomos.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+    using Orleans.Configuration;
+    using Orleans.Hosting;
+    using Orleans.Runtime;
 
     public class ClusterClientHostedService : Microsoft.Extensions.Hosting.IHostedService
     {
@@ -19,6 +19,7 @@
         {
             this.logger = logger;
             this.Client = new ClientBuilder()
+                .AddSimpleMessageStreamProvider(Constants.SmsProvider)
                 .ConfigureAppConfiguration(builder => builder.AddConfiguration(config))
                 .Configure<ClusterOptions>(
                     options => config.GetSection("Orleans").Bind(options))

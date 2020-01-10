@@ -3,6 +3,7 @@
     using System.Net;
     using System.Threading.Tasks;
     using Hypomos.Grains;
+    using Hypomos.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -15,6 +16,7 @@
     using Orleans.Persistence.Minio.Storage;
     using Orleans.Runtime;
     using Orleans.Storage;
+    using Orleans.Streams;
 
     public class Program
     {
@@ -30,6 +32,8 @@
                 {
                     builder
                         .AddMemoryGrainStorageAsDefault()
+                        .AddSimpleMessageStreamProvider(Constants.SmsProvider)
+                        .AddMemoryGrainStorage("PubSubStore")
 #if DEBUG
                         .UseLocalhostClustering()
 #else

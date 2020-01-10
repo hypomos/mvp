@@ -8,6 +8,6 @@
     {
         Task SetConfiguration(MinioConfiguration config);
 
-        Task Scan();
+        Task Scan(string username);
     }
 }

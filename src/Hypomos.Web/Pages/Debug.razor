@@ -1,9 +1,11 @@
 ﻿@page "/debug"
+@using System.Reactive.Linq
+@using System.Reactive
 @using System.Security.Claims
-@using Hypomos.Interfaces
-@using global::Orleans
 @using Hypomos.Interfaces.Models
+@using Orleans;
 @using Microsoft.Extensions.Configuration
+@using Orleans.Streams
 @inject IClusterClient clusterClient
 @inject IConfiguration config;
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -14,9 +16,13 @@
 <button class="btn btn-primary" @onclick="Scan">Scan</button>
 <button class="btn btn-primary" @onclick="Organize">Organize</button>
 
+<span>Currently processing: @processing</span>
+
 @code {
 
-    async Task Scan()
+    string processing = string.Empty;
+    
+    private async Task Scan()
     {
         var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
@@ -40,8 +46,11 @@
         }
     }
 
-    async Task Organize()
+    private async Task Organize()
     {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
+
         var configurationSection = config.GetSection("Storage:Configuration");
         var mcs = configurationSection.GetChildren().Select(bc =>
         {
@@ -50,14 +59,28 @@
             return mc;
         }).ToList();
 
+        var streamProvider = clusterClient.GetStreamProvider(Constants.SmsProvider);
+
         foreach (var mc in mcs)
         {
-            var grain = clusterClient.GetGrain<IMinioStorageProvider>(Guid.NewGuid());
+            var providerKey = Guid.NewGuid();
+            var grain = clusterClient.GetGrain<IMinioStorageProvider>(providerKey);
             await grain.SetConfiguration(mc);
+
+            var scanEvents = streamProvider.GetStream<ScanEventData>(providerKey, uniqueUsername.Value);
+            await scanEvents.SubscribeAsync(ProcessScanEvent);
 
             Console.WriteLine($"Bucket: {mc.BucketName} in grain: {grain.GetGrainIdentity()}");
 
-            await grain.Scan();
+            await grain.Scan(uniqueUsername.Value);
         }
     }
+
+    private Task ProcessScanEvent(ScanEventData arg1, StreamSequenceToken arg2)
+    {
+        this.processing = arg1.ToString();
+
+        return Task.CompletedTask;
+    }
+
 }
