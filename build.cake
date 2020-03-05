@@ -30,7 +30,10 @@ Task("Restore")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    DotNetCoreRestore(solution);
+    DotNetCoreRestore(solution, new DotNetCoreRestoreSettings
+    {
+        Sources = new [] { "http://192.168.5.18/v3/index.json" }
+    });
 });
 
 Task("Build")
