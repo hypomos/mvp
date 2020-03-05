@@ -13,7 +13,7 @@ namespace Orleans.Persistence.Minio
 
     public static class MinioSiloBuilderExtensions
     {
-        public static ISiloHostBuilder AddMinioGrainStorage(this ISiloHostBuilder builder, string providerName,
+        public static ISiloBuilder AddMinioGrainStorage(this ISiloBuilder builder, string providerName,
             Action<MinioGrainStorageOptions> options)
         {
             return builder.ConfigureServices(services =>

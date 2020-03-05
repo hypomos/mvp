@@ -2,13 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using Hypomos.Interfaces.Models;
-
     using Orleans;
 
     /// <summary>
-    /// key = identifier
+    ///     key = identifier
     /// </summary>
     public interface IUserGrain : IGrainWithStringKey
     {
@@ -17,18 +15,15 @@
         Task<List<StorageConfiguration>> GetStorageConfigurations();
 
         Task SetStorageConfigurations(List<StorageConfiguration> configurations);
-        
+
         Task<bool> IsInitialized();
 
+        Task<UserData> GetState();
+
         Task Initialize(UserInitializationContext initializationContext);
-    }
 
-    public class UserInitializationContext
-    {
-        public string Username { get; set; }
+        Task AddMediaLibrary(IMediaLibrary mediaLibrary);
 
-        public string EmailAddress { get; set; }
-        public string Surname { get; set; }
-        public string GivenName { get; set; }
+        Task<IMediaLibrary> GetMediaLibrary(string key);
     }
 }

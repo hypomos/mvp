@@ -1,10 +1,9 @@
 ﻿@page "/SetupWizard"
 
-@using System.Security.Claims
 @using Orleans
 @inject IClusterClient clusterClient
-@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject HypomosUser User
 
 <form class="form-horizontal">
     <div class="form-group">
@@ -34,7 +33,6 @@
 
 @code
 {
-    private ClaimsPrincipal user;
     private IUserGrain userGrain;
 
     private string GivenName { get; set; }
@@ -43,26 +41,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        user = state.User;
+        userGrain = clusterClient.GetGrain<IUserGrain>(User.Username);
 
-        var uniqueUsername = user.FindFirst(claim => claim.Type == ClaimTypes.Name);
-        userGrain = clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
-
-        var emailClaim = user.FindFirst(claim => claim.Type == ClaimTypes.Email);
-        var surnameClaim = user.FindFirst(claim => claim.Type == ClaimTypes.Surname);
-        var givenNameClaim = user.FindFirst(claim => claim.Type == ClaimTypes.GivenName);
-
-        GivenName = givenNameClaim.Value;
-        Surname = surnameClaim.Value;
-        Email = emailClaim.Value;
+        GivenName = User.GivenName;
+        Surname = User.Surname;
+        Email = User.Email;
     }
 
     private async Task Register()
     {
         await userGrain.Initialize(new UserInitializationContext
         {
-            Username = user.Identity.Name,
+            Username = User.Username,
             EmailAddress = Email,
             Surname = Surname,
             GivenName = GivenName

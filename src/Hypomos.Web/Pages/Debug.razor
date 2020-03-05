@@ -1,6 +1,4 @@
 ﻿@page "/debug"
-@using System.Reactive.Linq
-@using System.Reactive
 @using System.Security.Claims
 @using Hypomos.Interfaces.Models
 @using Orleans;
@@ -8,7 +6,8 @@
 @using Orleans.Streams
 @inject IClusterClient clusterClient
 @inject IConfiguration config;
-@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@inject HypomosUser User
 @attribute [Authorize]
 
 <h1>Debugging stuff</h1>
@@ -24,33 +23,23 @@
     
     private async Task Scan()
     {
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
-
-        var userGrain = clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
+        var userGrain = clusterClient.GetGrain<IUserGrain>(User.Username);
 
         var isInitialized = await userGrain.IsInitialized();
         if (!isInitialized)
         {
-            var emailClaim = state.User.FindFirst(claim => claim.Type == ClaimTypes.Email);
-            var surnameClaim = state.User.FindFirst(claim => claim.Type == ClaimTypes.Surname);
-            var givenNameClaim = state.User.FindFirst(claim => claim.Type == ClaimTypes.GivenName);
-
             await userGrain.Initialize(new UserInitializationContext
             {
-                Username = state.User.Identity.Name,
-                EmailAddress = emailClaim.Value,
-                Surname = surnameClaim.Value,
-                GivenName = givenNameClaim.Value
+                Username = User.Username,
+                EmailAddress = User.Email,
+                Surname = User.Surname,
+                GivenName = User.GivenName
             });
         }
     }
 
     private async Task Organize()
     {
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
-
         var configurationSection = config.GetSection("Storage:Configuration");
         var mcs = configurationSection.GetChildren().Select(bc =>
         {
@@ -67,12 +56,12 @@
             var grain = clusterClient.GetGrain<IMinioStorageProvider>(providerKey);
             await grain.SetConfiguration(mc);
 
-            var scanEvents = streamProvider.GetStream<ScanEventData>(providerKey, uniqueUsername.Value);
+            var scanEvents = streamProvider.GetStream<ScanEventData>(providerKey, User.Username);
             await scanEvents.SubscribeAsync(ProcessScanEvent);
 
             Console.WriteLine($"Bucket: {mc.BucketName} in grain: {grain.GetGrainIdentity()}");
 
-            await grain.Scan(uniqueUsername.Value);
+            await grain.Scan(User.Username);
         }
     }
 
@@ -82,5 +71,4 @@
 
         return Task.CompletedTask;
     }
-
 }

@@ -1,5 +1,8 @@
 namespace Hypomos.Web
 {
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Hypomos.Web.Cluster;
     using Hypomos.Web.Data;
@@ -7,6 +10,7 @@ namespace Hypomos.Web
     using Microsoft.AspNetCore.Authentication.AzureAD.UI;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Components.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.Extensions.Configuration;
@@ -43,12 +47,14 @@ namespace Hypomos.Web
                 .AddCookie();
 
             services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, ConfigureOpenIdConnectOptions);
-
+            
+            services.AddHypomosServices();
+            
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -69,12 +75,9 @@ namespace Hypomos.Web
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
-            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
-            //var microsoftAccountHandler = app.ApplicationServices.GetService<MicrosoftAccountHandler>();
             app.UseAuthentication();
             app.UseAuthorization();
 

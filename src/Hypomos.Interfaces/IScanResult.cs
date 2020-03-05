@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// This interface represents a simple "file"
+    ///     This interface represents a simple "file"
     /// </summary>
     public interface IScanResult
     {

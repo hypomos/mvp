@@ -28,6 +28,9 @@
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
+#if DEBUG
+                .AddJsonFile("appsettings.Development.json", true)
+#endif
                 .AddEnvironmentVariables()
                 .Build();
 
@@ -40,6 +43,10 @@
                         .AddMemoryGrainStorageAsDefault()
                         .AddSimpleMessageStreamProvider(Constants.SmsProvider)
                         .AddMemoryGrainStorage("PubSubStore")
+                        //.AddMinioGrainStorage("MinioPersisted", options =>
+                        //{
+                        //    config.GetSection("OrleansMinioStorage").Bind(options);
+                        //})
 #if DEBUG
                         .UseLocalhostClustering()
 #else

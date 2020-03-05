@@ -2,7 +2,8 @@
 {
     public enum StorageType
     {
-        S3,
+        S3
+
         // OneDrive,
         // AzureBlobStorage,
         // GoogleDrive,
