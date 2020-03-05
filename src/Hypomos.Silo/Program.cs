@@ -1,6 +1,6 @@
 ﻿namespace Hypomos.Silo
 {
-    using System.Net;
+    using System;
     using System.Threading.Tasks;
     using Hypomos.Grains;
     using Hypomos.Interfaces;
@@ -10,13 +10,17 @@
     using Microsoft.Extensions.Logging;
     using Orleans;
     using Orleans.Configuration;
-    using Orleans.Clustering.Kubernetes;
     using Orleans.Hosting;
     using Orleans.Persistence.Minio;
     using Orleans.Persistence.Minio.Storage;
     using Orleans.Runtime;
     using Orleans.Storage;
-    using Orleans.Streams;
+#if DEBUG
+    using System.Net;
+#endif
+#if !DEBUG
+    using Orleans.Clustering.Kubernetes;
+#endif
 
     public class Program
     {
@@ -30,6 +34,8 @@
             return new HostBuilder()
                 .UseOrleans(builder =>
                 {
+                    var random = new Random();
+
                     builder
                         .AddMemoryGrainStorageAsDefault()
                         .AddSimpleMessageStreamProvider(Constants.SmsProvider)
@@ -37,7 +43,12 @@
 #if DEBUG
                         .UseLocalhostClustering()
 #else
-                        .UseKubeMembership()
+                        .ConfigureEndpoints(random.Next(10001, 10100), random.Next(20001, 20100))
+                        .UseKubeMembership(optionsBuilder =>
+                        {
+                            optionsBuilder.CanCreateResources = false;
+                            optionsBuilder.DropResourcesOnInit = false;
+                        })
 #endif
                         .Configure<ClusterOptions>(options => config.GetSection("Orleans").Bind(options))
 #if DEBUG
@@ -58,7 +69,9 @@
 
                     services.AddOptions<MinioGrainStorageOptions>(minioOrleans);
                     services.AddSingletonNamedService(minioOrleans, MinioGrainStorageFactory.Create)
-                        .AddSingletonNamedService(minioOrleans, (s,n) => (ILifecycleParticipant<ISiloLifecycle>)s.GetRequiredServiceByName<IGrainStorage>(n));
+                        .AddSingletonNamedService(minioOrleans,
+                            (s, n) =>
+                                (ILifecycleParticipant<ISiloLifecycle>) s.GetRequiredServiceByName<IGrainStorage>(n));
 
                     services.Configure<MinioGrainStorageOptions>(minioOrleans, config =>
                     {
@@ -68,15 +81,9 @@
                         config.Container = "grain-storage";
                     });
 
-                    services.Configure<ConsoleLifetimeOptions>(options =>
-                    {
-                        options.SuppressStatusMessages = true;
-                    });
+                    services.Configure<ConsoleLifetimeOptions>(options => { options.SuppressStatusMessages = true; });
                 })
-                .ConfigureLogging(builder =>
-                {
-                    builder.AddConsole();
-                })
+                .ConfigureLogging(builder => { builder.AddConsole(); })
                 .RunConsoleAsync();
         }
     }
