@@ -40,7 +40,9 @@
                         .UseKubeMembership()
 #endif
                         .Configure<ClusterOptions>(options => config.GetSection("Orleans").Bind(options))
+#if DEBUG
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
+#endif
                         .ConfigureApplicationParts(parts =>
                             parts.AddApplicationPart(typeof(UserGrain).Assembly).WithReferences())
                         .UseDashboard(options =>
