@@ -49,6 +49,10 @@ items:
         - image: ${CICD_REGISTRY}/hypomos/silo:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-silo
+          ports:
+          - containerPort: 30000
+            name: orleans
+            protocol: TCP
         restartPolicy: Always
 - apiVersion: v1
   kind: Service
@@ -63,3 +67,20 @@ items:
       - protocol: TCP
         port: 80
         targetPort: 80
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: hypomos-silo
+    namespace: hypomos-dev
+  spec:
+    ports:
+    - name: orleans
+      port: 30000
+      protocol: TCP
+      targetPort: 30000
+    selector:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
+      sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
