@@ -7,6 +7,9 @@
     using Hypomos.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+#if !DEBUG
+    using Orleans.Clustering.Kubernetes;
+#endif
     using Orleans.Configuration;
     using Orleans.Hosting;
     using Orleans.Runtime;
