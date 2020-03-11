@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Hypomos.Interfaces;
+    using Hypomos.Interfaces.Models;
 
     public class UserState
     {
@@ -16,5 +17,7 @@
         public string GivenName { get; set; }
 
         public List<IMediaLibrary> MediaLibraries { get; set; }
+        
+        public UserSetupState SetupState { get; set; }
     }
 }

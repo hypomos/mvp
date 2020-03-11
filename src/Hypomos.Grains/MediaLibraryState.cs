@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Hypomos.Interfaces;
+    using Hypomos.Interfaces.Models;
 
     public class MediaLibraryState
     {

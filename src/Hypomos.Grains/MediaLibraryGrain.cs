@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Hypomos.Interfaces;
+    using Hypomos.Interfaces.Models;
     using Orleans;
     using Orleans.Providers;
 

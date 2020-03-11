@@ -1,15 +1,10 @@
-﻿namespace Hypomos.Interfaces
+﻿namespace Hypomos.Interfaces.Models
 {
-    public class UserData
+    public class UserPersonalDetails
     {
-        public bool IsInitialized { get; set; }
-
         public string Username { get; set; }
-
         public string EmailAddress { get; set; }
-
         public string Surname { get; set; }
-
         public string GivenName { get; set; }
     }
 }

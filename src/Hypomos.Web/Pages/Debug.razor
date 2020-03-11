@@ -1,5 +1,4 @@
 ﻿@page "/debug"
-@using System.Security.Claims
 @using Hypomos.Interfaces.Models
 @using Orleans;
 @using Microsoft.Extensions.Configuration
@@ -7,7 +6,6 @@
 @inject IClusterClient clusterClient
 @inject IConfiguration config;
 
-@inject HypomosUser User
 @attribute [Authorize]
 
 <h1>Debugging stuff</h1>
@@ -19,23 +17,11 @@
 
 @code {
 
+    [CascadingParameter (Name = "User")] public HypomosUser User { get; set; }
     string processing = string.Empty;
     
     private async Task Scan()
     {
-        var userGrain = clusterClient.GetGrain<IUserGrain>(User.Username);
-
-        var isInitialized = await userGrain.IsInitialized();
-        if (!isInitialized)
-        {
-            await userGrain.Initialize(new UserInitializationContext
-            {
-                Username = User.Username,
-                EmailAddress = User.Email,
-                Surname = User.Surname,
-                GivenName = User.GivenName
-            });
-        }
     }
 
     private async Task Organize()

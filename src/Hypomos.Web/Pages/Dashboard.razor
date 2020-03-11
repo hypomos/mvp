@@ -1,0 +1,8 @@
+﻿@page "/dashboard"
+
+@attribute [Authorize]
+<h1>Dashboard</h1>
+
+@code {
+    [CascadingParameter (Name = "User")] public HypomosUser User { get; set; }
+}

@@ -10,17 +10,15 @@
     /// </summary>
     public interface IUserGrain : IGrainWithStringKey
     {
-        Task<string> GetUsername();
-
         Task<List<StorageConfiguration>> GetStorageConfigurations();
 
         Task SetStorageConfigurations(List<StorageConfiguration> configurations);
 
-        Task<bool> IsInitialized();
+        Task<UserSetupState> GetSetupStateAsync();
+     
+        Task<UserData> GetPersonalDetails();
 
-        Task<UserData> GetState();
-
-        Task Initialize(UserInitializationContext initializationContext);
+        Task SetPersonalDetails(UserPersonalDetails personalDetails);
 
         Task AddMediaLibrary(IMediaLibrary mediaLibrary);
 

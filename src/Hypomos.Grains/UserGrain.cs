@@ -1,6 +1,5 @@
 ﻿namespace Hypomos.Grains
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -12,46 +11,46 @@
     [StorageProvider(ProviderName = "minio-orleans")]
     public class UserGrain : Grain<UserState>, IUserGrain
     {
-        public Task<string> GetUsername()
-        {
-            return Task.FromResult(this.State.Username);
-        }
-
         public Task<List<StorageConfiguration>> GetStorageConfigurations()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new List<StorageConfiguration>());
         }
 
         public Task SetStorageConfigurations(List<StorageConfiguration> configurations)
         {
-            throw new NotImplementedException();
+            this.State.SetupState.AreStorageSourcesSet = true;
+
+            return Task.CompletedTask;
         }
 
-        public Task<bool> IsInitialized()
+        public Task<UserSetupState> GetSetupStateAsync()
         {
-            return Task.FromResult(this.State.IsInitialized);
+            return Task.FromResult(new UserSetupState
+            {
+                ArePersonalDetailsSet = this.State.SetupState.ArePersonalDetailsSet,
+                AreStorageSourcesSet = this.State.SetupState.AreStorageSourcesSet
+            });
         }
 
-        public Task<UserData> GetState()
+        public Task<UserData> GetPersonalDetails()
         {
             return Task.FromResult(new UserData
             {
                 Username = this.State.Username,
                 GivenName = this.State.GivenName,
-                IsInitialized = this.State.IsInitialized,
                 Surname = this.State.Surname,
                 EmailAddress = this.State.EmailAddress
             });
         }
 
-        public async Task Initialize(UserInitializationContext initializationContext)
+        public async Task SetPersonalDetails(UserPersonalDetails personalDetails)
         {
-            this.State.IsInitialized = true;
+            this.State.SetupState.ArePersonalDetailsSet = true;
 
-            this.State.Username = initializationContext.Username;
-            this.State.EmailAddress = initializationContext.EmailAddress;
-            this.State.Surname = initializationContext.Surname;
-            this.State.GivenName = initializationContext.GivenName;
+            this.State.Username = personalDetails.Username;
+            this.State.EmailAddress = personalDetails.EmailAddress;
+            this.State.Surname = personalDetails.Surname;
+            this.State.GivenName = personalDetails.GivenName;
 
             await this.WriteStateAsync();
         }
@@ -68,11 +67,16 @@
             return Task.FromResult(result);
         }
 
-        public override Task OnActivateAsync()
+        public override async Task OnActivateAsync()
         {
             if (this.State == null)
             {
                 this.State = new UserState();
+            }
+
+            if (this.State.SetupState == null)
+            {
+                this.State.SetupState = new UserSetupState();
             }
 
             if (this.State.MediaLibraries == null)
@@ -80,7 +84,8 @@
                 this.State.MediaLibraries = new List<IMediaLibrary>();
             }
 
-            return base.OnActivateAsync();
+            await this.WriteStateAsync();
+            await base.OnActivateAsync();
         }
     }
 }

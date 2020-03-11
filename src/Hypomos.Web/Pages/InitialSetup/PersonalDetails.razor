@@ -1,9 +1,6 @@
-﻿@page "/SetupWizard"
-
-@using Orleans
-@inject IClusterClient clusterClient
+﻿@page "/InitialSetup/PersonalDetails"
+@using Hypomos.Interfaces.Models
 @inject NavigationManager NavigationManager
-@inject HypomosUser User
 
 <form class="form-horizontal">
     <div class="form-group">
@@ -26,38 +23,39 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default" @onclick="Register">Register</button>
+            <button class="btn btn-default btn-primary" @onclick="Next">Next</button>
         </div>
     </div>
 </form>
 
 @code
 {
-    private IUserGrain userGrain;
-
+    [CascadingParameter (Name = "User")] public HypomosUser User { get; set; }
+    [CascadingParameter (Name = "InitialSetupStateMachine")] public InitialSetupStateMachine InitialSetupStateMachine { get; set; }
+    
     private string GivenName { get; set; }
     private string Surname { get; set; }
     private string Email { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        userGrain = clusterClient.GetGrain<IUserGrain>(User.Username);
+        await base.OnInitializedAsync();
 
-        GivenName = User.GivenName;
-        Surname = User.Surname;
-        Email = User.Email;
+        GivenName = User?.GivenName;
+        Surname = User?.Surname;
+        Email = User?.Email;
     }
 
-    private async Task Register()
+    private async Task Next()
     {
-        await userGrain.Initialize(new UserInitializationContext
+        await InitialSetupStateMachine.SetPersonalDetails(new UserPersonalDetails
         {
             Username = User.Username,
             EmailAddress = Email,
             Surname = Surname,
             GivenName = GivenName
         });
-
-        NavigationManager.NavigateTo("/");
+        
+        NavigationManager.NavigateTo(InitialSetupStateMachine.NavigationTarget);
     }
 }

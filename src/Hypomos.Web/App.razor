@@ -1,42 +1,49 @@
-﻿@using System.Security.Claims
+﻿@using Hypomos.Web.Pages.InitialSetup
 @using Orleans;
-@inject IClusterClient clusterClient
+@inject IClusterClient ClusterClient
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject HypomosUserFactory UserFactory
 
 @code
 {
+    public HypomosUser User { get; set; }
+    public InitialSetupStateMachine InitialSetupStateMachine { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var uniqueUsername = state.User.FindFirst(claim => claim.Type == ClaimTypes.Name);
+        this.User = await UserFactory.GetCurrentUserAsync();
 
-        if (uniqueUsername != null)
+        //var uri = new Uri(NavigationManager.Uri);
+        if (User.IsLoggedIn)
         {
-            var userGrain = clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
+            this.InitialSetupStateMachine = new InitialSetupStateMachine(User, ClusterClient);
+            await this.InitialSetupStateMachine.Init();
 
-            var isInitialized = await userGrain.IsInitialized();
-            var uri = new Uri(NavigationManager.Uri);
+            //var alreadySettingUp = uri.LocalPath.Contains("InitialSetup");
+            //var shouldNavigate = this.InitialSetupStateMachine.ShouldNavigate;
 
-            if (!isInitialized && uri.LocalPath != "/SetupWizard")
-            {
-                // todo: re-route to "setup wizard"?
-                NavigationManager.NavigateTo("SetupWizard");
-            }
+            //if (!alreadySettingUp && shouldNavigate && !uri.LocalPath.EndsWith(this.InitialSetupStateMachine.NavigationTarget))
+            //{
+            //    NavigationManager.NavigateTo(this.InitialSetupStateMachine.NavigationTarget);
+            //}
         }
     }
 }
 
 <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(Program).Assembly">
-        <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </NotFound>
-    </Router>
+    <CascadingValue Value="@User" Name="User">
+        <CascadingValue Value="@InitialSetupStateMachine" Name="InitialSetupStateMachine">
+            <Router AppAssembly="@typeof(Program).Assembly">
+                <Found Context="routeData">
+                    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                </Found>
+                <NotFound>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <p>Sorry, there's nothing at this address.</p>
+                    </LayoutView>
+                </NotFound>
+            </Router>
+        </CascadingValue>
+    </CascadingValue>
 </CascadingAuthenticationState>
