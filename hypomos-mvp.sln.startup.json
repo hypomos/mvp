@@ -51,12 +51,23 @@
           }
         }
     */
-    "MultiProjectConfigurations": {
-      "Silo + Client": {
-        "Projects": {
-          "Hypomos.Silo": {},
-          "Hypomos.Web": {}
-        } 
-      } 
-    }
+  "MultiProjectConfigurations": {
+    "Silo + Web": {
+      "Projects": {
+        "Hypomos.Silo": {},
+        "Hypomos.Web": {}
+      }
+    },
+    "Silo + ReactSPA": {
+      "Projects": {
+        "Hypomos.Silo": {},
+        "Hypomos.ReactSPA": {}
+      }
+    },
+    "ReactSPA": {
+      "Projects": {
+        "Hypomos.ReactSPA": {}
+      }
+    } 
+  }
 }
