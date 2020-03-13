@@ -14,7 +14,6 @@
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
     "react-scripts": "^3.4.0",
-    "reactstrap": "8.1.1",
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
     "svgo": "1.3.0"
@@ -43,7 +42,7 @@
   },
   "scripts": {
     "start": "npm run build:style && react-scripts start",
-    "build:style":"tailwind build src/styles/index.css -o src/styles/tailwind.css",
+    "build:style": "tailwind build src/styles/index.css -o src/styles/tailwind.css",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
