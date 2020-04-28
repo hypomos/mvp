@@ -55,6 +55,16 @@
             await this.WriteStateAsync();
         }
 
+        public Task<IEnumerable<IStorageProvider>> GetStorageProviders()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task AddStorageProvider(StorageConfiguration configuration)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task AddMediaLibrary(IMediaLibrary mediaLibrary)
         {
             this.State.MediaLibraries.Add(mediaLibrary);

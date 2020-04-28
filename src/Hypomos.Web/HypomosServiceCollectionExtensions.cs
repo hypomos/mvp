@@ -39,12 +39,12 @@
 
             var userGrain = this.clusterClient.GetGrain<IUserGrain>(uniqueUsername.Value);
 
-            var state = await userGrain.GetSetupStateAsync();
-            if (state.ArePersonalDetailsSet)
-            {
-                var userData = await userGrain.GetPersonalDetails();
-                return new HypomosUser(userData.Username, userData.EmailAddress, userData.GivenName, userData.Surname);
-            }
+            //var state = await userGrain.GetSetupStateAsync();
+            //if (state.ArePersonalDetailsSet)
+            //{
+            //    var userData = await userGrain.GetPersonalDetails();
+            //    return new HypomosUser(userData.Username, userData.EmailAddress, userData.GivenName, userData.Surname);
+            //}
 
             var dict = authenticationState.User.Claims.ToLookup(c => c.Type, c => c.Value);
             
