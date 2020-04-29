@@ -68,6 +68,12 @@
       "Projects": {
         "Hypomos.ReactSPA": {}
       }
+    },
+    "Identity + Api": {
+      "Projects": {
+        "Hypomos.IdentityServer": {},
+        "Hypomos.Api": {}
+      }
     } 
   }
 }
