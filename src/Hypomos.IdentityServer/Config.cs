@@ -22,7 +22,11 @@ namespace Hypomos.IdentityServer
                 new ApiResource("hypomos", "Hypomos API")
                 {
                     Scopes = { new Scope("hypomos.read") }
-                }
+                },
+                new ApiResource("Files", "MS Files")
+                {
+                    Scopes = { new Scope("Files.ReadWrite.All") }
+                }, 
             };
 
         public static IEnumerable<Client> Clients =>
@@ -35,8 +39,8 @@ namespace Hypomos.IdentityServer
                     {
                         new Secret("some-even-more-secret-secret".Sha256())
                     },
-                    AllowedScopes = {"hypomos.read"},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes = {"hypomos.read", "Files.ReadWrite.All"},
+                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                     RedirectUris = new List<string>
                     {
                         "http://localhost:5010/swagger/oauth2-redirect.html"
@@ -44,7 +48,7 @@ namespace Hypomos.IdentityServer
                     AccessTokenType = AccessTokenType.Jwt,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
-                }
+                },
             };
     }
 }

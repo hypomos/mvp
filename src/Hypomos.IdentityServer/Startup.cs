@@ -66,6 +66,8 @@ namespace Hypomos.IdentityServer
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseAuthentication();
+
             //app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseIdentityServer(new IdentityServerMiddlewareOptions
             {

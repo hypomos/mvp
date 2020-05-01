@@ -39,25 +39,25 @@ namespace Hypomos.Api
             {
                 swagger.SwaggerDoc("v1", new OpenApiInfo {Title = "Hypomos API"});
                 var options = swagger;
-                
-                //options.AddSecurityDefinition(
-                //    "user",
-                //    new OpenApiSecurityScheme
-                //    {
-                //        Name = "user",
-                //        Type = SecuritySchemeType.OAuth2,
-                //        Flows = new OpenApiOAuthFlows
-                //        {
-                //            Implicit = new OpenApiOAuthFlow
-                //            {
-                //                AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize"),
-                //                Scopes = new Dictionary<string, string>
-                //                {
-                //                    { "hypomos.read", "Reading Hypomos data" }
-                //                }
-                //            }
-                //        }
-                //    });
+
+                options.AddSecurityDefinition(
+                    "user",
+                    new OpenApiSecurityScheme
+                    {
+                        Name = "user",
+                        Type = SecuritySchemeType.OAuth2,
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            Implicit = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize"),
+                                Scopes = new Dictionary<string, string>
+                                {
+                                    { "hypomos.read", "Reading Hypomos data" }
+                                }
+                            }
+                        }
+                    });
 
                 options.AddSecurityDefinition(
                     "client",
@@ -72,7 +72,8 @@ namespace Hypomos.Api
                                 TokenUrl = new Uri("http://localhost:5000/connect/token"),
                                 Scopes =
                                 {
-                                    { "hypomos.read", "Reading Hypomos data" }
+                                    { "hypomos.read", "Reading Hypomos data" },
+                                    { "Files.ReadWrite.All", "Read and write all OneDrive files" },
                                 }
                             }
                         }
