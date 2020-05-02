@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './styles.css';
+import './styles/tailwind.css';
 
 const Index = () => {
     return <div id="plex" className="flex flex-col absolute inset-0">
@@ -61,7 +61,7 @@ const Index = () => {
                                 <a className="flex flex-grow flex-shrink pl-4 items-center">
                                     <div className="">
                                         <svg className="svg-defaults inline mr-2">
-                                            <path class="heroicon-ui" d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6c0-1.1.9-2 2-2zm16 8.59V6H4v6.59l4.3-4.3a1 1 0 011.4 0l5.3 5.3 2.3-2.3a1 1 0 011.4 0l1.3 1.3zm0 2.82l-2-2-2.3 2.3a1 1 0 01-1.4 0L9 10.4l-5 5V18h16v-2.59zM15 10a1 1 0 110-2 1 1 0 010 2z" />
+                                            <path className="heroicon-ui" d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6c0-1.1.9-2 2-2zm16 8.59V6H4v6.59l4.3-4.3a1 1 0 011.4 0l5.3 5.3 2.3-2.3a1 1 0 011.4 0l1.3 1.3zm0 2.82l-2-2-2.3 2.3a1 1 0 01-1.4 0L9 10.4l-5 5V18h16v-2.59zM15 10a1 1 0 110-2 1 1 0 010 2z" />
                                         </svg>
                                     </div>
                                     <div className="pl-2">
@@ -75,7 +75,7 @@ const Index = () => {
                                 <a className="flex flex-grow flex-shrink pl-4 items-center">
                                     <div className="">
                                         <svg className="svg-defaults inline mr-2">
-                                            <path class="heroicon-ui" d="M5 3h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5c0-1.1.9-2 2-2zm0 2v4h4V5H5zm10-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5c0-1.1.9-2 2-2zm0 2v4h4V5h-4zM5 13h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4c0-1.1.9-2 2-2zm0 2v4h4v-4H5zm10-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4c0-1.1.9-2 2-2zm0 2v4h4v-4h-4z" />
+                                            <path className="heroicon-ui" d="M5 3h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5c0-1.1.9-2 2-2zm0 2v4h4V5H5zm10-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5c0-1.1.9-2 2-2zm0 2v4h4V5h-4zM5 13h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4c0-1.1.9-2 2-2zm0 2v4h4v-4H5zm10-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4c0-1.1.9-2 2-2zm0 2v4h4v-4h-4z" />
                                         </svg>
                                     </div>
                                     <div className="pl-2">
@@ -90,7 +90,7 @@ const Index = () => {
                                     <div className="">
 
                                         <svg className="svg-defaults inline mr-2">
-                                            <path class="heroicon-ui" d="M20 9v10a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 01-2-2V5c0-1.1.9-2 2-2h16a2 2 0 012 2v2a2 2 0 01-2 2zm0-2V5H4v2h16zM6 9v10h12V9H6zm4 2h4a1 1 0 010 2h-4a1 1 0 010-2z" />
+                                            <path className="heroicon-ui" d="M20 9v10a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 01-2-2V5c0-1.1.9-2 2-2h16a2 2 0 012 2v2a2 2 0 01-2 2zm0-2V5H4v2h16zM6 9v10h12V9H6zm4 2h4a1 1 0 010 2h-4a1 1 0 010-2z" />
                                         </svg>
                                     </div>
                                     <div className="pl-2">
@@ -112,12 +112,12 @@ const Index = () => {
                         <div id="recentlyAdded" className="px-16 pt-8">
                             <h1 className="mb-4"><span className="text-xl uppercase">Zuletzt hinzugefügt</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
 
-                            <div class="flex">
+                            <div className="flex">
                                 <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -154,12 +154,12 @@ const Index = () => {
                         <div id="favorites" className="px-16 pt-8 overflow-x-auto">
                             <h1 className="mb-4"><span className="text-xl uppercase">Favoriten</span><span className="text-gray-800 font-bold"> — Storage</span></h1>
 
-                            <div class="flex">
+                            <div className="flex">
                                 <div className="bg-gray-800 min-w-40 max-w-5xl border border-gray-800 rounded-lg overflow-hidden w m-2">
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@ const Index = () => {
                                     <div className="relative bg-red-500 pb-2/3">
                                         <img className="absolute h-full w-full obect-cover" src="https://via.placeholder.com/600x400.png?text=Sample" />
                                     </div>
-                                    <div class="p-3">
+                                    <div className="p-3">
                                         <span>Image Size, File Size, Date Captured, ...</span>
                                     </div>
                                 </div>

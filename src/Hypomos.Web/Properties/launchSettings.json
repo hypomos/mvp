@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:62858",
-      "sslPort": 44311
-    }
-  },
   "profiles": {
     "hypomos-mvp": {
       "commandName": "Project",
