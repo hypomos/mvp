@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Hypomos.Grains;
     using Hypomos.Interfaces;
+    using Hypomos.Silo.Storage;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -11,8 +12,6 @@
     using Orleans;
     using Orleans.Configuration;
     using Orleans.Hosting;
-    using Orleans.Persistence.Minio;
-    using Orleans.Persistence.Minio.Storage;
     using Orleans.Runtime;
     using Orleans.Storage;
 #if DEBUG

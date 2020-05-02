@@ -8,10 +8,10 @@ using Microsoft.Extensions.Hosting;
 
 namespace Hypomos.IdentityServer
 {
+    using Hypomos.IdentityServer.Quickstart;
     using IdentityServer4;
     using IdentityServer4.Services;
     using Microsoft.Extensions.Logging;
-    using src;
 
     public class Startup
     {
@@ -38,7 +38,7 @@ namespace Hypomos.IdentityServer
                     options.ClientId = "66b69578-2ab1-4d0e-ac50-041bfa4efc50";
                     options.ClientSecret = "wj874ezZOoo1ReLQAml/EHRG/WvIJ:c.";
 
-                    //options.Scope.Add("https://graph.microsoft.com/files.readwrite.all");
+                    options.Scope.Add("offline-access");
                 });
 
             // uncomment, if you want to add an MVC-based UI

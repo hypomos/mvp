@@ -1,6 +1,6 @@
 ﻿// Taken from: https://github.com/OrleansContrib/Orleans.Persistence.Minio
 // MIT License
-namespace Orleans.Persistence.Minio
+namespace Hypomos.Silo
 {
     public class MinioGrainStorageOptions
     {

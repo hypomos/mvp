@@ -1,9 +1,10 @@
-using System.Threading.Tasks;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Mvc;
-
-namespace src
+namespace Hypomos.IdentityServer.Quickstart
 {
+    using System.Threading.Tasks;
+    using Hypomos.IdentityServer.Quickstart.Account;
+    using IdentityServer4.Stores;
+    using Microsoft.AspNetCore.Mvc;
+
     public static class Extensions
     {
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿// Taken from: https://github.com/OrleansContrib/Orleans.Persistence.Minio
 // MIT License
 
-namespace Orleans.Persistence.Minio.Storage
+namespace Hypomos.Silo.Storage
 {
     using System.IO;
     using System.Threading.Tasks;

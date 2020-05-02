@@ -3,7 +3,7 @@
 
 using MinioClient = Minio.MinioClient;
 
-namespace Orleans.Persistence.Minio.Storage
+namespace Hypomos.Silo.Storage
 {
     using System;
     using System.Diagnostics;

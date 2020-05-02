@@ -3,7 +3,7 @@
 
 
 
-namespace src
+namespace Hypomos.IdentityServer.Quickstart.Account
 {
     public class RedirectViewModel
     {

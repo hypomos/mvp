@@ -1,13 +1,14 @@
 ﻿// Taken from: https://github.com/OrleansContrib/Orleans.Persistence.Minio
 // MIT License
 
-namespace Orleans.Persistence.Minio
+namespace Hypomos.Silo.Hosting
 {
     using System;
+    using Hypomos.Silo.Storage;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using Orleans;
     using Orleans.Hosting;
-    using Orleans.Persistence.Minio.Storage;
     using Orleans.Runtime;
     using Orleans.Storage;
 

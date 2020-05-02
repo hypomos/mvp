@@ -1,4 +1,4 @@
-﻿namespace Orleans.Persistence.Minio.Storage
+﻿namespace Hypomos.Silo.Storage
 {
     using System;
     using Microsoft.Extensions.DependencyInjection;

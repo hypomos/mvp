@@ -1,23 +1,22 @@
-using IdentityModel;
-using IdentityServer4.Events;
-using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using IdentityServer4.Test;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
-
-namespace src
+namespace Hypomos.IdentityServer.Quickstart.Account
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+    using IdentityModel;
     using IdentityServer4;
+    using IdentityServer4.Events;
+    using IdentityServer4.Services;
+    using IdentityServer4.Stores;
+    using IdentityServer4.Test;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
 
     [SecurityHeaders]
     [AllowAnonymous]
@@ -38,12 +37,12 @@ namespace src
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
-            _users = users ?? new TestUserStore(TestUsers.Users);
+            this._users = users ?? new TestUserStore(TestUsers.Users);
 
-            _interaction = interaction;
-            _clientStore = clientStore;
-            _logger = logger;
-            _events = events;
+            this._interaction = interaction;
+            this._clientStore = clientStore;
+            this._logger = logger;
+            this._events = events;
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace src
             if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
 
             // validate returnUrl - either it is a valid OIDC URL or back to a local page
-            if (Url.IsLocalUrl(returnUrl) == false && _interaction.IsValidReturnUrl(returnUrl) == false)
+            if (this.Url.IsLocalUrl(returnUrl) == false && this._interaction.IsValidReturnUrl(returnUrl) == false)
             {
                 // user might have clicked on a malicious link - should be logged
                 throw new Exception("invalid return URL");
@@ -64,14 +63,14 @@ namespace src
             if (AccountOptions.WindowsAuthenticationSchemeName == provider)
             {
                 // windows authentication needs special handling
-                return await ProcessWindowsLoginAsync(returnUrl);
+                return await this.ProcessWindowsLoginAsync(returnUrl);
             }
             else
             {
                 // start challenge and roundtrip the return URL and scheme 
                 var props = new AuthenticationProperties
                 {
-                    RedirectUri = Url.Action(nameof(Callback)),
+                    RedirectUri = this.Url.Action(nameof(this.Callback)),
                     Items =
                     {
                         { "returnUrl", returnUrl },
@@ -79,7 +78,7 @@ namespace src
                     }
                 };
 
-                return Challenge(props, provider);
+                return this.Challenge(props, provider);
             }
         }
 
@@ -90,26 +89,26 @@ namespace src
         public async Task<IActionResult> Callback()
         {
             // read external identity from the temporary cookie
-            var result = await HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            var result = await this.HttpContext.AuthenticateAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
             if (result?.Succeeded != true)
             {
                 throw new Exception("External authentication error");
             }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
+            if (this._logger.IsEnabled(LogLevel.Debug))
             {
                 var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
-                _logger.LogDebug("External claims: {@claims}", externalClaims);
+                this._logger.LogDebug("External claims: {@claims}", externalClaims);
             }
 
             // lookup our user and external provider info
-            var (user, provider, providerUserId, claims) = FindUserFromExternalProvider(result);
+            var (user, provider, providerUserId, claims) = this.FindUserFromExternalProvider(result);
             if (user == null)
             {
                 // this might be where you might initiate a custom workflow for user registration
                 // in this sample we don't show how that would be done, as our sample implementation
                 // simply auto-provisions new external user
-                user = AutoProvisionUser(provider, providerUserId, claims);
+                user = this.AutoProvisionUser(provider, providerUserId, claims);
             }
 
             // this allows us to collect any additional claims or properties
@@ -117,7 +116,7 @@ namespace src
             // this is typically used to store data needed for signout from those protocols.
             var additionalLocalClaims = new List<Claim>();
             var localSignInProps = new AuthenticationProperties();
-            ProcessLoginCallbackForOidc(result, additionalLocalClaims, localSignInProps);
+            this.ProcessLoginCallbackForOidc(result, additionalLocalClaims, localSignInProps);
             //ProcessLoginCallbackForWsFed(result, additionalLocalClaims, localSignInProps);
             //ProcessLoginCallbackForSaml2p(result, additionalLocalClaims, localSignInProps);
 
@@ -129,21 +128,21 @@ namespace src
                 AdditionalClaims = additionalLocalClaims
             };
 
-            await HttpContext.SignInAsync(isuser, localSignInProps);
+            await this.HttpContext.SignInAsync(isuser, localSignInProps);
 
             // delete temporary cookie used during external authentication
-            await HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            await this.HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
             // retrieve return URL
             var returnUrl = result.Properties.Items["returnUrl"] ?? "~/";
 
             // check if external login is in the context of an OIDC request
-            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.SubjectId, user.Username, true, context?.ClientId));
+            var context = await this._interaction.GetAuthorizationContextAsync(returnUrl);
+            await this._events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.SubjectId, user.Username, true, context?.ClientId));
 
             if (context != null)
             {
-                if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                if (await this._clientStore.IsPkceClientAsync(context.ClientId))
                 {
                     // if the client is PKCE then we assume it's native, so this change in how to
                     // return the response is for better UX for the end user.
@@ -151,13 +150,13 @@ namespace src
                 }
             }
 
-            return Redirect(returnUrl);
+            return this.Redirect(returnUrl);
         }
 
         private async Task<IActionResult> ProcessWindowsLoginAsync(string returnUrl)
         {
             // see if windows auth has already been requested and succeeded
-            var result = await HttpContext.AuthenticateAsync(AccountOptions.WindowsAuthenticationSchemeName);
+            var result = await this.HttpContext.AuthenticateAsync(AccountOptions.WindowsAuthenticationSchemeName);
             if (result?.Principal is WindowsPrincipal wp)
             {
                 // we will issue the external cookie and then redirect the
@@ -165,7 +164,7 @@ namespace src
                 // auth the same as any other external authentication mechanism
                 var props = new AuthenticationProperties()
                 {
-                    RedirectUri = Url.Action("Callback"),
+                    RedirectUri = this.Url.Action("Callback"),
                     Items =
                     {
                         { "returnUrl", returnUrl },
@@ -186,18 +185,18 @@ namespace src
                     id.AddClaims(roles);
                 }
 
-                await HttpContext.SignInAsync(
+                await this.HttpContext.SignInAsync(
                     IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme,
                     new ClaimsPrincipal(id),
                     props);
-                return Redirect(props.RedirectUri);
+                return this.Redirect(props.RedirectUri);
             }
             else
             {
                 // trigger windows auth
                 // since windows auth don't support the redirect uri,
                 // this URL is re-triggered when we call challenge
-                return Challenge(AccountOptions.WindowsAuthenticationSchemeName);
+                return this.Challenge(AccountOptions.WindowsAuthenticationSchemeName);
             }
         }
 
@@ -220,14 +219,14 @@ namespace src
             var providerUserId = userIdClaim.Value;
 
             // find external user
-            var user = _users.FindByExternalProvider(provider, providerUserId);
+            var user = this._users.FindByExternalProvider(provider, providerUserId);
 
             return (user, provider, providerUserId, claims);
         }
 
         private TestUser AutoProvisionUser(string provider, string providerUserId, IEnumerable<Claim> claims)
         {
-            var user = _users.AutoProvisionUser(provider, providerUserId, claims.ToList());
+            var user = this._users.AutoProvisionUser(provider, providerUserId, claims.ToList());
             return user;
         }
 

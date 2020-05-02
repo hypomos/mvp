@@ -53,8 +53,7 @@ namespace Hypomos.Api
                                 AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize"),
                                 Scopes = new Dictionary<string, string>
                                 {
-                                    { "hypomos.read", "Reading Hypomos data" },
-                                    { "https://graph.microsoft.com/files.readwrite.all", "Read and write all OneDrive files" },
+                                    { "hypomos", "Hypomos API" }
                                 }
                         }
                         }
@@ -73,8 +72,7 @@ namespace Hypomos.Api
                                 TokenUrl = new Uri("http://localhost:5000/connect/token"),
                                 Scopes =
                                 {
-                                    { "hypomos.read", "Reading Hypomos data" },
-                                    { "https://graph.microsoft.com/files.readwrite.all", "Read and write all OneDrive files" },
+                                    { "hypomos", "Hypomos API" }
                                 }
                             }
                         }

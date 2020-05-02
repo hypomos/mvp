@@ -4,7 +4,7 @@
 using BucketNotFoundException = Minio.Exceptions.BucketNotFoundException;
 using ObjectNotFoundException = Minio.Exceptions.ObjectNotFoundException;
 
-namespace Orleans.Persistence.Minio.Storage
+namespace Hypomos.Silo.Storage
 {
     using System;
     using System.IO;
@@ -13,6 +13,7 @@ namespace Orleans.Persistence.Minio.Storage
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
+    using Orleans;
     using Orleans.Runtime;
     using Orleans.Serialization;
     using Orleans.Storage;

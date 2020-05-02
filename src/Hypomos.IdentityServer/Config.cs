@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 namespace Hypomos.IdentityServer
 {
+    using System.Linq;
+
     public static class Config
     {
         public static IEnumerable<IdentityResource> Ids =>
@@ -19,14 +21,7 @@ namespace Hypomos.IdentityServer
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("hypomos", "Hypomos API")
-                {
-                    Scopes = { new Scope("hypomos.read") }
-                },
-                new ApiResource("Files", "MS Files")
-                {
-                    Scopes = { new Scope("https://graph.microsoft.com/files.readwrite.all") }
-                }, 
+                new ApiResource("hypomos", "Hypomos API"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -39,7 +34,7 @@ namespace Hypomos.IdentityServer
                     {
                         new Secret("some-even-more-secret-secret".Sha256())
                     },
-                    AllowedScopes = {"hypomos.read", "https://graph.microsoft.com/files.readwrite.all"},
+                    AllowedScopes = AllScopes(),
                     AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                     RedirectUris = new List<string>
                     {
@@ -50,5 +45,10 @@ namespace Hypomos.IdentityServer
                     RequireConsent = false
                 },
             };
+
+        private static List<string> AllScopes()
+        {
+            return Apis.SelectMany(r => r.Scopes.Select(s => s.Name)).ToList();
+        }
     }
 }
