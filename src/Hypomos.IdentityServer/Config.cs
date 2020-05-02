@@ -25,7 +25,7 @@ namespace Hypomos.IdentityServer
                 },
                 new ApiResource("Files", "MS Files")
                 {
-                    Scopes = { new Scope("Files.ReadWrite.All") }
+                    Scopes = { new Scope("https://graph.microsoft.com/files.readwrite.all") }
                 }, 
             };
 
@@ -39,7 +39,7 @@ namespace Hypomos.IdentityServer
                     {
                         new Secret("some-even-more-secret-secret".Sha256())
                     },
-                    AllowedScopes = {"hypomos.read", "Files.ReadWrite.All"},
+                    AllowedScopes = {"hypomos.read", "https://graph.microsoft.com/files.readwrite.all"},
                     AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                     RedirectUris = new List<string>
                     {
