@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { HypomosState } from '../reducers';
+import { ContentType } from '../models';
 
-
-class MainContent extends React.Component {
+class MainContent extends React.Component<{content: ReadonlyArray<ContentType>}> {
     renderContentList(){
         return this.props.content.map(c => (
             <div key={c.title}>{c.title}</div>
@@ -23,7 +24,7 @@ class MainContent extends React.Component {
     }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: HypomosState) => {
     return { content: state.content };
 }
 

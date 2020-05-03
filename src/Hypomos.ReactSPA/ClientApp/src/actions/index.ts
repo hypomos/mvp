@@ -1,8 +1,4 @@
- 
+import { createAction } from 'typesafe-actions';
+import { ContentType } from '../models';
 
-export const selectContent = content => {
-    return {
-        type: 'CONTENT_SELECTED',
-        payload: content
-    };
-};
+export const selectContent = createAction('CONTENT_SELECTED')<ContentType>();

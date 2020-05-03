@@ -1,23 +1,38 @@
 import { combineReducers } from 'redux';
+import { ActionType } from 'typesafe-actions';
+import { DeepReadonly } from 'utility-types';
 
-const sampleContentReducer = () => {
-    return [
-        { title: 'Title A'},
-        { title: 'Title B'},
-        { title: 'Title C'},
-        { title: 'Title D'}
-    ]
-}
+import { ContentType } from '../models';
+import * as actions from '../actions';
 
-const sampleContentSelectedReducer = (something = null, action) => {
-    if(action.type === 'CONTENT_SELECTED') {
-        return action.payload;
-    }
+export type HypomosActions = ActionType<typeof actions>;
 
-    return something;
-}
+export type HypomosState = DeepReadonly<{
+    content: ContentType[],
+    selectedContent: ContentType | null
+}>;
 
-export default combineReducers({
-    content: sampleContentReducer,
-    selectedContent : sampleContentSelectedReducer
+const initialState: HypomosState = {
+    content: [
+        { title: 'Title A' },
+        { title: 'Title B' },
+        { title: 'Title C' },
+        { title: 'Title D' }
+    ],
+    selectedContent: null
+};
+
+export default combineReducers<HypomosState, HypomosActions>({
+    content: (state = initialState.content) => {
+        return state;
+    },
+    selectedContent: (state = initialState.selectedContent, action) => {
+        switch(action.type) {
+            case 'CONTENT_SELECTED':
+                return action.payload;
+
+                default:
+                    return state;
+        }
+    }    
 });
