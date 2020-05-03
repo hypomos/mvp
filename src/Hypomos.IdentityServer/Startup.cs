@@ -59,7 +59,6 @@ namespace Hypomos.IdentityServer
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseCors(builder => builder.AllowAnyOrigin());
             }
 
             // uncomment if you want to add MVC
@@ -68,7 +67,6 @@ namespace Hypomos.IdentityServer
 
             app.UseAuthentication();
 
-            //app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseIdentityServer(new IdentityServerMiddlewareOptions
             {
                 AuthenticationMiddleware = builder => builder.UseCors(b => b.AllowAnyOrigin())

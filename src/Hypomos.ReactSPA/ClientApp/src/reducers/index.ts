@@ -2,14 +2,15 @@ import { combineReducers } from 'redux';
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
-import { ContentType } from '../models';
+import { ContentType, ClaimType } from '../models';
 import * as actions from '../actions';
 
 export type HypomosActions = ActionType<typeof actions>;
 
 export type HypomosState = DeepReadonly<{
     content: ContentType[],
-    selectedContent: ContentType | null
+    selectedContent: ContentType | null,
+    userClaims: ClaimType[] | null
 }>;
 
 const initialState: HypomosState = {
@@ -19,7 +20,8 @@ const initialState: HypomosState = {
         { title: 'Title C' },
         { title: 'Title D' }
     ],
-    selectedContent: null
+    selectedContent: null,
+    userClaims: null
 };
 
 export default combineReducers<HypomosState, HypomosActions>({
@@ -34,5 +36,15 @@ export default combineReducers<HypomosState, HypomosActions>({
                 default:
                     return state;
         }
-    }    
+    },
+    userClaims: (state = initialState.userClaims, action) => {
+        switch(action.type) {
+            case 'WHO_AM_I_SUCCESS':
+                debugger;
+                return action.payload;
+
+                default:
+                    return state;
+        }
+    }
 });
