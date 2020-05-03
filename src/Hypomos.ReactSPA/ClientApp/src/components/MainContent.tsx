@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 
 import { HypomosState } from '../reducers';
 import { whoAmI } from '../actions';
-import { ContentType, ClaimType } from '../models';
+import { bindActionCreators } from 'redux';
 
 class MainContent extends React.Component<Props> {
     componentDidMount() {
-        debugger;
-        var payloadAction = this.props.whoAmIRequest();
-        payloadAction.payload.then(this.props.whoAmISuccess);
-        
-        console.log(payloadAction);
+        this.props.whoAmIRequest()
+        .payload
+        .then(this.props.whoAmISuccess);
+
+        // console.log(payloadAction);
     }
 
     renderContentList() {
@@ -32,21 +32,20 @@ class MainContent extends React.Component<Props> {
     }
 }
 
-type Props = {
-    content: ContentType[],
-    user: ClaimType[] | null,
-    whoAmIRequest: typeof whoAmI.request,
-    whoAmISuccess: typeof whoAmI.success
-};
-
 const mapStateToProps = (state: HypomosState) => ({
-    content: state.content,
-    user: state.userClaims
+        content: state.content,
+        user: state.userClaims
 });
 
-const mapDispatchToProps = {
-    whoAmIRequest: whoAmI.request,
-    whoAmISuccess: whoAmI.success
-};
+const mapDispatchToProps = (dispatch: any) =>
+    bindActionCreators(
+        {
+            whoAmIRequest: whoAmI.request,
+            whoAmISuccess: whoAmI.success
+        },
+        dispatch
+    );
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContent as any);
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
