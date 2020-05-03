@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './styles/tailwind.css';
 
 const Index = () => {
     return <div id="plex" className="flex flex-col absolute inset-0">

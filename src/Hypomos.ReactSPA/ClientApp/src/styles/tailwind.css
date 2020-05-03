@@ -121517,45 +121517,12 @@ video {
   }
 }
 
-.main-content-background {
-  background-image: linear-gradient(135deg, gray, darkgray 40%, gray);
-}
-
-/* width */
-
-.dark-scrollbar::-webkit-scrollbar {
-  width: 12px;
-}
-
-/* Track */
-
-.dark-scrollbar::-webkit-scrollbar-track {
-  --bg-opacity: 1;
-  background-color: #2d3748;
-  background-color: rgba(45, 55, 72, var(--bg-opacity));
-}
-
-/* Handle */
-
-.dark-scrollbar::-webkit-scrollbar-thumb {
-  min-height: 50px;
-  border: 3px solid transparent;
-  border-radius: 8px;
-  background-color: hsla(0,100%,100%,0.6);
-  background-clip: padding-box;
-}
-
 body {
-  margin: 0;
-}
-
-.svg-defaults {
-  height: 1.5rem;
-  width: 1.5rem;
-  fill: currentColor;
-}
-
-.selected {
-  background-color: hsla(0,0%,100%,.07);
-  box-shadow: inset 4px 0 0 0 #e5a00d;
+  --bg-opacity: 1;
+  background-color: #1a202c;
+  background-color: rgba(26, 32, 44, var(--bg-opacity));
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin-top: 3rem;
 }
