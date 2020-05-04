@@ -37,3 +37,4 @@ tools/
 !tools/packages.config
 
 artifacts/
+**/ClientApp/build

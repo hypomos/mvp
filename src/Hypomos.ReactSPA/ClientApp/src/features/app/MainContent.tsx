@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { HypomosState } from '../reducers';
-import { whoAmI } from '../actions';
+import { RootState } from 'MyTypes';
+import { whoAmI } from './actions';
 import { bindActionCreators } from 'redux';
 
 class MainContent extends React.Component<Props> {
@@ -10,14 +10,11 @@ class MainContent extends React.Component<Props> {
         this.props.whoAmIRequest()
         .payload
         .then(this.props.whoAmISuccess);
-
-        // console.log(payloadAction);
     }
 
     renderContentList() {
-        return this.props.content.map(c => (
-            <div key={c.title}>{c.title}</div>
-        ));
+        return <div>a list ...</div>;
+
     }
 
     render() {
@@ -32,9 +29,9 @@ class MainContent extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state: HypomosState) => ({
-        content: state.content,
-        user: state.userClaims
+const mapStateToProps = (state: RootState) => ({
+        // content: state.content,
+        // user: state.userClaims
 });
 
 const mapDispatchToProps = (dispatch: any) =>
