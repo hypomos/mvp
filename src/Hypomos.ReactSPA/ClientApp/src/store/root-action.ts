@@ -1,7 +1,7 @@
 import { routerActions } from 'connected-react-router';
-// import * as actions from '../actions';
+import * as collectionActions from '../features/collections/actions';
 
 export default {
     router: routerActions,
-    // actions: actions
+    collectionActions: collectionActions
 }
