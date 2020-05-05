@@ -24,12 +24,12 @@ const CollectionListItem = React.memo<Props>(({ collection, deleteCollection }) 
         {/* <p className="text-gray-700 text-base">
         </p> */}
       </div>
-      
+
       <div className="px-6 py-4">
-        <Link to={getPath('viewCollection', collection.id)} className="font-bold py-2 px-4 m-2 rounded bg-blue-500 text-white hover:bg-blue-700">View</Link>
-        <Link to={getPath('editCollection', collection.id)} className="py-2 px-4 m-2 rounded bg-gray-500 text-white hover:bg-gray-700">Edit</Link>
+        <Link to={getPath('viewCollection', collection.id)} className="cursor-pointer font-bold py-2 px-4 m-2 rounded bg-blue-500 text-white hover:bg-blue-700">View</Link>
+        <Link to={getPath('editCollection', collection.id)} className="cursor-pointer py-2 px-4 m-2 rounded bg-gray-500 text-white hover:bg-gray-700">Edit</Link>
         <a
-          className="py-2 px-4 m-2 rounded bg-red-500 text-white hover:bg-red-700"
+          className="cursor-pointer py-2 px-4 m-2 rounded bg-red-500 text-white hover:bg-red-700"
           onClick={() => deleteCollection(collection)}
           style={{ color: 'darkred' }}
         >
