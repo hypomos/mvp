@@ -26,10 +26,9 @@ const reducer = combineReducers({
       ],
       (state, action) => action.payload
     )
-    .handleAction(createCollectionAsync.request, (state, action) => [
-      ...state,
-      action.payload,
-    ])
+    .handleAction(createCollectionAsync.request, (state, action) =>
+      state.concat(action.payload)
+    )
     .handleAction(updateCollectionAsync.request, (state, action) =>
       state.map(i => (i.id === action.payload.id ? action.payload : i))
     )

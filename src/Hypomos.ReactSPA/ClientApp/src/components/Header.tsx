@@ -11,7 +11,9 @@ function Header() {
                 </div>
 
                 <div className="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-                    {/* <span className="relative w-full">
+                    {
+                        // SEARCH BOX:
+                    /* <span className="relative w-full">
                         <input type="search" placeholder="Search" className="w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal"></input>
                         <div className="absolute search-icon" style={{'top': '.5rem', 'left': '.8rem'}}>
                             <svg className="fill-current pointer-events-none text-white w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -23,16 +25,20 @@ function Header() {
 
                 <div className="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
                     <ul className="list-reset flex justify-between flex-1 md:flex-none items-center">
-                        {/* <li className="flex-1 md:flex-none md:mr-3">
+                        {
+                            // SECONDARY NAV
+                        /* <li className="flex-1 md:flex-none md:mr-3">
                             <a className="inline-block py-2 px-4 text-white no-underline" href="#">Active</a>
-                        </li> */}
+                        </li>
                         <li className="flex-1 md:flex-none md:mr-3">
                             <a className="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="/app">App</a>
-                        </li>
-                        
-                        {/* <li className="flex-1 md:flex-none md:mr-3">
+                        </li> */}
+
+                        <li className="flex-1 md:flex-none md:mr-3">
                             <div className="relative inline-block">
-                                <button className="drop-button text-white focus:outline-none"> <span className="pr-2"><i className="em em-robot_face"></i></span> Hi, User <svg className="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg></button>
+                                <button className="drop-button text-white focus:outline-none">
+                                    <span className="pr-2"><i className="fas fa-bell"></i></span>
+                                </button>
                                 <div id="myDropdown" className="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
                                     <input type="text" className="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput"></input>
                                     <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-user fa-fw"></i> Profile</a>
@@ -41,7 +47,19 @@ function Header() {
                                     <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
                                 </div>
                             </div>
-                        </li> */}
+                        </li>
+                        <li className="flex-1 md:flex-none md:mr-3">
+                            <div className="relative inline-block">
+                                <button className="drop-button text-white focus:outline-none"> <span className="pr-2"><i className="fas fa-user"></i></span> Hi, User <svg className="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg></button>
+                                <div id="myDropdown" className="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
+                                    <input type="text" className="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput"></input>
+                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-user fa-fw"></i> Profile</a>
+                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-cog fa-fw"></i> Settings</a>
+                                    <div className="border border-gray-800"></div>
+                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

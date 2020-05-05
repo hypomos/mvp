@@ -7,14 +7,13 @@ import { bindActionCreators } from 'redux';
 
 class MainContent extends React.Component<Props> {
     componentDidMount() {
-        this.props.whoAmIRequest()
-        .payload
-        .then(this.props.whoAmISuccess);
+        // this.props.whoAmIRequest()
+        // .payload
+        // .then(this.props.whoAmISuccess);
     }
 
     renderContentList() {
         return <div>a list ...</div>;
-
     }
 
     render() {

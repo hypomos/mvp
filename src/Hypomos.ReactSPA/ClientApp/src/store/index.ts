@@ -6,7 +6,7 @@ import { routerMiddleware } from 'connected-react-router';
 
 import { composeEnhancers } from './utils';
 import rootReducer from './root-reducer';
-// import rootEpic from './root-epic';
+import rootEpic from './root-epic';
 import services from '../services';
 
 export const epicMiddleware = createEpicMiddleware<
@@ -30,8 +30,7 @@ const initialState = {};
 // create store
 const store = createStore(rootReducer(history), initialState, enhancer);
 
-// todo: re-enable as soon as available
-// epicMiddleware.run(rootEpic);
+epicMiddleware.run(rootEpic);
 
 // export store singleton instance
 export default store;
