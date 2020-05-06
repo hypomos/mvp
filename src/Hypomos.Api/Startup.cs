@@ -1,22 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 namespace Hypomos.Api
 {
-    using System.IO;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.JsonPatch.Operations;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Any;
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
@@ -25,7 +18,7 @@ namespace Hypomos.Api
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -33,10 +26,7 @@ namespace Hypomos.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => builder.AllowAnyOrigin());
-            });
+            services.AddCors(options => { options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()); });
 
             services.AddControllers().AddNewtonsoftJson();
 
@@ -45,11 +35,19 @@ namespace Hypomos.Api
                 swagger.SwaggerDoc("v1", new OpenApiInfo {Title = "Hypomos API"});
                 var options = swagger;
 
-                options.AddSecurityDefinition(
-                    "user",
+                var userScheme = new OpenApiSecurityScheme
+                {
+                    Name = "openid",
+                    Type = SecuritySchemeType.OpenIdConnect,
+                    OpenIdConnectUrl = new Uri("http://localhost:5000/.well-known/openid-configuration")
+                };
+
+                options.AddSecurityDefinition("user", userScheme);
+
+                options.AddSecurityDefinition("userOauth",
                     new OpenApiSecurityScheme
                     {
-                        Name = "user",
+                        Name = "userImplicit",
                         Type = SecuritySchemeType.OAuth2,
                         Flows = new OpenApiOAuthFlows
                         {
@@ -58,14 +56,13 @@ namespace Hypomos.Api
                                 AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize"),
                                 Scopes = new Dictionary<string, string>
                                 {
-                                    { "hypomos", "Hypomos API" }
+                                    {"hypomos", "Hypomos API"}
                                 }
-                        }
-                        }
+                            }
+                        },
                     });
 
-                options.AddSecurityDefinition(
-                    "client",
+                options.AddSecurityDefinition("client",
                     new OpenApiSecurityScheme
                     {
                         Name = "client",
@@ -77,11 +74,16 @@ namespace Hypomos.Api
                                 TokenUrl = new Uri("http://localhost:5000/connect/token"),
                                 Scopes =
                                 {
-                                    { "hypomos", "Hypomos API" }
+                                    {"hypomos", "Hypomos API"}
                                 }
                             }
                         }
                     });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { userScheme, new List<string>{ "hypomos" } }
+                });
 
                 options.SchemaFilter<EnumSchemaFilter>();
                 options.OperationFilter<AssignOAuth2SecurityRequirements>();

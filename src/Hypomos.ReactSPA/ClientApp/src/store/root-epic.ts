@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable';
 
-import * as app from '../features/app/epics';
 import * as collections from '../features/collections/epics';
+import * as whoAmI from '../features/whoAmI/epics';
 
-export default combineEpics(...Object.values(app), ...Object.values(collections));
+export default combineEpics(...Object.values(collections), ...Object.values(whoAmI));

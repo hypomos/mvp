@@ -2,16 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { RootState } from 'MyTypes';
-import { whoAmI } from './actions';
-import { bindActionCreators } from 'redux';
 
 class MainContent extends React.Component<Props> {
-    componentDidMount() {
-        // this.props.whoAmIRequest()
-        // .payload
-        // .then(this.props.whoAmISuccess);
-    }
-
     renderContentList() {
         return <div>a list ...</div>;
     }
@@ -33,15 +25,6 @@ const mapStateToProps = (state: RootState) => ({
         // user: state.userClaims
 });
 
-const mapDispatchToProps = (dispatch: any) =>
-    bindActionCreators(
-        {
-            whoAmIRequest: whoAmI.request,
-            whoAmISuccess: whoAmI.success
-        },
-        dispatch
-    );
+type Props = ReturnType<typeof mapStateToProps>
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
+export default connect(mapStateToProps)(MainContent);

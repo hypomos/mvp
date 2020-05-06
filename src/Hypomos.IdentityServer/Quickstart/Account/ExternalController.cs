@@ -114,7 +114,8 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             // this allows us to collect any additional claims or properties
             // for the specific protocols used and store them in the local auth cookie.
             // this is typically used to store data needed for signout from those protocols.
-            var additionalLocalClaims = new List<Claim>();
+            var additionalLocalClaims = user.Claims.ToList();
+
             var localSignInProps = new AuthenticationProperties();
             this.ProcessLoginCallbackForOidc(result, additionalLocalClaims, localSignInProps);
             //ProcessLoginCallbackForWsFed(result, additionalLocalClaims, localSignInProps);
