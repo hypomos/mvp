@@ -4,6 +4,7 @@ const pathsMap = {
     addCollection: () => '/add-collection',
     viewCollection: (collectionId: number) => `/collections/${collectionId}`,
     editCollection: (collectionId: number) => `/collections/${collectionId}/edit`,
+    callback: () => '/callback'
 };
 
 type PathsMap = typeof pathsMap;

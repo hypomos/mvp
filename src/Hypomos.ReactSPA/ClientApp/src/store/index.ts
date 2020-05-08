@@ -3,11 +3,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
+import { loadUser } from 'redux-oidc';
 
 import { composeEnhancers } from './utils';
 import rootReducer from './root-reducer';
 import rootEpic from './root-epic';
 import services from '../services';
+import userManager from '../features/whoAmI/userManager';
 
 export const epicMiddleware = createEpicMiddleware<
   RootAction,
@@ -29,6 +31,7 @@ const initialState = {};
 
 // create store
 const store = createStore(rootReducer(history), initialState, enhancer);
+loadUser(store, userManager);
 
 epicMiddleware.run(rootEpic);
 

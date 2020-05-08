@@ -44,11 +44,26 @@ namespace Hypomos.IdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
                 },
+                new Client
+                {
+                    ClientId = "hypomos-web-app",
+                    AllowedScopes = AllScopes(),
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:3000/callback"
+                    },
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false
+                }
             };
 
         private static List<string> AllScopes()
         {
-            return Apis.SelectMany(r => r.Scopes.Select(s => s.Name)).ToList();
+            return Apis
+                .SelectMany(r => r.Scopes.Select(s => s.Name))
+                .Concat(new List<string>{"openid", "profile"}).ToList();
         }
     }
 }

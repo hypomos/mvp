@@ -82,7 +82,7 @@ namespace Hypomos.Api
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { userScheme, new List<string>{ "hypomos" } }
+                    {userScheme, new List<string> {"hypomos"}}
                 });
 
                 options.SchemaFilter<EnumSchemaFilter>();
@@ -108,7 +108,9 @@ namespace Hypomos.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             app.UseCors();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -121,7 +123,6 @@ namespace Hypomos.Api
                 c.OAuthAppName("Swagger");
             });
 
-            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();

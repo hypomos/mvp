@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
 import Header from '../components/Header';
-import Navigation from '../components/Navigation';
+import WhoAmI from '../features/whoAmI/components/WhoAmI';
+import Navigation from '../features/app/components/Navigation';
 
 type Props = {
   // something like: renderActionsMenu?: () => JSX.Element
@@ -11,7 +12,9 @@ const Main: FC<Props> = ({ children }) => {
   return (
     <div className="h-screen bg-gray-900 font-sans leading-normal tracking-normal" >
       <div className="fixed top-0 pt-0 w-full z-20 h-auto">
-        <Header />
+        <Header >
+          <WhoAmI />
+        </Header>
       </div>
 
       <div className="flex flex-col md:flex-row mt-10">

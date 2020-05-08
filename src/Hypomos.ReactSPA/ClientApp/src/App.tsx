@@ -2,25 +2,26 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router';
+import { OidcProvider } from 'redux-oidc';
 
 import store, { history } from './store';
+import { getPath } from './router-paths';
+import userManager from './features/whoAmI/userManager';
 import Home from './routes/Home';
 import HypomosApp from './routes/App';
-import { getPath } from './router-paths';
-
-// import AddArticle from './routes/AddArticle';
-// import EditArticle from './routes/EditArticle';
-// import ViewArticle from './routes/ViewArticle';
+import Callback from './routes/Callback';
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route exact path={getPath('home')} render={Home} />
-            <Route exact path={getPath('app')} render={HypomosApp} />
-            {/* <Route exact path={getPath('addArticle')} render={AddArticle} />
+        <OidcProvider store={store} userManager={userManager}>
+          <ConnectedRouter history={history}>
+            <Switch>
+              <Route exact path={getPath('home')} render={Home} />
+              <Route exact path={getPath('app')} render={HypomosApp} />
+              <Route exact path={getPath('callback')} render={Callback} />
+              {/* <Route exact path={getPath('addArticle')} render={AddArticle} />
             <Route
               exact
               path={getPath('editArticle', ':articleId')}
@@ -31,9 +32,10 @@ class App extends Component {
               path={getPath('viewArticle', ':articleId')}
               render={(props: any) => <ViewArticle {...props} />}
             /> */}
-            <Route render={() => <div>Page not found!</div>} />
-          </Switch>
-        </ConnectedRouter>
+              <Route render={() => <div>Page not found!</div>} />
+            </Switch>
+          </ConnectedRouter>
+        </OidcProvider>
       </Provider>
     );
   }

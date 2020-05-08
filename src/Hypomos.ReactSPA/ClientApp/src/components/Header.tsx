@@ -1,21 +1,23 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 type Props = {
     // something like: renderActionsMenu?: () => JSX.Element
 }
 
-const Header: FC<Props> = ({ children }) => {
-    return (
-        <nav className="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 w-full z-20 mt-0 h-auto">
-            <div className="flex flex-wrap items-center">
-                <div className="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-                    <a href="/">
-                        <span className="text-xl pl-2">Hypomos</span>
-                    </a>
-                </div>
+class Header extends React.Component<Props> {
+    render() {
+        const { children } = this.props;
+        return (
+            <nav className="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 w-full z-20 mt-0 h-auto">
+                <div className="flex flex-wrap items-center">
+                    <div className="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
+                        <a href="/">
+                            <span className="text-xl pl-2">Hypomos</span>
+                        </a>
+                    </div>
 
-                <div className="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-                    {
+                    <div className="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
+                        {
                         // SEARCH BOX:
                     /* <span className="relative w-full">
                         <input type="search" placeholder="Search" className="w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal"></input>
@@ -25,11 +27,11 @@ const Header: FC<Props> = ({ children }) => {
                             </svg>
                         </div>
                     </span> */}
-                </div>
+                    </div>
 
-                <div className="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
-                    <ul className="list-reset flex justify-between flex-1 md:flex-none items-center">
-                        {
+                    <div className="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
+                        <ul className="list-reset flex justify-between flex-1 md:flex-none items-center">
+                            {
                             // SECONDARY NAV
                         /* <li className="flex-1 md:flex-none md:mr-3">
                             <a className="inline-block py-2 px-4 text-white no-underline" href="#">Active</a>
@@ -38,38 +40,29 @@ const Header: FC<Props> = ({ children }) => {
                             <a className="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="/app">App</a>
                         </li> */}
 
-                        <li className="flex-1 md:flex-none md:mr-3">
-                            <div className="relative inline-block">
-                                <button className="drop-button text-white focus:outline-none">
-                                    <span className="pr-2"><i className="fas fa-bell"></i></span>
-                                </button>
-                                <div id="myDropdown" className="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
-                                    <input type="text" className="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput"></input>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-user fa-fw"></i> Profile</a>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-cog fa-fw"></i> Settings</a>
-                                    <div className="border border-gray-800"></div>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                            <li className="flex-1 md:flex-none md:mr-3">
+                                <div className="relative inline-block">
+                                    <button className="drop-button text-white focus:outline-none">
+                                        <span className="pr-2"><i className="fas fa-bell"></i></span>
+                                    </button>
+                                    <div id="myDropdown" className="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
+                                        <input type="text" className="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput"></input>
+                                        <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-user fa-fw"></i> Profile</a>
+                                        <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-cog fa-fw"></i> Settings</a>
+                                        <div className="border border-gray-800"></div>
+                                        <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        { children }
-                        {/* <li className="flex-1 md:flex-none md:mr-3">
-                            <div className="relative inline-block">
-                                <button className="drop-button text-white focus:outline-none"> <span className="pr-2"><i className="fas fa-user"></i></span> Hi, User <svg className="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg></button>
-                                <div id="myDropdown" className="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
-                                    <input type="text" className="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput"></input>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-user fa-fw"></i> Profile</a>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fa fa-cog fa-fw"></i> Settings</a>
-                                    <div className="border border-gray-800"></div>
-                                    <a href="#" className="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i className="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
-                                </div>
-                            </div>
-                        </li> */}
-                    </ul>
+                            </li>
+                            <li className="flex-1 md:flex-none md:mr-3">
+                                {children}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    );
+            </nav>
+        );
+    }
 }
 
 export default Header;

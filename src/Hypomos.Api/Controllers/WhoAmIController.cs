@@ -1,10 +1,11 @@
 ﻿namespace Hypomos.Api.Controllers
 {
-    using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WhoAmIController : ControllerBase
     {
         [HttpGet]

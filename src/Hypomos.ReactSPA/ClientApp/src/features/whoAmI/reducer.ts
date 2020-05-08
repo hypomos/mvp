@@ -1,28 +1,13 @@
-import { WhoAmI } from 'MyModels';
+import { reducer as oidcReducer } from "redux-oidc";
 import { combineReducers } from 'redux';
 import { createReducer } from 'typesafe-actions';
 
-import {
-  loadWhoAmIAsync
-} from './actions';
+import { toggleDropDown } from './actions';
 
 const reducer = combineReducers({
-  isLoadingUser: createReducer(false as boolean)
-    .handleAction([loadWhoAmIAsync.request], (state, action) => true)
-    .handleAction(
-      [loadWhoAmIAsync.success, loadWhoAmIAsync.failure],
-      (state, action) => false
-    ),
-  user: createReducer({} as WhoAmI)
-    .handleAction(
-      [
-        loadWhoAmIAsync.success
-      ],
-      (state, action) => {
-        debugger;
-        return action.payload;
-      }
-    )
+  oidc: oidcReducer,
+  showDropDown: createReducer(false as boolean)
+    .handleAction(toggleDropDown, (state, action) => !state),
 });
 
 export default reducer;

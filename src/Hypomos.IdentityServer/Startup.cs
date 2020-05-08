@@ -27,7 +27,7 @@ namespace Hypomos.IdentityServer
             services.AddSingleton<ICorsPolicyService>(provider => 
                 new DefaultCorsPolicyService(provider.GetService<ILogger<DefaultCorsPolicyService>>())
             {
-                AllowedOrigins = { "http://localhost:5010" }
+                AllowedOrigins = { "http://localhost:5010", "http://localhost:3000" }
             });
 
             services.AddAuthentication()
