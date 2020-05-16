@@ -69,11 +69,12 @@
         "Hypomos.ReactSPA": {}
       }
     },
-    "Identity + Api": {
+    "Identity + Api + ReactSPA": {
       "Projects": {
         "Hypomos.IdentityServer": {},
-        "Hypomos.Api": {}
+        "Hypomos.Api": {},
+        "Hypomos.ReactSPA": {}
       }
-    } 
+    }
   }
 }

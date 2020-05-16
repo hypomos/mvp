@@ -10,6 +10,7 @@ const userManagerConfig = {
   automaticSilentRenew: true,
   filterProtocolClaims: true,
   loadUserInfo: true,
+  post_logout_redirect_uri: `${window.location.protocol}//${window.location.hostname}:${window.location.port}`,
 };
 
 const userManager = createUserManager(userManagerConfig);
