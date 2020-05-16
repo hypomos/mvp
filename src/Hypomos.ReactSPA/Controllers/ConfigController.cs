@@ -9,15 +9,18 @@
         [HttpGet]
         public HypomosConfiguration Get()
         {
-            return new HypomosConfiguration
-            {
-                MachineName = System.Environment.MachineName
-            };
+            return new HypomosConfiguration(new ApiEndpoints());
         }
     }
 
     public class HypomosConfiguration
     {
+        public HypomosConfiguration(ApiEndpoints apiEndpoints)
+        {
+            this.MachineName = System.Environment.MachineName;
+            this.ApiEndpoints = apiEndpoints;
+        }
+
         public string MachineName { get; set; }
 
         public ApiEndpoints ApiEndpoints { get; set; }

@@ -24,7 +24,6 @@ export const loadHypomosConfigNavigateToAppUponSuccess: RootEpic = (action$) => 
   return action$.pipe(
     filter(isActionOf(loadHypomosConfigurationAsync.success)),
     switchMap(action => {
-      debugger;
       window.hypomosConfig = action.payload;
       return of(getPath('home'))
         .pipe(
