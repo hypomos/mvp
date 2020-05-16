@@ -1,7 +1,9 @@
 import axios from 'axios';
+import { HypomosConfiguration } from 'MyModels';
 
+const config = window.hypomosConfig as HypomosConfiguration;
 const client = axios.create({
-    baseURL: 'http://localhost:5010/api/'
+    baseURL: config.apiEndpoints.hypomos
 });
 
 export function getWhoAmI() {

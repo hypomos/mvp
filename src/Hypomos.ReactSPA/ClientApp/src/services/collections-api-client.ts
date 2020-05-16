@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-import { Collection } from 'MyModels';
+import { Collection, HypomosConfiguration } from 'MyModels';
 
-const client = axios.create({ baseURL: 'https://jsonplaceholder.typicode.com/' })
+const config = window.hypomosConfig as HypomosConfiguration;
+const client = axios.create({ baseURL: config.apiEndpoints.collection })
 const url = 'albums';
 
 export function loadCollections(): Promise<Collection[]> {

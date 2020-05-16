@@ -1,5 +1,6 @@
 const pathsMap = {
-    home: () => '/',
+    loading: () => '/',
+    home: () => '/home',
     app: () => '/app',
     addCollection: () => '/add-collection',
     viewCollection: (collectionId: number) => `/collections/${collectionId}`,

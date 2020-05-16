@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-import { WhoAmI } from 'MyModels';
+import { WhoAmI, HypomosConfiguration } from 'MyModels';
 
-const client = axios.create({ baseURL: 'http://localhost:5010/api/' })
+const config = window.hypomosConfig as HypomosConfiguration;
+const client = axios.create({ baseURL: config.apiEndpoints.whoAmI })
 const url = 'WhoAmI';
 
 export function loadWhoAmI(token: string | undefined): Promise<WhoAmI> {
-  debugger;
   return client
     .get(url, { headers: { Authorization: `Bearer ${token}`}})
     .then(r => r.data as WhoAmI);

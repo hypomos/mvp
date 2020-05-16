@@ -7,6 +7,7 @@ import { OidcProvider } from 'redux-oidc';
 import store, { history } from './store';
 import { getPath } from './router-paths';
 import userManager from './features/whoAmI/userManager';
+import Loading from './routes/Loading';
 import Home from './routes/Home';
 import HypomosApp from './routes/App';
 import Callback from './routes/Callback';
@@ -18,6 +19,7 @@ class App extends Component {
         <OidcProvider store={store} userManager={userManager}>
           <ConnectedRouter history={history}>
             <Switch>
+              <Route exact path={getPath('loading')} render={Loading} />
               <Route exact path={getPath('home')} render={Home} />
               <Route exact path={getPath('app')} render={HypomosApp} />
               <Route exact path={getPath('callback')} render={Callback} />

@@ -1,18 +1,19 @@
 import axios from 'axios';
 
-import { MediaItem } from 'MyModels';
+import { MediaItem, HypomosConfiguration } from 'MyModels';
 
-const client = axios.create({ baseURL: 'https://jsonplaceholder.typicode.com/' })
-const url = 'photos';
+const config = window.hypomosConfig as HypomosConfiguration;
+const client = axios.create({ baseURL: config.apiEndpoints.mediaItems })
+const part = 'photos';
 
 export function loadMediaItems(): Promise<MediaItem[]> {
-  return client.get(url)
+  return client.get(part)
     .then(r => r.data as MediaItem[]);
 }
 
 export function loadMediaItem(id: number): Promise<MediaItem> {
   return client
-    .get(url, {
+    .get(part, {
       params: {
         id: id
       }
@@ -21,16 +22,16 @@ export function loadMediaItem(id: number): Promise<MediaItem> {
 }
 
 export function createMediaItem(collection: MediaItem): Promise<MediaItem[]> {
-  return client.post(url, collection)
+  return client.post(part, collection)
     .then(r => loadMediaItems());
 }
 
 export function updateMediaItem(collection: MediaItem): Promise<MediaItem[]> {
-  return client.put(url, collection)
+  return client.put(part, collection)
     .then(r => loadMediaItems());
 }
 
 export function deleteMediaItem(collection: MediaItem): Promise<MediaItem[]> {
-  return client.delete(url, { data: collection })
+  return client.delete(part, { data: collection })
     .then(r => loadMediaItems());
 }
