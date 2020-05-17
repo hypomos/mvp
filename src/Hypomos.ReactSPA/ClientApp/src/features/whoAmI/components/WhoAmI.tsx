@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { RootState } from 'MyTypes';
-import { loadWhoAmIAsync, toggleDropDown } from '../actions';
+import { toggleDropDown } from '../actions';
 import userManager from "../userManager";
 
 class WhoAmI extends React.Component<Props> {
@@ -17,16 +17,8 @@ class WhoAmI extends React.Component<Props> {
         userManager.signoutRedirect();
     }
 
-    testWhoAmI() {
-        debugger;
-        const token = this.props.oidc.user?.access_token;
-        this.props.loadWhoAmIAsync(token);
-    }
-
     toggleDropDown(){
         this.props.toggleDropDown();
-        // this.setState({ showDropDown: !this.props.showDropDown});
-        // this.showDropDown != this.showDropDown;
     }
 
     showLoggedIn() {
@@ -85,7 +77,6 @@ const mapStateToProps = (state: RootState) => (
     });
 
 const dispatchProps = {
-    loadWhoAmIAsync: loadWhoAmIAsync.request,
     toggleDropDown: toggleDropDown
 };
 

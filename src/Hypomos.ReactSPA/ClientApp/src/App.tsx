@@ -23,6 +23,16 @@ class App extends Component {
               <Route exact path={getPath('home')} render={Home} />
               <Route exact path={getPath('app')} render={HypomosApp} />
               <Route exact path={getPath('callback')} render={Callback} />
+              
+              <Route exact path={getPath('items')} render={HypomosApp} />
+              
+              <Route exact path={getPath('collections')} render={HypomosApp} />
+              <Route exact path={getPath('addCollection')} render={HypomosApp} />
+              <Route path={getPath('viewCollection', ':collectionId')} render={(props: any) => <HypomosApp {...props} />} />
+              <Route path={getPath('editCollection', ':collectionId')} render={(props: any) => <HypomosApp {...props} />} />
+
+              <Route exact path={getPath('cleaning')} render={HypomosApp} />
+
               {/* <Route exact path={getPath('addArticle')} render={AddArticle} />
             <Route
               exact

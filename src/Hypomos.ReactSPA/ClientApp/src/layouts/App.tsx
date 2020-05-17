@@ -17,7 +17,7 @@ const Main: FC<Props> = ({ children }) => {
         </Header>
       </div>
 
-      <div className="flex flex-col md:flex-row mt-10">
+      <div className="flex flex-col md:flex-row mt-8">
         <div className="bg-gray-900">
           <Navigation />
         </div>

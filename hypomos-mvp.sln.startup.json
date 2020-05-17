@@ -3,78 +3,27 @@
     See https://bitbucket.org/thirteen/switchstartupproject/src/tip/Configuration.md
 */
 {
-    /*  Configuration File Version  */
-    "Version": 3,
-    
-    /*  Create an item in the dropdown list for each project in the solution?  */
-    "ListAllProjects": true,
+  /*  Configuration File Version  */
+  "Version": 3,
 
-    /*
-        Dictionary of named configurations with one or multiple startup projects
-        and optional parameters like command line arguments and working directory.
-        Example:
+  /*  Create an item in the dropdown list for each project in the solution?  */
+  "ListAllProjects": false,
 
-        "MultiProjectConfigurations": {
-          "A + B (Ext)": {
-            "Projects": {
-              "MyProjectA": {},
-              "MyProjectB": {
-                "CommandLineArguments": "1234",
-                "WorkingDirectory": "%USERPROFILE%\\test",
-                "StartExternalProgram": "c:\\myprogram.exe"
-              }
-            }
-          },
-          "A + B": {
-            "Projects": {
-              "MyProjectA": {},
-              "MyProjectB": {
-                "CommandLineArguments": "",
-                "WorkingDirectory": "",
-                "StartProject": true
-              }
-            }
-          },
-          "D (Debug x86)": {
-            "Projects": {
-              "MyProjectD": {}
-            },
-            "SolutionConfiguration": "Debug",
-            "SolutionPlatform": "x86",
-          },
-          "D (Release x64)": {
-            "Projects": {
-              "MyProjectD": {}
-            },
-            "SolutionConfiguration": "Release",
-            "SolutionPlatform": "x64",
-          }
-        }
-    */
   "MultiProjectConfigurations": {
-    "Silo + Web": {
-      "Projects": {
-        "Hypomos.Silo": {},
-        "Hypomos.Web": {}
-      }
-    },
-    "Silo + ReactSPA": {
-      "Projects": {
-        "Hypomos.Silo": {},
-        "Hypomos.ReactSPA": {}
-      }
-    },
-    "ReactSPA": {
-      "Projects": {
-        "Hypomos.ReactSPA": {}
-      }
-    },
+
     "Identity + Api + ReactSPA": {
       "Projects": {
         "Hypomos.IdentityServer": {},
         "Hypomos.Api": {},
         "Hypomos.ReactSPA": {}
       }
+    },
+    "Identity + Api": {
+      "Projects": {
+        "Hypomos.IdentityServer": {},
+        "Hypomos.Api": {}
+      }
     }
+
   }
 }

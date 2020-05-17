@@ -2,10 +2,16 @@ const pathsMap = {
     loading: () => '/',
     home: () => '/home',
     app: () => '/app',
-    addCollection: () => '/add-collection',
-    viewCollection: (collectionId: number) => `/collections/${collectionId}`,
-    editCollection: (collectionId: number) => `/collections/${collectionId}/edit`,
-    callback: () => '/callback'
+    callback: () => '/callback',
+    
+    items: () => '/app/items',
+    
+    collections: () => '/app/collections',
+    addCollection: () => '/app/collection/add',
+    viewCollection: (collectionId: string) => `/app/collections/${collectionId}`,
+    editCollection: (collectionId: string) => `/app/collections/${collectionId}/edit`,
+    
+    cleaning: () => '/app/cleaning'
 };
 
 type PathsMap = typeof pathsMap;

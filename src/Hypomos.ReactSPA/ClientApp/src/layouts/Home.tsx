@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
 import Header from '../components/Header';
-import WhoAmI from '../features/whoAmI/components/WhoAmI';
+import LaunchOrSignIn from '../features/whoAmI/components/LaunchOrSignIn';
+
 
 type Props = {
   // something like: renderActionsMenu?: () => JSX.Element
@@ -12,7 +13,7 @@ const Main: FC<Props> = ({ children }) => {
     <div className="h-screen bg-gray-900 font-sans leading-normal tracking-normal" >
       <div className="fixed top-0 pt-0 w-full z-20 h-auto">
         <Header >
-          <WhoAmI />
+            <LaunchOrSignIn />
         </Header>
       </div>
 
