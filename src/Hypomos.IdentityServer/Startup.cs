@@ -50,8 +50,11 @@ namespace Hypomos.IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddTestUsers(TestUsers.Users);
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            if (Environment.IsDevelopment())
+            {
+                // not recommended for production - you need to store your key material somewhere secure
+                builder.AddDeveloperSigningCredential();
+            }
         }
 
         public void Configure(IApplicationBuilder app)

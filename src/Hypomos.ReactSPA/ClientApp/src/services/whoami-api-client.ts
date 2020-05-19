@@ -6,7 +6,8 @@ const url = 'WhoAmI';
 
 function createClient() {
   const config = window.hypomosConfig as HypomosConfiguration;
-  return axios.create({ baseURL: config.apiEndpoints.whoAmI })  
+  const client = axios.create({ baseURL: config.apiEndpoints.whoAmI });
+  return client;
 }
 
 export function loadWhoAmI(token: string | undefined): Promise<WhoAmI> {

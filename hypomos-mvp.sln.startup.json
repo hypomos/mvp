@@ -11,16 +11,18 @@
 
   "MultiProjectConfigurations": {
 
-    "Identity + Api + ReactSPA": {
+    "Identity + Silo + Api + ReactSPA": {
       "Projects": {
         "Hypomos.IdentityServer": {},
+        "Hypomos.Silo": {},
         "Hypomos.Api": {},
         "Hypomos.ReactSPA": {}
       }
     },
-    "Identity + Api": {
+    "Identity + Silo + Api": {
       "Projects": {
         "Hypomos.IdentityServer": {},
+        "Hypomos.Silo": {},
         "Hypomos.Api": {}
       }
     }

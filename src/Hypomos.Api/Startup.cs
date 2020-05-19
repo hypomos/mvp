@@ -5,6 +5,7 @@ namespace Hypomos.Api
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using Hypomos.Api.Cluster;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -26,7 +27,19 @@ namespace Hypomos.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => { options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()); });
+            services.AddSingleton<ClusterClientHostedService>();
+            services.AddSingleton<IHostedService>(_ => _.GetService<ClusterClientHostedService>());
+            services.AddSingleton(_ => _.GetService<ClusterClientHostedService>().Client);
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => 
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                    );
+            });
 
             services.AddControllers().AddNewtonsoftJson();
 

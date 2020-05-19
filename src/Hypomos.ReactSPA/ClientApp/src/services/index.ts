@@ -6,6 +6,7 @@ import * as hypomos from './hypomos-api-client';
 import * as collections from './collections-api-client';
 import * as whoAmI from './whoami-api-client';
 import * as config from './configuration-api-client';
+import * as storages from './storages-api-client';
 
 export default {
   logger,
@@ -15,6 +16,7 @@ export default {
     hypomos,
     collections,
     whoAmI,
-    config
+    config,
+    storages
   },
 };

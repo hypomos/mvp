@@ -5,13 +5,15 @@ import { History } from 'history';
 import collections from '../features/collections/reducer';
 import whoAmI from '../features/whoAmI/reducer';
 import config from '../features/config/reducer';
+import storages from '../features/storages/reducer';
 
 const rootReducer = (history: History<any>) =>
   combineReducers({
     router: connectRouter(history),
     collections,
     whoAmI,
-    config
+    config,
+    storages
   });
 
 export default rootReducer;

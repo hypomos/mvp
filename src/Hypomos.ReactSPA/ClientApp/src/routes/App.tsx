@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MainContent from '../features/collections/components/CollectionList';
+import MainContent from '../features/app/components/Home';
 import Main from '../layouts/App';
 
 export default () => (
