@@ -10,7 +10,10 @@ import {
 const reducer = combineReducers({
     ready: createReducer(false as boolean)
         .handleAction([loadHypomosConfigurationAsync.request], (state, action) => false)
-        .handleAction([loadHypomosConfigurationAsync.success], (state, action) => true)
+        .handleAction([loadHypomosConfigurationAsync.success], (state, action) => {
+            window.hypomosConfig = action.payload;
+            return true;
+        })
         .handleAction([loadHypomosConfigurationAsync.failure], (state, action) => false),
 
     config: createReducer({} as HypomosConfiguration)

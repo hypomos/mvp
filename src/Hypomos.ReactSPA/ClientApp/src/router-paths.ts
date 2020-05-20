@@ -1,6 +1,5 @@
 const pathsMap = {
-    loading: () => '/',
-    home: () => '/home',
+    home: () => '/',
     app: () => '/app',
     callback: () => '/callback',
     

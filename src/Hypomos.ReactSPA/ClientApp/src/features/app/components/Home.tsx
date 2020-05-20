@@ -18,7 +18,6 @@ const mapStateToProps = (state: RootState) => ({
 
 class Home extends React.Component<Props> {
     componentDidMount() {
-        debugger;
         this.props.loadStoragesAsync();
     }
 
