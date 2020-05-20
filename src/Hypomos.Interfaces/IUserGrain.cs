@@ -14,12 +14,10 @@
 
         Task SetPersonalDetails(UserPersonalDetails personalDetails);
 
-        Task<IEnumerable<IStorageProvider>> GetStorageProviders();
+        Task<IEnumerable<StorageConfiguration>> GetStorageProviders();
 
         Task AddStorageProvider(StorageConfiguration configuration);
-
-        //Task AddMediaLibrary(IMediaLibrary mediaLibrary);
-
-        //Task<IMediaLibrary> GetMediaLibrary(string key);
+        
+        //Task RemoveStorageProvider(StorageConfiguration configuration);
     }
 }

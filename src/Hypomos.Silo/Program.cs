@@ -65,7 +65,7 @@
                         .UseDashboard(options =>
                         {
                             options.HostSelf = true;
-                            options.Port = 9000;
+                            options.Port = 9090;
                             options.BasePath = "/";
                         });
                 })
@@ -83,7 +83,7 @@
                     {
                         config.AccessKey = "minio";
                         config.SecretKey = "minio123";
-                        config.Endpoint = "192.168.5.15:9000";
+                        config.Endpoint = "localhost:9000";
                         config.Container = "grain-storage";
                     });
 

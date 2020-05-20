@@ -2,7 +2,7 @@
 {
     using Orleans;
 
-    public interface IStorageProvider : IGrainWithGuidKey
+    public interface IStorageProviderGrain : IGrainWithStringKey
     {
     }
 }

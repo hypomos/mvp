@@ -17,6 +17,8 @@
         public string GivenName { get; set; }
 
         public List<IMediaLibrary> MediaLibraries { get; set; }
+
+        public List<StorageConfiguration> Storages { get; set; }
         
         public UserSetupState SetupState { get; set; }
     }

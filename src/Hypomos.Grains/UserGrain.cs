@@ -1,7 +1,6 @@
 ﻿namespace Hypomos.Grains
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Hypomos.Interfaces;
     using Hypomos.Interfaces.Models;
@@ -11,27 +10,6 @@
     [StorageProvider(ProviderName = "minio-orleans")]
     public class UserGrain : Grain<UserState>, IUserGrain
     {
-        public Task<List<StorageConfiguration>> GetStorageConfigurations()
-        {
-            return Task.FromResult(new List<StorageConfiguration>());
-        }
-
-        public Task SetStorageConfigurations(List<StorageConfiguration> configurations)
-        {
-            this.State.SetupState.AreStorageSourcesSet = true;
-
-            return Task.CompletedTask;
-        }
-
-        public Task<UserSetupState> GetSetupStateAsync()
-        {
-            return Task.FromResult(new UserSetupState
-            {
-                ArePersonalDetailsSet = this.State.SetupState.ArePersonalDetailsSet,
-                AreStorageSourcesSet = this.State.SetupState.AreStorageSourcesSet
-            });
-        }
-
         public Task<UserData> GetPersonalDetails()
         {
             return Task.FromResult(new UserData
@@ -55,44 +33,24 @@
             await this.WriteStateAsync();
         }
 
-        public Task<IEnumerable<IStorageProvider>> GetStorageProviders()
+        public Task<IEnumerable<StorageConfiguration>> GetStorageProviders()
         {
-            throw new System.NotImplementedException();
+            var storages = this.State.Storages;
+            return Task.FromResult((IEnumerable<StorageConfiguration>) storages);
         }
 
-        public Task AddStorageProvider(StorageConfiguration configuration)
+        public async Task AddStorageProvider(StorageConfiguration configuration)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task AddMediaLibrary(IMediaLibrary mediaLibrary)
-        {
-            this.State.MediaLibraries.Add(mediaLibrary);
-            return Task.CompletedTask;
-        }
-
-        public Task<IMediaLibrary> GetMediaLibrary(string key)
-        {
-            var result = this.State.MediaLibraries.FirstOrDefault(ml => ml.GetPrimaryKeyString() == key);
-            return Task.FromResult(result);
+            this.State.Storages.Add(configuration);
+            await this.WriteStateAsync();
         }
 
         public override async Task OnActivateAsync()
         {
-            if (this.State == null)
-            {
-                this.State = new UserState();
-            }
-
-            if (this.State.SetupState == null)
-            {
-                this.State.SetupState = new UserSetupState();
-            }
-
-            if (this.State.MediaLibraries == null)
-            {
-                this.State.MediaLibraries = new List<IMediaLibrary>();
-            }
+            this.State ??= new UserState();
+            this.State.SetupState ??= new UserSetupState();
+            this.State.MediaLibraries ??= new List<IMediaLibrary>();
+            this.State.Storages ??= new List<StorageConfiguration>();
 
             await this.WriteStateAsync();
             await base.OnActivateAsync();

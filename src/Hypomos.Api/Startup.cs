@@ -2,18 +2,13 @@ namespace Hypomos.Api
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.Serialization;
     using Hypomos.Api.Cluster;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Any;
     using Microsoft.OpenApi.Models;
-    using Swashbuckle.AspNetCore.SwaggerGen;
 
     public class Startup
     {
@@ -141,63 +136,6 @@ namespace Hypomos.Api
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        }
-    }
-
-    public sealed class AssignOAuth2SecurityRequirements : IOperationFilter
-    {
-        /// <inheritdoc />
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            if (operation.Security == null)
-            {
-                operation.Security = new List<OpenApiSecurityRequirement>();
-            }
-
-            var securityRequirement = new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "user"
-                        }
-                    },
-                    new List<string>()
-                },
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "client"
-                        }
-                    },
-                    new List<string>()
-                }
-            };
-
-            operation.Security.Add(securityRequirement);
-        }
-    }
-
-    public sealed class EnumSchemaFilter : ISchemaFilter
-    {
-        /// <inheritdoc />
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
-        {
-            if (context.Type.IsEnum)
-            {
-                schema.Enum.Clear();
-                var enumMembers = context.Type.GetMembers(BindingFlags.Public | BindingFlags.Static);
-                foreach (var enumMember in enumMembers.Where(m => m.MemberType == MemberTypes.Field))
-                {
-                    schema.Enum.Add(new OpenApiString(enumMember.GetCustomAttribute<EnumMemberAttribute>()?.Value));
-                }
-            }
         }
     }
 }

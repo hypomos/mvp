@@ -10,7 +10,7 @@
     using Minio;
     using Orleans;
 
-    public class MinioStorageProvider : Grain, IMinioStorageProvider
+    public class MinioStorageProviderGrain : Grain, IMinioStorageProviderGrain
     {
         private MinioConfiguration config;
 

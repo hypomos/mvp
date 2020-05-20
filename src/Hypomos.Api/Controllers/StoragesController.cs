@@ -1,7 +1,10 @@
 ﻿namespace Hypomos.Api.Controllers
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
+    using System.Threading.Tasks;
     using Hypomos.Interfaces;
+    using Hypomos.Interfaces.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
@@ -19,10 +22,12 @@
         }
 
         [HttpGet]
-        public void Get()
+        public async Task<IEnumerable<StorageConfiguration>> Get()
         {
             var name = this.User.FindFirst(ClaimTypes.NameIdentifier);
-            var bwalti = this.client.GetGrain<IUserGrain>(name?.Value);
+            var user = this.client.GetGrain<IUserGrain>(name?.Value);
+
+            return await user.GetStorageProviders();
         }
     }
 }
