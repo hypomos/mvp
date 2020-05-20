@@ -23,6 +23,12 @@ class Home extends React.Component<Props> {
     }
 
     render() {
+        if(this.props.storages.length == 0){
+            return (<div>please add storage locations!</div>);
+        }
+
+        // if storage locations have been defined, but no content found, then we might display something similar as above
+
         return (
             <div>Hello!</div>
         );
