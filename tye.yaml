@@ -1,0 +1,46 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: hypomos-mvp
+services:
+- name: silo-db
+  image: minio/minio
+  args: "minio server /data"
+  env:
+    - name: MINIO_ACCESS_KEY
+      value: minio
+    - name: MINIO_SECRET_KEY
+      value: minio123
+  bindings:
+    - port: 9000
+      protocol: tcp
+
+- name: silo
+  project: src\Hypomos.Silo\Hypomos.Silo.csproj
+  bindings:
+    - name: dashboard
+      port: 9090
+    - name: orleans-data
+      port: 11111
+      protocol: tcp
+    - name: orleans-meta
+      port: 33333
+      protocol: tcp
+
+- name: identity
+  project: src\Hypomos.IdentityServer\Hypomos.IdentityServer.csproj
+  bindings:
+    - port: 5000
+
+- name: api
+  project: src\Hypomos.Api\Hypomos.Api.csproj
+  bindings:
+    - port: 5010
+
+- name: spa
+  project: src\Hypomos.ReactSPA\Hypomos.ReactSPA.csproj
+  bindings:
+    - port: 3000

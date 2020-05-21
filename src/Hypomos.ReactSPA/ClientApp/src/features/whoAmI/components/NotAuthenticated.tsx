@@ -8,7 +8,7 @@ const mapStateToProps = (state: RootState) => (
         oidc: state.whoAmI.oidc
     });
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> & {children?: React.ReactNode};
 
 class NotAuthenticated extends React.Component<Props> {
 
