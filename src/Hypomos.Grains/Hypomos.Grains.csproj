@@ -5,15 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer.Core" Version="2.7.9" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.1.2">
+    <PackageReference Include="Humanizer.Core" Version="2.8.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.1.2" />
-    <PackageReference Include="Minio" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.1.7" />
+    <PackageReference Include="Minio" Version="3.1.12" />
   </ItemGroup>
 
   <ItemGroup>

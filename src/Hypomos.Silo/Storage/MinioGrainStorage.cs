@@ -88,7 +88,7 @@ namespace Hypomos.Silo.Storage
                 {
                     this._logger.LogTrace(
                         "ContainerNotFound reading: GrainType={0} Grainid={1} ETag={2} to BlobName={3} in Container={4} Exception={5}",
-                        grainType, grainReference, grainState.ETag, blobName, this._container, ex.message);
+                        grainType, grainReference, grainState.ETag, blobName, this._container, ex.Message);
 
                     return;
                 }
@@ -96,7 +96,7 @@ namespace Hypomos.Silo.Storage
                 {
                     this._logger.LogTrace(
                         "BlobNotFound reading: GrainType={0} Grainid={1} ETag={2} to BlobName={3} in Container={4} Exception={5}",
-                        grainType, grainReference, grainState.ETag, blobName, this._container, ex.message);
+                        grainType, grainReference, grainState.ETag, blobName, this._container, ex.Message);
 
                     return;
                 }
