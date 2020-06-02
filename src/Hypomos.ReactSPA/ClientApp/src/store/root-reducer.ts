@@ -6,6 +6,7 @@ import collections from '../features/collections/reducer';
 import whoAmI from '../features/whoAmI/reducer';
 import config from '../features/config/reducer';
 import storages from '../features/storages/reducer';
+import oneDriveStorages from '../features/storages/onedrive/reducer';
 
 const rootReducer = (history: History<any>) =>
   combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = (history: History<any>) =>
     collections,
     whoAmI,
     config,
-    storages
+    storages,
+    oneDriveStorages
   });
 
 export default rootReducer;
