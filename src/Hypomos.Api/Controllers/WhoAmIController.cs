@@ -12,11 +12,7 @@
         public WhoAmI Get()
         {
             var isLoggedIn = this.User.Identity.IsAuthenticated;
-
-            if (isLoggedIn)
-            {
-            }
-
+            
             return new WhoAmI
             {
                 IsLoggedIn = isLoggedIn

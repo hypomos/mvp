@@ -38,3 +38,5 @@ tools/
 
 artifacts/
 **/ClientApp/build
+.fake
+.ionide

@@ -1,5 +1,3 @@
-import { HypomosConfiguration } from "MyModels";
-
 declare module 'MyModels' {
   
   export type HypomosConfiguration = {
@@ -8,7 +6,12 @@ declare module 'MyModels' {
         collection: string,
         mediaItems: string,
         hypomos: string,
-        whoAmI: string
-      }
+        whoAmI: string,
+      },
+      oneDrive: {
+          appId: string,
+          redirectUri: string,
+          scopes: Array<string>,
+      },
   };
 }
