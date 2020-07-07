@@ -7,4 +7,4 @@ import { AuthProviderState } from 'StorageOneDrive';
 
 export const loadOneDriveUserAgent = createAsyncAction(
     'LOAD_USERAGENT_REQUEST', 'LOAD_USERAGENT_SUCCESS', 'LOAD_USERAGENT_FAILURE', 'LOAD_USERAGENT_CANCEL')
-    <undefined, AuthProviderState, Error, undefined>();
+    <string, AuthProviderState, Error, undefined>();

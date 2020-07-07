@@ -24,7 +24,7 @@ class Home extends React.Component<Props> {
     }
 
     render() {
-        if (this.props.storages.length == 0) {
+        if (this.props.storages.length === 0) {
             return (
                 <React.Fragment>
                     <div>please add a storage source!</div>

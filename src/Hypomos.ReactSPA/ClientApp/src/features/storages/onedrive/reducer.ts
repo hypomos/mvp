@@ -14,9 +14,9 @@ const reducer = combineReducers({
       (state, action) => false
     ),
   authState: createReducer({} as AuthProviderState)
-  .handleAction([loadOneDriveUserAgent.request], (state, action) => {})
-  .handleAction([loadOneDriveUserAgent.success], (state, action) => action.payload)
-  .handleAction([loadOneDriveUserAgent.failure], (state, action) => {}),
+   .handleAction([loadOneDriveUserAgent.request], (state, action) => ({} as AuthProviderState))
+   .handleAction([loadOneDriveUserAgent.success], (state, action) => action.payload)
+   .handleAction([loadOneDriveUserAgent.failure], (state, action) => ({} as AuthProviderState)),
 });
 
 export default reducer;

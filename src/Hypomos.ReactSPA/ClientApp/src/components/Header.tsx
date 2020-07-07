@@ -17,7 +17,7 @@ class Header extends React.Component<Props> {
         const childrenCount = React.Children.count(children);
 
         return React.Children.map(children, (c, i) => {
-            const marginRight = (i + 1 == childrenCount) ? '' : 'md:mr-3';
+            const marginRight = (i + 1 === childrenCount) ? '' : 'md:mr-3';
             const classes = `flex-1 md:flex-none ${marginRight}`;
 
             return (
