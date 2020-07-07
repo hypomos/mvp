@@ -1,3 +1,6 @@
+env:
+  PLUGIN_DAEMON_OFF: true
+  DOCKER_HOST: tcp://build-agent.default:2375
 stages:
 - name: Prepare Build Container
   steps:
@@ -10,7 +13,7 @@ stages:
 - name: Build
   steps:
   - runScriptConfig:
-      image: dotnet/core/sdk_npm:3.1
+      image: 127.0.0.1:34688/dotnet/core/sdk_npm:3.1
       shellScript: |-
         export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.38.4
