@@ -1,8 +1,16 @@
 stages:
+- name: Prepare Build Container
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./build/Dockerfile
+      buildContext: ./build
+      tag: dotnet/core/sdk_npm:3.1
+      registry: 127.0.0.1:34688
+
 - name: Build
   steps:
   - runScriptConfig:
-      image: mcr.microsoft.com/dotnet/core/sdk:3.1
+      image: dotnet/core/sdk_npm:3.1
       shellScript: |-
         export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.38.4
