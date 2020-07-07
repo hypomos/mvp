@@ -19,5 +19,9 @@
     <ProjectReference Include="..\Hypomos.Grains\Hypomos.Grains.csproj" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
