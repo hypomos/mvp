@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metadata", "src\Metadata\Metadata.csproj", "{69A2FB73-0666-4F69-9F93-9E679BBDF418}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Interfaces", "src\Hypomos.Interfaces\Hypomos.Interfaces.csproj", "{DD787198-FA8B-405C-B17A-FA4BE5D6A129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.GrainInterfaces", "src\Hypomos.GrainInterfaces\Hypomos.GrainInterfaces.csproj", "{DD787198-FA8B-405C-B17A-FA4BE5D6A129}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Silo", "src\Hypomos.Silo\Hypomos.Silo.csproj", "{0FFA9FAD-5B2A-4E8A-B053-FA9EC3FA5CBF}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Api", "src\Hypomos.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EFC8310F-C746-44C8-AEE3-CE84619D02EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypomos.Sources.OneDrive.Tests", "Hypomos.Sources.OneDrive.Tests\Hypomos.Sources.OneDrive.Tests.csproj", "{A20BCE92-12ED-45AD-B818-41BBA555F5FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Sources.OneDrive.Tests", "tests\Hypomos.Sources.OneDrive.Tests\Hypomos.Sources.OneDrive.Tests.csproj", "{A20BCE92-12ED-45AD-B818-41BBA555F5FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

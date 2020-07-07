@@ -5,8 +5,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Humanizer;
-    using Hypomos.Interfaces;
-    using Hypomos.Interfaces.Models;
+
+    using Hypomos.GrainInterfaces;
+    using Hypomos.GrainInterfaces.Models;
+
     using Minio;
     using Orleans;
 

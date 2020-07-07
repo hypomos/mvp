@@ -1,4 +1,4 @@
-﻿namespace Hypomos.Interfaces
+﻿namespace Hypomos.GrainInterfaces
 {
     public static class Constants
     {

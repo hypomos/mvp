@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hypomos.Interfaces\Hypomos.Interfaces.csproj" />
+    <ProjectReference Include="..\Hypomos.GrainInterfaces\Hypomos.GrainInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

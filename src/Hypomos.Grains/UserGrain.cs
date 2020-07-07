@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Hypomos.Interfaces;
-    using Hypomos.Interfaces.Models;
+
+    using Hypomos.GrainInterfaces;
+    using Hypomos.GrainInterfaces.Models;
+
     using Orleans;
     using Orleans.Providers;
 

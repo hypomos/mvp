@@ -1,7 +1,9 @@
-﻿namespace Hypomos.Interfaces
+﻿namespace Hypomos.GrainInterfaces
 {
     using System.Threading.Tasks;
-    using Hypomos.Interfaces.Models;
+
+    using Hypomos.GrainInterfaces.Models;
+
     using Orleans;
 
     /// <summary>

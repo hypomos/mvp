@@ -1,8 +1,9 @@
 ﻿namespace Hypomos.Grains
 {
     using System.Collections.Generic;
-    using Hypomos.Interfaces;
-    using Hypomos.Interfaces.Models;
+
+    using Hypomos.GrainInterfaces;
+    using Hypomos.GrainInterfaces.Models;
 
     public class UserState
     {

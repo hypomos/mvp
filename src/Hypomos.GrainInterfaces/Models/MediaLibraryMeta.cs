@@ -1,4 +1,4 @@
-﻿namespace Hypomos.Interfaces.Models
+﻿namespace Hypomos.GrainInterfaces.Models
 {
     public class MediaLibraryMeta
     {

@@ -1,10 +1,13 @@
-﻿namespace Hypomos.Interfaces.Models
+﻿namespace Hypomos.GrainInterfaces.Models
 {
-    public class UserPersonalDetails
+    public class UserData
     {
         public string Username { get; set; }
+
         public string EmailAddress { get; set; }
+
         public string Surname { get; set; }
+
         public string GivenName { get; set; }
     }
 }
