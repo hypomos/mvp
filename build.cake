@@ -26,6 +26,8 @@ Task("Clean")
     CleanDirectory(artifactsDir);
     CleanDirectories("./src/**/bin/");
     CleanDirectories("./src/**/obj/");
+    CleanDirectories("./tests/**/obj/");
+    CleanDirectories("./tests/**/obj/");
 });
 
 Task("Restore")

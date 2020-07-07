@@ -5,7 +5,7 @@ stages:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
       shellScript: |-
         export PATH="$PATH:/root/.dotnet/tools"
-        dotnet tool install --global Cake.Tool --version 0.35.0
+        dotnet tool install --global Cake.Tool --version 0.38.4
         dotnet cake build.cake --target=Sample
         ls -al ./artifacts
 - name: Dockerize1
