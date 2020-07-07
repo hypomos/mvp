@@ -78,7 +78,7 @@ Task("Sample")
     .IsDependentOn("Build")
     .Does(() => 
 {
-    MoveFile("./artifacts/Hypomos.Web/secrets.json.sample", "./artifacts/Hypomos.Web/secrets.json");
+    // MoveFile("./artifacts/Hypomos.Web/secrets.json.sample", "./artifacts/Hypomos.Web/secrets.json");
 });
 
 Task("Dockerize")
