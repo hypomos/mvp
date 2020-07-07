@@ -5,8 +5,13 @@ stages:
 - name: Build
   steps:
   - runScriptConfig:
-      image: 127.0.0.1:34688/dotnet/core/sdk_npm:3.1
-      shellScript: |-
+      image: mcr.microsoft.com/dotnet/core/sdk:3.1
+      shellScript: |- 
+        curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+        && apt-get install -y --no-install-recommends nodejs \
+        && echo "node version: $(node --version)" \
+        && echo "npm version: $(npm --version)" \
+        && rm -rf /var/lib/apt/lists/*
         export PATH="$PATH:/root/.dotnet/tools"
         dotnet tool install --global Cake.Tool --version 0.38.4
         dotnet cake build.cake --target=Sample
