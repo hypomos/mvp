@@ -19,17 +19,32 @@ stages:
 - name: Dockerize1
   steps:
   - publishImageConfig:
-      dockerfilePath: ./artifacts/Hypomos.Web/Dockerfile
-      buildContext: ./artifacts/Hypomos.Web
-      tag: hypomos/web:${CICD_EXECUTION_SEQUENCE}
-      registry: 127.0.0.1:34688
-- name: Dockerize2
-  steps:
-  - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Silo/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo
       tag: hypomos/silo:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34688
+- name: Dockerize2
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.IdentityServer/Dockerfile
+      buildContext: ./artifacts/Hypomos.IdentityServer
+      tag: hypomos/identity:${CICD_EXECUTION_SEQUENCE}
+      registry: 127.0.0.1:34688
+- name: Dockerize3
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.Api/Dockerfile
+      buildContext: ./artifacts/Hypomos.Api
+      tag: hypomos/api:${CICD_EXECUTION_SEQUENCE}
+      registry: 127.0.0.1:34688
+- name: Dockerize4
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.ReactSPA/Dockerfile
+      buildContext: ./artifacts/Hypomos.ReactSPA
+      tag: hypomos/spa:${CICD_EXECUTION_SEQUENCE}
+      registry: 127.0.0.1:34688
+      
 - name: Deploy
   steps:
   - applyYamlConfig:
