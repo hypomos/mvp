@@ -2,8 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
+
+    using Hypomos.GrainInterfaces;
     using Hypomos.Grains;
-    using Hypomos.Interfaces;
     using Hypomos.Silo.Storage;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

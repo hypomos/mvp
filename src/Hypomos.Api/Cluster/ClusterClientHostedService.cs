@@ -3,7 +3,9 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Hypomos.Interfaces;
+
+    using Hypomos.GrainInterfaces;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Orleans;
@@ -23,7 +25,7 @@
         {
             this.logger = logger;
             this.Client = new ClientBuilder()
-                .AddSimpleMessageStreamProvider(Interfaces.Constants.SmsProvider)
+                .AddSimpleMessageStreamProvider(Constants.SmsProvider)
                 .ConfigureAppConfiguration(builder => builder.AddConfiguration(config))
                 .Configure<ClusterOptions>(
                     options => config.GetSection("Orleans").Bind(options))

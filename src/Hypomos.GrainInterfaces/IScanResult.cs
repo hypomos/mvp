@@ -1,4 +1,4 @@
-﻿namespace Hypomos.Interfaces
+﻿namespace Hypomos.GrainInterfaces
 {
     using System;
 
