@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ConnectedRouter } from 'connected-react-router';
-import { Switch, Route } from 'react-router';
+import { Switch, Route } from 'react-router-dom';
 
 import { RootState } from 'MyTypes';
 import { history } from './store';

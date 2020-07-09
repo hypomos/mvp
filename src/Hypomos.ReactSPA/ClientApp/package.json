@@ -22,9 +22,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
-    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
     "react-toastify": "^6.0.8",
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
@@ -69,6 +67,7 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.5",
     "react-redux-typescript-scripts": "^1.6.2",
+    "react-scripts": "3.4.1",
     "tailwindcss": "^1.4.6",
     "tailwindcss-spinner": "^1.0.0"
   }

@@ -25,6 +25,12 @@
         "Hypomos.Silo": {},
         "Hypomos.Api": {}
       }
+    },
+    "Identity + SPA": {
+      "Projects": {
+        "Hypomos.IdentityServer": {},
+        "Hypomos.ReactSPA": {}
+      }
     }
 
   }

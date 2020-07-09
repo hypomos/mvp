@@ -9,11 +9,11 @@ import {
   loadOneDriveUserAgent,
 } from './actions';
 
-export const loadOneDriveOnAppStart: RootEpic = (action$, store, { api }) =>
-  action$.pipe(
-    first(),
-    map(loadOneDriveUserAgent.request)
-  );
+//export const loadOneDriveOnAppStart: RootEpic = (action$, store, { api }) =>
+//  action$.pipe(
+//    first(),
+//    map(loadOneDriveUserAgent.request)
+//  );
 
 export const loadOneDriveUserAgentAsyncEpic: RootEpic = (action$, state$, { api }) => {
 
