@@ -26,10 +26,10 @@ class Home extends React.Component<Props> {
     render() {
         if (this.props.storages.length === 0) {
             return (
-                <React.Fragment>
+                <div className="bg-blue-100">
                     <div>please add a storage source!</div>
                     <AddStorageSource />
-                </React.Fragment>
+                </div>
             );
         }
 
