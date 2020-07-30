@@ -9,6 +9,7 @@ name: hypomos-mvp
 #- name: dapr
 #registry: dapracr.azurecr.io
 services:
+
 - name: sqlserver
   image: mcr.microsoft.com/mssql/server:2017-latest
   env:
@@ -54,7 +55,7 @@ services:
       protocol: tcp
 
 - name: silo
-  project: src\Hypomos.Silo\Hypomos.Silo.csproj
+  project: src/Hypomos.Silo/Hypomos.Silo.csproj
   bindings:
     - name: dashboard
       port: 9090
@@ -66,16 +67,18 @@ services:
       protocol: tcp
 
 - name: identity
-  project: src\Hypomos.IdentityServer\Hypomos.IdentityServer.csproj
+  project: src/Hypomos.IdentityServer/Hypomos.IdentityServer.csproj
   bindings:
     - port: 5000
-
+    
 - name: api
-  project: src\Hypomos.Api\Hypomos.Api.csproj
+  project: src/Hypomos.Api/Hypomos.Api.csproj
   bindings:
-    - port: 5010
-
-- name: spa
-  project: src\Hypomos.ReactSPA\Hypomos.ReactSPA.csproj
+  - protocol: https
+    port: 5010
+  
+- name: app
+  dockerFile: src/WebApp/Dockerfile
   bindings:
-    - port: 3000
+  - protocol: http
+    port: 3000

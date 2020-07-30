@@ -33,6 +33,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EFC8310F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypomos.Sources.OneDrive.Tests", "tests\Hypomos.Sources.OneDrive.Tests\Hypomos.Sources.OneDrive.Tests.csproj", "{A20BCE92-12ED-45AD-B818-41BBA555F5FB}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApp", "src\WebApp\", "{61384265-6384-4711-B6B5-D2E81E0B0E46}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_26352"
+		Debug.AspNetCompiler.PhysicalPath = "src\WebApp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_26352\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_26352"
+		Release.AspNetCompiler.PhysicalPath = "src\WebApp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_26352\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "26352"
+		SlnRelativePath = "src\WebApp\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +92,10 @@ Global
 		{A20BCE92-12ED-45AD-B818-41BBA555F5FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A20BCE92-12ED-45AD-B818-41BBA555F5FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A20BCE92-12ED-45AD-B818-41BBA555F5FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61384265-6384-4711-B6B5-D2E81E0B0E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61384265-6384-4711-B6B5-D2E81E0B0E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61384265-6384-4711-B6B5-D2E81E0B0E46}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{61384265-6384-4711-B6B5-D2E81E0B0E46}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +109,7 @@ Global
 		{862D197A-4099-41EB-AA17-72A1E6540086} = {74A92B02-DCC6-4CEB-A496-0B4F42A7F68C}
 		{C1C26A5D-334C-43C2-83B3-7CE4B5D02C6D} = {74A92B02-DCC6-4CEB-A496-0B4F42A7F68C}
 		{A20BCE92-12ED-45AD-B818-41BBA555F5FB} = {EFC8310F-C746-44C8-AEE3-CE84619D02EE}
+		{61384265-6384-4711-B6B5-D2E81E0B0E46} = {74A92B02-DCC6-4CEB-A496-0B4F42A7F68C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F188785-05DD-45DC-B44C-F4E9293F0BD4}
