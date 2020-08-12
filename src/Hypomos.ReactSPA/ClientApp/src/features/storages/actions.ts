@@ -1,5 +1,7 @@
-import { createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction, createAction } from 'typesafe-actions';
 import { Storage } from 'MyModels';
+
+export const createStorage = createAction('CREATE_STORAGE');
 
 export const loadStoragesAsync = createAsyncAction(
     'LOAD_STORAGES_REQUEST', 'LOAD_STORAGES_SUCCESS', 'LOAD_STORAGES_FAILURE', 'LOAD_STORAGES_CANCEL')
@@ -20,3 +22,4 @@ export const deleteStorageAsync = createAsyncAction(
 export const updateStorageAsync = createAsyncAction(
     'UPDATE_STORAGE_REQUEST', 'UPDATE_STORAGE_SUCCESS', 'UPDATE_STORAGE_FAILURE', 'UPDATE_STORAGE_CANCEL')
     <Storage, Storage[], Error, undefined>();
+
