@@ -31,7 +31,11 @@
         "Hypomos.IdentityServer": {},
         "Hypomos.ReactSPA": {}
       }
-    }
-
+    },
+    "Identity": {
+      "Projects": {
+        "Hypomos.IdentityServer": {}
+      }
+    } 
   }
 }

@@ -1,15 +1,30 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vite" />
+
+  <div id="nav">
+    <router-link :to="homePath">Home</router-link>
+    <router-link :to="helloPath">Hello</router-link>
+    <router-link :to="simplePath">Simple</router-link>
+  </div>
+  <router-view />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import { HomePath, HelloPath, SimplePath } from "./router";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      homePath: HomePath.path,
+      helloPath: HelloPath.path,
+      simplePath: SimplePath.path
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    RouterLink,
+    RouterView,
+  },
+};
 </script>
