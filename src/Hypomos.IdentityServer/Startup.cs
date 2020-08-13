@@ -1,34 +1,27 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace Hypomos.IdentityServer
 {
-    using Hypomos.IdentityServer.Quickstart;
     using IdentityServer4;
-    using IdentityServer4.Services;
-    using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-
         public Startup(IWebHostEnvironment environment)
         {
-            Environment = environment;
-        } 
+            this.Environment = environment;
+        }
+
+        public IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICorsPolicyService>(provider => 
-                new DefaultCorsPolicyService(provider.GetService<ILogger<DefaultCorsPolicyService>>())
-            {
-                AllowedOrigins = { "http://localhost:5010", "http://localhost:3000" }
-            });
+            // uncomment, if you want to add an MVC-based UI
+            services.AddControllersWithViews();
 
             services.AddAuthentication()
                 .AddMicrosoftAccount("Microsoft", options =>
@@ -41,29 +34,28 @@ namespace Hypomos.IdentityServer
                     //options.Scope.Add("id_token");
                 });
 
-            // uncomment, if you want to add an MVC-based UI
-            services.AddControllersWithViews();
+            var builder = services.AddIdentityServer(options =>
+                {
+                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                    //options.EmitStaticAudienceClaim = true;
+                })
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryClients(Config.Clients);
 
-            var builder = services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Config.Ids)
-                .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients)
-                .AddTestUsers(TestUsers.Users);
-
-            if (Environment.IsDevelopment())
-            {
-                // not recommended for production - you need to store your key material somewhere secure
-                builder.AddDeveloperSigningCredential();
-            }
+            // not recommended for production - you need to store your key material somewhere secure
+            builder.AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevelopment())
+            if (this.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHsts();
+            
             // uncomment if you want to add MVC
             app.UseStaticFiles();
             app.UseRouting();

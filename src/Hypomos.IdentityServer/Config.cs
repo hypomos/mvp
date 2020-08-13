@@ -1,31 +1,26 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
-using IdentityServer4.Models;
-using System.Collections.Generic;
-
 namespace Hypomos.IdentityServer
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using IdentityServer4.Models;
 
     public static class Config
     {
-        public static IEnumerable<IdentityResource> Ids =>
+        public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
-            { 
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+            {
+                new IdentityResources.OpenId()
             };
 
-        public static IEnumerable<ApiResource> Apis =>
-            new ApiResource[]
-            {
-                new ApiResource("hypomos", "Hypomos API"),
-            };
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new[]
+                {new ApiScope("hypomos", "Hypomos API")};
 
         public static IEnumerable<Client> Clients =>
-            new Client[]
+            new[]
             {
                 new Client
                 {
@@ -46,14 +41,33 @@ namespace Hypomos.IdentityServer
                 },
                 new Client
                 {
+                    ClientName = "hypomos-web-app",
                     ClientId = "hypomos-web-app",
+                    AccessTokenType = AccessTokenType.Reference,
+                    AccessTokenLifetime = 330,
+                    IdentityTokenLifetime = 300,
+
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+ 
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:3000/",
+                        "https://localhost:3000"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:3000"
+                    },
+
                     AllowedScopes = AllScopes(),
-                    AllowedGrantTypes = GrantTypes.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:3000/callback"
+                        "https://localhost:3000/app",
+                        "https://localhost:3000/callback.html",
+                        "https://localhost:3000/silent-renew.html",
                     },
-                    AccessTokenType = AccessTokenType.Jwt,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
                 }
@@ -61,9 +75,13 @@ namespace Hypomos.IdentityServer
 
         private static List<string> AllScopes()
         {
-            return Apis
-                .SelectMany(r => r.Scopes.Select(s => s.Name))
-                .Concat(new List<string>{"openid", "profile"}).ToList();
+            return ApiScopes
+                .Select(r => r.Name)
+                .Concat(new List<string> {"openid",
+                    "role",
+                    "profile",
+                    "email"})
+                .ToList();
         }
     }
 }

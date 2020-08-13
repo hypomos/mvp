@@ -1,7 +1,7 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-namespace Hypomos.IdentityServer.Quickstart.Account
+namespace IdentityServerHost.Quickstart.UI
 {
     using System;
     using System.Linq;
@@ -20,19 +20,21 @@ namespace Hypomos.IdentityServer.Quickstart.Account
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
-    /// The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
-    /// The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
+    ///     This sample controller implements a typical login/logout/provision workflow for local and external accounts.
+    ///     The login service encapsulates the interactions with the user data store. This data store is in-memory only and
+    ///     cannot be used for production!
+    ///     The interaction service provides a way for the UI to communicate with identityserver for validation and context
+    ///     retrieval
     /// </summary>
     [SecurityHeaders]
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly TestUserStore _users;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -52,7 +54,7 @@ namespace Hypomos.IdentityServer.Quickstart.Account
         }
 
         /// <summary>
-        /// Entry point into the login workflow
+        ///     Entry point into the login workflow
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
@@ -63,14 +65,14 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
-                return this.RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
+                return this.RedirectToAction("Challenge", "External", new {scheme = vm.ExternalLoginScheme, returnUrl});
             }
 
             return this.View(vm);
         }
 
         /// <summary>
-        /// Handle postback from username/password login
+        ///     Handle postback from username/password login
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,23 +89,21 @@ namespace Hypomos.IdentityServer.Quickstart.Account
                     // if the user cancels, send a result back into IdentityServer as if they 
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
-                    await this._interaction.GrantConsentAsync(context, ConsentResponse.Denied);
+                    await this._interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    if (await this._clientStore.IsPkceClientAsync(context.ClientId))
+                    if (context.IsNativeClient())
                     {
-                        // if the client is PKCE then we assume it's native, so this change in how to
+                        // The client is native, so this change in how to
                         // return the response is for better UX for the end user.
                         return this.LoadingPage("Redirect", model.ReturnUrl);
                     }
 
                     return this.Redirect(model.ReturnUrl);
                 }
-                else
-                {
-                    // since we don't have a valid context, then we just go back to the home page
-                    return this.Redirect("~/");
-                }
+
+                // since we don't have a valid context, then we just go back to the home page
+                return this.Redirect("~/");
             }
 
             if (this.ModelState.IsValid)
@@ -112,19 +112,23 @@ namespace Hypomos.IdentityServer.Quickstart.Account
                 if (this._users.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = this._users.FindByUsername(model.Username);
-                    await this._events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.ClientId));
+                    await this._events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId,
+                        user.Username, clientId: context?.Client.ClientId));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                    if (AccountOptions.AllowRememberLogin &&
+                        model.RememberLogin)
                     {
                         props = new AuthenticationProperties
                         {
                             IsPersistent = true,
                             ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
                         };
-                    };
+                    }
+
+                    ;
 
                     // issue authentication cookie with subject ID and username
                     var isuser = new IdentityServerUser(user.SubjectId)
@@ -136,9 +140,9 @@ namespace Hypomos.IdentityServer.Quickstart.Account
 
                     if (context != null)
                     {
-                        if (await this._clientStore.IsPkceClientAsync(context.ClientId))
+                        if (context.IsNativeClient())
                         {
-                            // if the client is PKCE then we assume it's native, so this change in how to
+                            // The client is native, so this change in how to
                             // return the response is for better UX for the end user.
                             return this.LoadingPage("Redirect", model.ReturnUrl);
                         }
@@ -152,18 +156,18 @@ namespace Hypomos.IdentityServer.Quickstart.Account
                     {
                         return this.Redirect(model.ReturnUrl);
                     }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
+
+                    if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
                         return this.Redirect("~/");
                     }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
-                    }
+
+                    // user might have clicked on a malicious link - should be logged
+                    throw new Exception("invalid return URL");
                 }
 
-                await this._events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));
+                await this._events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials",
+                    clientId: context?.Client.ClientId));
                 this.ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -172,9 +176,8 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             return this.View(vm);
         }
 
-        
         /// <summary>
-        /// Show logout page
+        ///     Show logout page
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
@@ -193,7 +196,7 @@ namespace Hypomos.IdentityServer.Quickstart.Account
         }
 
         /// <summary>
-        /// Handle logout page postback
+        ///     Handle logout page postback
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -208,7 +211,8 @@ namespace Hypomos.IdentityServer.Quickstart.Account
                 await this.HttpContext.SignOutAsync();
 
                 // raise the logout event
-                await this._events.RaiseAsync(new UserLogoutSuccessEvent(this.User.GetSubjectId(), this.User.GetDisplayName()));
+                await this._events.RaiseAsync(new UserLogoutSuccessEvent(this.User.GetSubjectId(),
+                    this.User.GetDisplayName()));
             }
 
             // check if we need to trigger sign-out at an upstream identity provider
@@ -217,10 +221,10 @@ namespace Hypomos.IdentityServer.Quickstart.Account
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                string url = this.Url.Action("Logout", new { logoutId = vm.LogoutId });
+                var url = this.Url.Action("Logout", new {logoutId = vm.LogoutId});
 
                 // this triggers a redirect to the external provider for sign-out
-                return this.SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+                return this.SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
             }
 
             return this.View("LoggedOut", vm);
@@ -232,28 +236,28 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             return this.View();
         }
 
-
         /*****************************************/
         /* helper APIs for the AccountController */
         /*****************************************/
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await this._interaction.GetAuthorizationContextAsync(returnUrl);
-            if (context?.IdP != null && await this._schemeProvider.GetSchemeAsync(context.IdP) != null)
+            if ((context?.IdP != null) &&
+                (await this._schemeProvider.GetSchemeAsync(context.IdP) != null))
             {
-                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+                var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
                 var vm = new LoginViewModel
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    Username = context?.LoginHint
                 };
 
                 if (!local)
                 {
-                    vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
+                    vm.ExternalProviders = new[] {new ExternalProvider {AuthenticationScheme = context.IdP}};
                 }
 
                 return vm;
@@ -262,26 +266,28 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             var schemes = await this._schemeProvider.GetAllSchemesAsync();
 
             var providers = schemes
-                .Where(x => x.DisplayName != null ||
-                            (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName, StringComparison.OrdinalIgnoreCase))
-                )
+                .Where(x => x.DisplayName != null)
                 .Select(x => new ExternalProvider
                 {
                     DisplayName = x.DisplayName ?? x.Name,
                     AuthenticationScheme = x.Name
-                }).ToList();
+                })
+                .ToList();
 
             var allowLocal = true;
-            if (context?.ClientId != null)
+            if (context?.Client.ClientId != null)
             {
-                var client = await this._clientStore.FindEnabledClientByIdAsync(context.ClientId);
+                var client = await this._clientStore.FindEnabledClientByIdAsync(context.Client.ClientId);
                 if (client != null)
                 {
                     allowLocal = client.EnableLocalLogin;
 
-                    if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+                    if ((client.IdentityProviderRestrictions != null) &&
+                        client.IdentityProviderRestrictions.Any())
                     {
-                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                        providers = providers.Where(provider =>
+                                client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme))
+                            .ToList();
                     }
                 }
             }
@@ -306,7 +312,7 @@ namespace Hypomos.IdentityServer.Quickstart.Account
 
         private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
         {
-            var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
+            var vm = new LogoutViewModel {LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt};
 
             if (this.User?.Identity.IsAuthenticated != true)
             {
@@ -345,7 +351,8 @@ namespace Hypomos.IdentityServer.Quickstart.Account
             if (this.User?.Identity.IsAuthenticated == true)
             {
                 var idp = this.User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-                if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)
+                if ((idp != null) &&
+                    (idp != IdentityServerConstants.LocalIdentityProvider))
                 {
                     var providerSupportsSignout = await this.HttpContext.GetSchemeSupportsSignOutAsync(idp);
                     if (providerSupportsSignout)

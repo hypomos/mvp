@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
-
 namespace Hypomos.IdentityServer
 {
+    using System;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
+    using Serilog.Events;
+    using Serilog.Sinks.SystemConsole.Themes;
+
     public class Program
     {
         public static int Main(string[] args)
@@ -22,6 +21,7 @@ namespace Hypomos.IdentityServer
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
+
                 // uncomment to write to Azure diagnostics stream
                 //.WriteTo.File(
                 //    @"D:\home\LogFiles\Application\identityserver.txt",
@@ -29,7 +29,10 @@ namespace Hypomos.IdentityServer
                 //    rollOnFileSizeLimit: true,
                 //    shared: true,
                 //    flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                    theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
 
             try
@@ -49,12 +52,11 @@ namespace Hypomos.IdentityServer
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
     }
 }

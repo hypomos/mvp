@@ -1,7 +1,7 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-namespace Hypomos.IdentityServer.Quickstart.Diagnostics
+namespace IdentityServerHost.Quickstart.UI
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace Hypomos.IdentityServer.Quickstart.Diagnostics
     {
         public async Task<IActionResult> Index()
         {
-            var localAddresses = new string[] { "127.0.0.1", "::1", this.HttpContext.Connection.LocalIpAddress.ToString() };
+            var localAddresses = new[] {"127.0.0.1", "::1", this.HttpContext.Connection.LocalIpAddress.ToString()};
             if (!localAddresses.Contains(this.HttpContext.Connection.RemoteIpAddress.ToString()))
             {
                 return this.NotFound();

@@ -1,7 +1,7 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-namespace Hypomos.IdentityServer.Quickstart.Home
+namespace IdentityServerHost.Quickstart.UI
 {
     using System.Threading.Tasks;
     using IdentityServer4.Services;
@@ -15,11 +15,12 @@ namespace Hypomos.IdentityServer.Quickstart.Home
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IWebHostEnvironment _environment;
+        private readonly IIdentityServerInteractionService _interaction;
         private readonly ILogger _logger;
 
-        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
+        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment,
+            ILogger<HomeController> logger)
         {
             this._interaction = interaction;
             this._environment = environment;
@@ -39,7 +40,7 @@ namespace Hypomos.IdentityServer.Quickstart.Home
         }
 
         /// <summary>
-        /// Shows the error page
+        ///     Shows the error page
         /// </summary>
         public async Task<IActionResult> Error(string errorId)
         {

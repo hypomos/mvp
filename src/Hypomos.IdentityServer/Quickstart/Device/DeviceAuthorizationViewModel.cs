@@ -1,11 +1,8 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
-namespace Hypomos.IdentityServer.Quickstart.Device
+namespace IdentityServerHost.Quickstart.UI
 {
-    using Hypomos.IdentityServer.Quickstart.Consent;
-
     public class DeviceAuthorizationViewModel : ConsentViewModel
     {
         public string UserCode { get; set; }
