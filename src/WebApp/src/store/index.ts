@@ -1,4 +1,7 @@
 import { createStore } from 'vuex';
+import { vuexOidcCreateStoreModule } from 'vuex-oidc'
+
+import { oidcSettings } from '../config/oidc'
 import { State } from './state';
 
 export const store = createStore<State>({
@@ -16,5 +19,8 @@ export const store = createStore<State>({
     incrementCount: (state, payload) => {
       state.count++;
     }
+  },
+  modules: {
+    oidcStore: vuexOidcCreateStoreModule(oidcSettings, { namespaced: true, isAuthenticatedBy: 'access_token' })
   }
 });

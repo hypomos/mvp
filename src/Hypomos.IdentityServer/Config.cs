@@ -65,8 +65,8 @@ namespace Hypomos.IdentityServer
                     RedirectUris = new List<string>
                     {
                         "https://localhost:3000/app",
-                        "https://localhost:3000/callback.html",
-                        "https://localhost:3000/silent-renew.html",
+                        "https://localhost:3000/callback",
+                        "https://localhost:3000/silent-renew",
                     },
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false

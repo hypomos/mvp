@@ -1,11 +1,12 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import { store } from "./store";
+import { createApp } from 'vue';
+import { vuexOidcCreateRouterMiddleware } from 'vuex-oidc';
+
+import App from './App.vue';
+import { store } from './store';
 import { router } from './router';
 
-import "./index.css";
+import './index.css';
 
-createApp(App)
-.use(store)
-.use(router)
-.mount("#app");
+router.beforeEach(vuexOidcCreateRouterMiddleware(store));
+
+createApp(App).use(store).use(router).mount('#app');
