@@ -21,6 +21,6 @@ export const store = createStore<State>({
     }
   },
   modules: {
-    oidcStore: vuexOidcCreateStoreModule(oidcSettings, { namespaced: true, isAuthenticatedBy: 'access_token' })
+    oidcStore: vuexOidcCreateStoreModule(oidcSettings, { isAuthenticatedBy: 'access_token' })
   }
 });

@@ -12,12 +12,15 @@ namespace Hypomos.IdentityServer
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new[]
-                {new ApiScope("hypomos", "Hypomos API")};
+            {
+                new ApiScope("hypomos", "Hypomos API")
+            };
 
         public static IEnumerable<Client> Clients =>
             new[]
@@ -48,25 +51,25 @@ namespace Hypomos.IdentityServer
                     IdentityTokenLifetime = 300,
 
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     RequirePkce = true,
- 
+
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:3000/",
-                        "https://localhost:3000"
+                        "http://localhost:3000/",
+                        "http://localhost:3000"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:3000"
+                        "http://localhost:3000"
                     },
 
                     AllowedScopes = AllScopes(),
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:3000/app",
-                        "https://localhost:3000/callback",
-                        "https://localhost:3000/silent-renew",
+                        "http://localhost:3000/",
+                        "http://localhost:3000/oidc-callback",
+                        "http://localhost:3000/silent-renew"
                     },
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false
@@ -77,10 +80,13 @@ namespace Hypomos.IdentityServer
         {
             return ApiScopes
                 .Select(r => r.Name)
-                .Concat(new List<string> {"openid",
+                .Concat(new List<string>
+                {
+                    "openid",
                     "role",
                     "profile",
-                    "email"})
+                    "email"
+                })
                 .ToList();
         }
     }

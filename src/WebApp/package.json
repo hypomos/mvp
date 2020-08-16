@@ -2,7 +2,7 @@
   "name": "WebApp",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --https",
+    "dev": "vite",
     "build": "vite build"
   },
   "dependencies": {

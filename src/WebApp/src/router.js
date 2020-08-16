@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HelloWorld from './components/HelloWorld.vue';
 import Home from './components/Home.vue';
 import Simple from './components/Simple.vue';
+import OidcCallback from './components/OidcCallback.vue';
 
 export const HomePath = '/';
 export const HelloPath = '/hello';
