@@ -13,7 +13,8 @@ namespace Hypomos.IdentityServer
             new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(), 
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -82,11 +83,10 @@ namespace Hypomos.IdentityServer
                 .Select(r => r.Name)
                 .Concat(new List<string>
                 {
-                    "openid",
                     "role",
-                    "profile",
-                    "email"
                 })
+                .Concat(IdentityResources.Select(r => r.Name))
+                .Distinct()
                 .ToList();
         }
     }
