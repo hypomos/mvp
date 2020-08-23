@@ -7,6 +7,7 @@
 <script lang="ts">
   import { mapActions } from 'vuex';
   import { defineComponent } from 'vue';
+  import { OidcErrorPath } from '../router';
 
   export default defineComponent({
     name: 'OidcCallback',
@@ -16,13 +17,11 @@
     mounted() {
       this.oidcSignInCallback()
         .then((redirectPath) => {
-          debugger;
           this.$router.push(redirectPath);
         })
         .catch((err) => {
-          debugger;
           console.error(err);
-          this.$router.push('/oidc-callback-error'); // Handle errors any way you want
+          this.$router.push(OidcErrorPath); // Handle errors any way you want
         });
     },
   });
