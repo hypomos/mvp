@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FFMpegCore" Version="2.2.1" />
-    <PackageReference Include="MetadataExtractor" Version="2.4.2" />
+    <PackageReference Include="FFMpegCore" Version="2.2.6" />
+    <PackageReference Include="MetadataExtractor" Version="2.4.3" />
   </ItemGroup>
 
 </Project>
