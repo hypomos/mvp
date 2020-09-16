@@ -16,13 +16,7 @@ namespace IdentityServerHost.Quickstart.UI
         {
             get
             {
-                var address = new
-                {
-                    street_address = "One Hacker Way",
-                    locality = "Heidelberg",
-                    postal_code = 69118,
-                    country = "Germany"
-                };
+                var address = new { street_address = "One Hacker Way", locality = "Heidelberg", postal_code = 69118, country = "Germany" };
 
                 return new List<TestUser>
                 {
@@ -39,8 +33,7 @@ namespace IdentityServerHost.Quickstart.UI
                             new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                             new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                             new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                            new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address),
-                                IdentityServerConstants.ClaimValueTypes.Json)
+                            new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
                         }
                     },
                     new TestUser
@@ -56,8 +49,7 @@ namespace IdentityServerHost.Quickstart.UI
                             new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
                             new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                            new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address),
-                                IdentityServerConstants.ClaimValueTypes.Json)
+                            new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
                         }
                     }
                 };

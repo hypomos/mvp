@@ -21,14 +21,14 @@ namespace IdentityServerHost.Quickstart.UI
     public class GrantsController : Controller
     {
         private readonly IClientStore _clients;
+
         private readonly IEventService _events;
+
         private readonly IIdentityServerInteractionService _interaction;
+
         private readonly IResourceStore _resources;
 
-        public GrantsController(IIdentityServerInteractionService interaction,
-            IClientStore clients,
-            IResourceStore resources,
-            IEventService events)
+        public GrantsController(IIdentityServerInteractionService interaction, IClientStore clients, IResourceStore resources, IEventService events)
         {
             this._interaction = interaction;
             this._clients = clients;
@@ -79,18 +79,17 @@ namespace IdentityServerHost.Quickstart.UI
                         Description = grant.Description,
                         Created = grant.CreationTime,
                         Expires = grant.Expiration,
-                        IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
-                        ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name).ToArray()
+                        IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name)
+                            .ToArray(),
+                        ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name)
+                            .ToArray()
                     };
 
                     list.Add(item);
                 }
             }
 
-            return new GrantsViewModel
-            {
-                Grants = list
-            };
+            return new GrantsViewModel { Grants = list };
         }
     }
 }

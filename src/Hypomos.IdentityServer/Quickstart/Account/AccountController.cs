@@ -31,17 +31,16 @@ namespace IdentityServerHost.Quickstart.UI
     public class AccountController : Controller
     {
         private readonly IClientStore _clientStore;
+
         private readonly IEventService _events;
+
         private readonly IIdentityServerInteractionService _interaction;
+
         private readonly IAuthenticationSchemeProvider _schemeProvider;
+
         private readonly TestUserStore _users;
 
-        public AccountController(
-            IIdentityServerInteractionService interaction,
-            IClientStore clientStore,
-            IAuthenticationSchemeProvider schemeProvider,
-            IEventService events,
-            TestUserStore users = null)
+        public AccountController(IIdentityServerInteractionService interaction, IClientStore clientStore, IAuthenticationSchemeProvider schemeProvider, IEventService events, TestUserStore users = null)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -65,7 +64,7 @@ namespace IdentityServerHost.Quickstart.UI
             if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
-                return this.RedirectToAction("Challenge", "External", new {scheme = vm.ExternalLoginScheme, returnUrl});
+                return this.RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
             }
 
             return this.View(vm);
@@ -112,29 +111,20 @@ namespace IdentityServerHost.Quickstart.UI
                 if (this._users.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = this._users.FindByUsername(model.Username);
-                    await this._events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId,
-                        user.Username, clientId: context?.Client.ClientId));
+                    await this._events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.Client.ClientId));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin &&
-                        model.RememberLogin)
+                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                     {
-                        props = new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                        };
+                        props = new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration) };
                     }
 
                     ;
 
                     // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(user.SubjectId)
-                    {
-                        DisplayName = user.Username
-                    };
+                    var isuser = new IdentityServerUser(user.SubjectId) { DisplayName = user.Username };
 
                     await this.HttpContext.SignInAsync(isuser, props);
 
@@ -166,8 +156,7 @@ namespace IdentityServerHost.Quickstart.UI
                     throw new Exception("invalid return URL");
                 }
 
-                await this._events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials",
-                    clientId: context?.Client.ClientId));
+                await this._events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 this.ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -211,8 +200,7 @@ namespace IdentityServerHost.Quickstart.UI
                 await this.HttpContext.SignOutAsync();
 
                 // raise the logout event
-                await this._events.RaiseAsync(new UserLogoutSuccessEvent(this.User.GetSubjectId(),
-                    this.User.GetDisplayName()));
+                await this._events.RaiseAsync(new UserLogoutSuccessEvent(this.User.GetSubjectId(), this.User.GetDisplayName()));
             }
 
             // check if we need to trigger sign-out at an upstream identity provider
@@ -221,10 +209,10 @@ namespace IdentityServerHost.Quickstart.UI
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                var url = this.Url.Action("Logout", new {logoutId = vm.LogoutId});
+                var url = this.Url.Action("Logout", new { logoutId = vm.LogoutId });
 
                 // this triggers a redirect to the external provider for sign-out
-                return this.SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
+                return this.SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
             return this.View("LoggedOut", vm);
@@ -242,22 +230,16 @@ namespace IdentityServerHost.Quickstart.UI
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await this._interaction.GetAuthorizationContextAsync(returnUrl);
-            if ((context?.IdP != null) &&
-                (await this._schemeProvider.GetSchemeAsync(context.IdP) != null))
+            if (context?.IdP != null && await this._schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
                 var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
-                var vm = new LoginViewModel
-                {
-                    EnableLocalLogin = local,
-                    ReturnUrl = returnUrl,
-                    Username = context?.LoginHint
-                };
+                var vm = new LoginViewModel { EnableLocalLogin = local, ReturnUrl = returnUrl, Username = context?.LoginHint };
 
                 if (!local)
                 {
-                    vm.ExternalProviders = new[] {new ExternalProvider {AuthenticationScheme = context.IdP}};
+                    vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
                 }
 
                 return vm;
@@ -265,13 +247,8 @@ namespace IdentityServerHost.Quickstart.UI
 
             var schemes = await this._schemeProvider.GetAllSchemesAsync();
 
-            var providers = schemes
-                .Where(x => x.DisplayName != null)
-                .Select(x => new ExternalProvider
-                {
-                    DisplayName = x.DisplayName ?? x.Name,
-                    AuthenticationScheme = x.Name
-                })
+            var providers = schemes.Where(x => x.DisplayName != null)
+                .Select(x => new ExternalProvider { DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name })
                 .ToList();
 
             var allowLocal = true;
@@ -282,11 +259,9 @@ namespace IdentityServerHost.Quickstart.UI
                 {
                     allowLocal = client.EnableLocalLogin;
 
-                    if ((client.IdentityProviderRestrictions != null) &&
-                        client.IdentityProviderRestrictions.Any())
+                    if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
                     {
-                        providers = providers.Where(provider =>
-                                client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme))
+                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme))
                             .ToList();
                     }
                 }
@@ -312,7 +287,7 @@ namespace IdentityServerHost.Quickstart.UI
 
         private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
         {
-            var vm = new LogoutViewModel {LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt};
+            var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
 
             if (this.User?.Identity.IsAuthenticated != true)
             {
@@ -350,9 +325,9 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (this.User?.Identity.IsAuthenticated == true)
             {
-                var idp = this.User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-                if ((idp != null) &&
-                    (idp != IdentityServerConstants.LocalIdentityProvider))
+                var idp = this.User.FindFirst(JwtClaimTypes.IdentityProvider)
+                    ?.Value;
+                if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
                 {
                     var providerSupportsSignout = await this.HttpContext.GetSchemeSupportsSignOutAsync(idp);
                     if (providerSupportsSignout)

@@ -1,28 +1,32 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-    <title>IdentityServer4</title>
+    <title>Hypomos Login</title>
 
-    <link rel="icon" type="image/x-icon" href="~/favicon.ico"/>
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css"/>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>*@
+    <link rel="stylesheet" href="~/css/tailwind.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-<partial name="_Nav"/>
 
-<div class="container body-container">
+<body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+    <header class="max-w-lg mx-auto">
+        <a href="#">
+            <h1 class="text-4xl font-bold text-white text-center">Hypomos</h1>
+        </a>
+    </header>
+
     @RenderBody()
-</div>
+    
+    @*<script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 
-<script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-@RenderSection("scripts", false)
+    @RenderSection("scripts", false)
 </body>
 </html>

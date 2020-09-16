@@ -13,7 +13,7 @@ namespace IdentityServerHost.Quickstart.UI
 
         public ErrorViewModel(string error)
         {
-            this.Error = new ErrorMessage {Error = error};
+            this.Error = new ErrorMessage { Error = error };
         }
 
         public ErrorMessage Error { get; set; }

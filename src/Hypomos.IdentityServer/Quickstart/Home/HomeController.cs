@@ -16,11 +16,12 @@ namespace IdentityServerHost.Quickstart.UI
     public class HomeController : Controller
     {
         private readonly IWebHostEnvironment _environment;
+
         private readonly IIdentityServerInteractionService _interaction;
+
         private readonly ILogger _logger;
 
-        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment,
-            ILogger<HomeController> logger)
+        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
         {
             this._interaction = interaction;
             this._environment = environment;

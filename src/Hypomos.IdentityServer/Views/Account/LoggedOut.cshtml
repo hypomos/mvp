@@ -5,16 +5,18 @@
     ViewData["signed-out"] = true;
 }
 
-<div class="logged-out-page">
-    <h1>
-        Logout
-        <small>You are now logged out</small>
-    </h1>
+
+<main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+    <section>
+        <h1 class="font-bold text-2xl">Logout</h1>
+        <p>You are now logged out</p>
+    </section>
+
 
     @if (Model.PostLogoutRedirectUri != null)
     {
         <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
+            Click <a class="text-blue-600" href="@Model.PostLogoutRedirectUri">here</a> to return to the
             <span>@Model.ClientName</span> application.
         </div>
     }
@@ -23,7 +25,8 @@
     {
         <iframe width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>
     }
-</div>
+
+</main>
 
 @section scripts
 {

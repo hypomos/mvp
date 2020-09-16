@@ -45,7 +45,7 @@ namespace Hypomos.IdentityServer
                 },
                 new Client
                 {
-                    ClientName = "hypomos-web-app",
+                    ClientName = "Hypomos",
                     ClientId = "hypomos-web-app",
                     AccessTokenType = AccessTokenType.Reference,
                     AccessTokenLifetime = 330,

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import HelloWorld from './components/HelloWorld.vue';
+import HelloWorld from './components/Hello/HelloWorld.vue';
+import HelloDetail from './components/Hello/HelloDetail.vue';
 import Home from './components/Home.vue';
 import Simple from './components/Simple.vue';
 
@@ -10,22 +11,12 @@ import OidcError from './components/OidcError.vue';
 
 import Secret from './components/Secret.vue';
 
-export const HomePath = '/';
-export const HelloPath = '/hello';
-export const SimplePath = '/simple';
-
-export const OidcCallbackPath = '/oidc-callback';
-export const OidcSilentRenewPath = '/silentRenew';
-export const OidcErrorPath = '/oidc-callback-error';
-
-export const SecretPath = '/secret';
-
 // there is also createWebHashHistory and createMemoryHistory
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: HomePath,
+      path: '/',
       name: 'home',
       component: Home,
       meta: {
@@ -33,15 +24,22 @@ export const router = createRouter({
       }
     },
     {
-      path: HelloPath,
+      path: '/hello',
       name: 'hello',
       component: HelloWorld,
       meta: {
         isPublic: true
-      }
+      },
+      children: [
+        {
+          path: ':id',
+          component: HelloDetail,
+          name: 'helloDetail'
+        }
+      ]
     },
     {
-      path: SimplePath,
+      path: '/simple',
       name: 'simple',
       component: Simple,
       meta: {
@@ -49,7 +47,7 @@ export const router = createRouter({
       }
     },
     {
-      path: OidcSilentRenewPath, // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
+      path: '/silentRenew', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
       name: 'silent-renew',
       component: OidcSilentRenew,
       meta: {
@@ -57,7 +55,7 @@ export const router = createRouter({
       }
     },
     {
-      path: OidcCallbackPath, // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
+      path: '/oidc-callback', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
       name: 'oidcCallback',
       component: OidcCallback,
       meta: {
@@ -65,7 +63,7 @@ export const router = createRouter({
       }
     },
     {
-      path: OidcErrorPath, // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
+      path: '/oidc-callback-error', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
       name: 'oidcError',
       component: OidcError,
       meta: {
@@ -73,7 +71,7 @@ export const router = createRouter({
       }
     },
     {
-      path: SecretPath,
+      path: '/secret',
       name: 'secret',
       component: Secret,
       meta: {

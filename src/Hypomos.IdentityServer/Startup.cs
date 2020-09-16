@@ -4,6 +4,8 @@
 namespace Hypomos.IdentityServer
 {
     using IdentityServer4;
+    using IdentityServer4.Test;
+    using IdentityServerHost.Quickstart.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,7 @@ namespace Hypomos.IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddAuthentication()
                 .AddMicrosoftAccount("Microsoft", options =>
@@ -31,6 +33,7 @@ namespace Hypomos.IdentityServer
                     options.ClientId = "66b69578-2ab1-4d0e-ac50-041bfa4efc50";
                     options.ClientSecret = "wj874ezZOoo1ReLQAml/EHRG/WvIJ:c.";
 
+                    options.SaveTokens = true;
                     //options.Scope.Add("id_token");
                 });
 
@@ -42,6 +45,8 @@ namespace Hypomos.IdentityServer
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients);
+
+            services.AddScoped<TestUserStore>(provider => new TestUserStore(TestUsers.Users));
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();

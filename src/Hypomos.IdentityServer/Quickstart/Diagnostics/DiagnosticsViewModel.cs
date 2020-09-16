@@ -26,6 +26,7 @@ namespace IdentityServerHost.Quickstart.UI
         }
 
         public AuthenticateResult AuthenticateResult { get; }
+
         public IEnumerable<string> Clients { get; } = new List<string>();
     }
 }

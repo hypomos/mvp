@@ -2,35 +2,27 @@
   <img alt="Vue logo" src="./assets/logo.png" />
 
   <div id="nav">
-    <router-link :to="HomePath">Home</router-link>
-    <router-link :to="HelloPath">Hello</router-link>
-    <router-link :to="SimplePath">Simple</router-link>
-    <router-link :to="SecretPath">Secret</router-link>
+    <router-link :to="{ name:'home' }">Home</router-link>
+    <router-link :to="{ name:'hello' }">Hello</router-link>
+    <router-link :to="{ name:'simple' }">Simple</router-link>
+    <router-link :to="{ name:'secret' }">Secret</router-link>
+    <router-link :to="{ name: 'helloDetail', params: { id: 1 }}">HelloDetail1</router-link>
     <signed-in-as />
   </div>
   <router-view />
 </template>
 
 <script lang="ts">
-  import { RouterLink, RouterView } from 'vue-router';
-  import { HomePath, HelloPath, SimplePath, SecretPath } from './router';
+import { defineComponent } from 'vue';
+import { RouterLink, RouterView } from 'vue-router';
 
-  import SignedInAs from './components/SignedInAs.vue';
+import SignedInAs from './components/SignedInAs.vue';
 
-  export default {
-    name: 'App',
-    data() {
-      return {
-        HomePath,
-        HelloPath,
-        SimplePath,
-        SecretPath
-      };
-    },
-    components: {
-      RouterLink,
-      RouterView,
-      SignedInAs
-    },
-  };
+export default defineComponent({
+  components: {
+    RouterLink,
+    RouterView,
+    SignedInAs,
+  },
+});
 </script>

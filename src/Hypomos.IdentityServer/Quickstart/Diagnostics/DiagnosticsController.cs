@@ -15,7 +15,7 @@ namespace IdentityServerHost.Quickstart.UI
     {
         public async Task<IActionResult> Index()
         {
-            var localAddresses = new[] {"127.0.0.1", "::1", this.HttpContext.Connection.LocalIpAddress.ToString()};
+            var localAddresses = new[] { "127.0.0.1", "::1", this.HttpContext.Connection.LocalIpAddress.ToString() };
             if (!localAddresses.Contains(this.HttpContext.Connection.RemoteIpAddress.ToString()))
             {
                 return this.NotFound();
