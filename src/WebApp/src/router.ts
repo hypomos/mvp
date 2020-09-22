@@ -47,7 +47,7 @@ export const router = createRouter({
       }
     },
     {
-      path: '/silentRenew', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
+      path: '/silent-renew', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings
       name: 'silent-renew',
       component: OidcSilentRenew,
       meta: {

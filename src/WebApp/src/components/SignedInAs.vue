@@ -1,6 +1,6 @@
 <template>
   <div v-if="oidcUser">
-    Signed in as {{ signedIn }}
+    {{ oidcUser.name }}
     <button @click="signOutOidc">Sign out</button>
   </div>
 </template>
@@ -12,10 +12,6 @@ export default {
   name: 'SignedInAs',
   
   computed: {
-    signedIn():string {
-      debugger;
-      return this.$store.state.oidcStore?.user;
-    },
     ...mapGetters(['oidcUser']),
   },
   methods: {

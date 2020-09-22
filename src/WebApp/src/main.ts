@@ -5,7 +5,7 @@ import App from './App.vue';
 import { store } from './store';
 import { router } from './router';
 
-import './index.css';
+import './assets/main.css';
 
 router.beforeEach(vuexOidcCreateRouterMiddleware(store));
 

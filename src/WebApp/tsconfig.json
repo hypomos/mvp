@@ -8,6 +8,8 @@
       "moduleResolution": "node",
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
+      "isolatedModules": true,
+      "noEmit": true,
       "sourceMap": true,
       "baseUrl": ".",
       "types": [

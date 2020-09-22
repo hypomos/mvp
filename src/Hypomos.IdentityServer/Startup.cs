@@ -3,11 +3,16 @@
 
 namespace Hypomos.IdentityServer
 {
+    using System.Linq;
+    using System.Reflection;
     using IdentityServer4;
+    using IdentityServer4.EntityFramework.DbContexts;
+    using IdentityServer4.EntityFramework.Mappers;
     using IdentityServer4.Test;
     using IdentityServerHost.Quickstart.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
@@ -37,16 +42,33 @@ namespace Hypomos.IdentityServer
                     //options.Scope.Add("id_token");
                 });
 
-            var builder = services.AddIdentityServer(options =>
-                {
-                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                    // options.EmitStaticAudienceClaim = true;
-                })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=Hypomos-Identity;trusted_connection=yes;";
+            
+            var builder = services.AddIdentityServer(
+                    options =>
+                    {
+                        // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                        // options.EmitStaticAudienceClaim = true;
+                    })
+                .AddTestUsers(TestUsers.Users)
+                .AddOperationalStore(
+                    options =>
+                    {
+                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+                    })
+                .AddConfigurationStore(
+                    options =>
+                    {
+                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+                    });
+                //.AddInMemoryIdentityResources(Config.IdentityResources)
+                //.AddInMemoryApiScopes(Config.ApiScopes)
+                //.AddInMemoryClients(Config.Clients);
 
-            services.AddScoped<TestUserStore>(provider => new TestUserStore(TestUsers.Users));
+            //services.AddScoped<TestUserStore>(provider => new TestUserStore(TestUsers.Users));
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -58,6 +80,8 @@ namespace Hypomos.IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            InitializeDatabase(app);
 
             app.UseHsts();
             
@@ -78,6 +102,43 @@ namespace Hypomos.IdentityServer
             {
                 endpoints.MapDefaultControllerRoute();
             });
+        }
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in Config.Clients)
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in Config.IdentityResources)
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiScopes.Any())
+                {
+                    foreach (var resource in Config.ApiScopes)
+                    {
+                        context.ApiScopes.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }
