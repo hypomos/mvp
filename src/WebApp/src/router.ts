@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import HelloWorld from './components/Hello/HelloWorld.vue';
 import HelloDetail from './components/Hello/HelloDetail.vue';
-import Home from './components/Home.vue';
-import Simple from './components/Simple.vue';
 
-import OidcCallback from './components/OidcCallback.vue';
-import OidcSilentRenew from './components/SilentRenew.vue';
-import OidcError from './components/OidcError.vue';
+import Home from './components/Home.vue';
+import App from './components/App/App.vue';
+
+import OidcCallback from './components/Oidc/OidcCallback.vue';
+import OidcSilentRenew from './components/Oidc/SilentRenew.vue';
+import OidcError from './components/Oidc/OidcError.vue';
 
 import Secret from './components/Secret.vue';
 
@@ -20,7 +21,17 @@ export const router = createRouter({
       name: 'home',
       component: Home,
       meta: {
-        isPublic: true
+        isPublic: true,
+        layout: 'empty'
+      }
+    },
+    {
+      path: '/app',
+      name: 'app',
+      component: App,
+      meta: {
+        isPublic: false,
+        layout: 'default'
       }
     },
     {
@@ -37,14 +48,6 @@ export const router = createRouter({
           name: 'helloDetail'
         }
       ]
-    },
-    {
-      path: '/simple',
-      name: 'simple',
-      component: Simple,
-      meta: {
-        isPublic: true
-      }
     },
     {
       path: '/silent-renew', // Needs to match redirectUri (redirect_uri if you use snake case) in your oidcSettings

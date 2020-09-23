@@ -18,8 +18,8 @@
 import { defineComponent, ref } from 'vue';
 
 import { useSidebar } from '../hooks/useSidebar';
-import Sidebar from '../components/Sidebar.vue';
-import Header from '../components/Header.vue';
+import Sidebar from '../components/Sidebar/Sidebar.vue';
+import Header from '../components/Header/Header.vue';
 
 export default defineComponent({
   components: {
