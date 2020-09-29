@@ -4,7 +4,9 @@ stages:
   - runScriptConfig:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
       shellScript: |-
-        dotnet tool install --global Cake.Tool --version 0.38.4
+        dotnet tool install --global Cake.Tool --version 0.38.5
+        export PATH="$PATH:/root/.dotnet/tools"
+
         dotnet cake build.cake --target=Sample
         ls -al ./artifacts
 timeout: 60

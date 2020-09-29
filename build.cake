@@ -36,7 +36,7 @@ Task("Restore")
 {
     DotNetCoreRestore(solution, new DotNetCoreRestoreSettings
     {
-        Sources = new [] { "http://192.168.5.18/v3/index.json" }
+        // Sources = new [] { "http://192.168.5.18/v3/index.json" }
     });
 });
 
