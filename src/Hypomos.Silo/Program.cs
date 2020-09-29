@@ -50,12 +50,8 @@
 #if DEBUG
                         .UseLocalhostClustering()
 #else
-                        .ConfigureEndpoints(random.Next(10001, 10100), random.Next(20001, 20100))
-                        .UseKubeMembership(optionsBuilder =>
-                        {
-                            optionsBuilder.CanCreateResources = false;
-                            optionsBuilder.DropResourcesOnInit = false;
-                        })
+                        //.ConfigureEndpoints(random.Next(10001, 10100), random.Next(20001, 20100))
+                        .UseKubeMembership()
 #endif
                         .Configure<ClusterOptions>(options => config.GetSection("Orleans").Bind(options))
 #if DEBUG
