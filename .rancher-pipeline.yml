@@ -9,5 +9,12 @@ stages:
 
         dotnet cake build.cake --target=Sample
         ls -al ./artifacts
+- name: docker
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.Silo/Dockerfile
+      buildContext: ./artifacts/Hypomos.Silo/
+      tag: hypomos-silo:dev
+      registry: 127.0.0.1:34577
 timeout: 60
 notification: {}
