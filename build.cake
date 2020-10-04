@@ -26,8 +26,6 @@ Task("Clean")
     CleanDirectory(artifactsDir);
     CleanDirectories("./src/*/bin/");
     CleanDirectories("./src/*/obj/");
-    CleanDirectories("./tests/*/obj/");
-    CleanDirectories("./tests/*/obj/");
 });
 
 Task("Restore")
@@ -36,7 +34,7 @@ Task("Restore")
 {
     DotNetCoreRestore(solution, new DotNetCoreRestoreSettings
     {
-        // Sources = new [] { "http://192.168.5.18/v3/index.json" }
+        Sources = new [] { "http://192.168.5.12/v3/index.json" }
     });
 });
 
@@ -44,48 +42,86 @@ Task("Build")
     .IsDependentOn("Restore")
     .Does(() =>
 {
-    DotNetCoreBuild(solution, new DotNetCoreBuildSettings
+    var buildSettings = new DotNetCoreBuildSettings
     {
         Framework = framework,
         Configuration = configuration,
         NoRestore = true,
-        ArgumentCustomization = args => 
-            args.Append("/p:DeployOnBuild=True")
-                .Append("/p:PublishProfile=FolderProfile")
-    });
+        ArgumentCustomization = args => args
+            .Append("/m:1")
+    };
+
+    var projects = GetFiles("./*/*/*.csproj");
+    
+    var grainProjects = projects.Where(p => p.FullPath.Contains("Grain")).ToList();
+    foreach (var project in grainProjects)
+    {
+        DotNetCoreBuild(project.FullPath, buildSettings);
+    }
+
+    buildSettings = new DotNetCoreBuildSettings
+    {
+        Framework = framework,
+        Configuration = configuration,
+        NoRestore = true,
+        ArgumentCustomization = args => args
+            .Append("/p:DeployOnBuild=True")
+            .Append("/p:PublishProfile=FolderProfile")
+    };
+    var nonGrainProjects = projects.Where(p => !p.FullPath.Contains("Grain")).ToList();
+    foreach (var project in nonGrainProjects)
+    {
+        DotNetCoreBuild(project.FullPath, buildSettings);
+    }
 });
 
-// Task("Tests")
-//     .IsDependentOn("Build")
-//     .Does(() =>
-// {
-//     DotNetCoreTest();
-// });
+Task("Test")
+    .IsDependentOn("Build")
+    .Does(() =>
+{
+    DotNetCoreTest();
+});
 
 // Task("Publish")
-//     .IsDependentOn("Build")
+//     .IsDependentOn("Test")
 //     .Does(() => 
 // {
 //     DotNetCorePublish(solution, new DotNetCorePublishSettings
 //     {
 //         Framework = framework,
 //         Configuration = configuration,
-//         OutputDirectory = artifactsDir
+//         // NoBuild = true,
+//         // NoRestore = true,
+//         // OutputDirectory = artifactsDir
+//         ArgumentCustomization = args => args
+//                 .Append("-p:PublishProfile=FolderProfile")
 //     });
 // });
 
-Task("Sample")
-    .IsDependentOn("Build")
-    .Does(() => 
-{
-    // MoveFile("./artifacts/Hypomos.Web/secrets.json.sample", "./artifacts/Hypomos.Web/secrets.json");
-});
+// Task("Sample")
+//     .IsDependentOn("Publish")
+//     .Does(() => 
+// {
+//     // MoveFile("./artifacts/Hypomos.Web/secrets.json.sample", "./artifacts/Hypomos.Web/secrets.json");
+// });
 
 Task("Dockerize")
     // .IsDependentOn("Sample")
     .Does(() => 
 {
-    DockerBuild("./artifacts/Hypomos.Web/");
+    var artifacts = GetDirectories("./artifacts/*");
+    foreach (var artifact in artifacts)
+    {
+        var tags = new List<string>();
+        tags.Add($"{artifact.GetDirectoryName()}:dev");
+
+        DockerBuild(
+            new DockerImageBuildSettings
+            {
+                Tag = tags.ToArray()
+            },
+            $"{artifact}");        
+    }
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -93,7 +129,7 @@ Task("Dockerize")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Build");
+    .IsDependentOn("Test");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

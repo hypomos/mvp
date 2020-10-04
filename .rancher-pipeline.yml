@@ -7,7 +7,7 @@ stages:
         dotnet tool install --global Cake.Tool --version 0.38.5
         export PATH="$PATH:/root/.dotnet/tools"
 
-        dotnet cake build.cake --target=Sample
+        dotnet cake build.cake --target=Test
         ls -al ./artifacts
 - name: docker
   steps:
