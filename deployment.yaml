@@ -140,26 +140,26 @@ items:
   kind: Deployment
   metadata:
     labels:
-      workload.user.cattle.io/workloadselector: deployment-default-hypomos-spa
-    name: hypomos-spa
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
+    name: hypomos-app
     namespace: hypomos-dev
   spec:
     selector:
       matchLabels:
-        workload.user.cattle.io/workloadselector: deployment-default-hypomos-spa
+        workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          workload.user.cattle.io/workloadselector: deployment-default-hypomos-spa
+          workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
       spec:
         imagePullSecrets:
         - name: pipeline-docker-registry
         containers:
-        - image: ${CICD_REGISTRY}/hypomos/spa:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos/app:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
-          name: hypomos-spa
+          name: hypomos-app
           ports:
           - containerPort: 80
             name: http
@@ -168,7 +168,7 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
-    name: hypomos-spa
+    name: hypomos-app
     namespace: hypomos-dev
   spec:
     ports:
@@ -177,6 +177,6 @@ items:
       protocol: TCP
       targetPort: 80
     selector:
-      workload.user.cattle.io/workloadselector: deployment-default-hypomos-spa
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
       sessionAffinity: None
     type: ClusterIP

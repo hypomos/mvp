@@ -11,7 +11,7 @@ name: hypomos-mvp
 services:
 
 - name: sqlserver
-  image: mcr.microsoft.com/mssql/server:2017-latest
+  image: mcr.microsoft.com/mssql/server:2019-latest
   env:
     - name: SA_PASSWORD
       value: "P@ssw0rd"
@@ -19,7 +19,7 @@ services:
       value: "Y"
   bindings:
     - port: 1433
-      connectionString: Data Source=${host},${port};Initial Catalog=coolstoredb;User Id=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=True;
+      connectionString: Data Source=${host},${port};Initial Catalog=hypomosdb;User Id=sa;Password=${env:SA_PASSWORD};MultipleActiveResultSets=True;
 - name: redis
   image: redis
   bindings:
