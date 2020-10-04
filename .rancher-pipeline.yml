@@ -16,5 +16,20 @@ stages:
       buildContext: ./artifacts/Hypomos.Silo/
       tag: hypomos-silo:dev
       registry: 127.0.0.1:34577
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.IdentityServer/Dockerfile
+      buildContext: ./artifacts/Hypomos.IdentityServer/
+      tag: hypomos-identity:dev
+      registry: 127.0.0.1:34577
+  - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.Api/Dockerfile
+      buildContext: ./artifacts/Hypomos.Api
+      tag: hypomos-api:dev
+      registry: 127.0.0.1:34577
+  - publishImageConfig:
+      dockerfilePath: ./src/WebApp/Dockerfile
+      buildContext: ./src/WebApp/
+      tag: hypomos-app:dev
+      registry: 127.0.0.1:34577
 timeout: 60
 notification: {}
