@@ -14,25 +14,25 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Silo/Dockerfile
       buildContext: ./artifacts/Hypomos.Silo/
-      tag: hypomos-silo:dev
+      tag: hypomos-silo:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: harbor.cloud.bwalti.net/hypomos
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.IdentityServer/Dockerfile
       buildContext: ./artifacts/Hypomos.IdentityServer/
-      tag: hypomos-identity:dev
+      tag: hypomos-identity:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: harbor.cloud.bwalti.net/hypomos
   - publishImageConfig:
       dockerfilePath: ./artifacts/Hypomos.Api/Dockerfile
       buildContext: ./artifacts/Hypomos.Api
-      tag: hypomos-api:dev
+      tag: hypomos-api:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: harbor.cloud.bwalti.net/hypomos
   - publishImageConfig:
       dockerfilePath: ./src/WebApp/Dockerfile
       buildContext: ./src/WebApp/
-      tag: hypomos-app:dev
+      tag: hypomos-app:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: harbor.cloud.bwalti.net/hypomos
     env:
