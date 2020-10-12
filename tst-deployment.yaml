@@ -36,6 +36,21 @@ items:
             protocol: TCP
         restartPolicy: Always
         schedulerName: default-scheduler
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: grain-storage
+    namespace: hypomos-tst
+  spec:
+    ports:
+    - name: minio
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      workload.user.cattle.io/workloadselector: deployment-hypomos-tst-grain-storage
+      sessionAffinity: None
+    type: ClusterIP
 
 - apiVersion: v1
   kind: Namespace
