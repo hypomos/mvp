@@ -13,17 +13,21 @@ namespace Hypomos.IdentityServer
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
-        public Startup(IWebHostEnvironment environment)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             this.Environment = environment;
+            this.Configuration = configuration;
         }
 
         public IWebHostEnvironment Environment { get; }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -43,7 +47,7 @@ namespace Hypomos.IdentityServer
                 });
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=Hypomos-Identity;trusted_connection=yes;";
+            string connectionString = this.Configuration.GetConnectionString("DefaultConnection");
             
             var builder = services.AddIdentityServer(
                     options =>
