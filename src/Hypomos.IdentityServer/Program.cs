@@ -60,7 +60,7 @@ namespace Hypomos.IdentityServer
                     builder =>
                     {
                         builder.AddJsonFile("appsettings.json");
-                        builder.AddEnvironmentVariables("HYPOMOS");
+                        builder.AddEnvironmentVariables("HYPOMOS_");
                     })
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });

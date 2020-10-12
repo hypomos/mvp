@@ -44,6 +44,8 @@ stages:
   - applyYamlConfig:
       path: ./tst-certificate.yaml
   - applyYamlConfig:
+      path: ./tst-orleans-kubernetes.yaml
+  - applyYamlConfig:
       path: ./tst-deployment.yaml
   when:
     branch:

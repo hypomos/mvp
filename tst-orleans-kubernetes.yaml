@@ -1,0 +1,13 @@
+# granting access for: system:serviceaccount:hypomos-dev:default
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: manage-orleans
+  namespace: hypomos-tst
+subjects:
+- kind: ServiceAccount
+  name: default
+roleRef:
+  kind: ClusterRole
+  name: orleans-manager
+  apiGroup: rbac.authorization.k8s.io

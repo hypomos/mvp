@@ -1,6 +1,42 @@
 apiVersion: v1
 kind: List
 items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
+      workload.user.cattle.io/workloadselector: deployment-hypomos-tst-grain-storage
+    name: grain-storage
+    namespace: hypomos-tst
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        workload.user.cattle.io/workloadselector: deployment-hypomos-tst-grain-storage
+    template:
+      metadata:
+        labels:
+          workload.user.cattle.io/workloadselector: deployment-hypomos-tst-grain-storage
+      spec:
+        containers:
+        - args:
+          - server
+          - /data
+          env:
+          - name: MINIO_ACCESS_KEY
+            value: minio
+          - name: MINIO_SECRET_KEY
+            value: minio123
+          image: minio/minio
+          imagePullPolicy: Always
+          name: grain-storage
+          ports:
+          - containerPort: 9000
+            name: minio
+            protocol: TCP
+        restartPolicy: Always
+        schedulerName: default-scheduler
+
 - apiVersion: v1
   kind: Namespace
   metadata:
@@ -33,6 +69,9 @@ items:
           - containerPort: 30000
             name: orleans
             protocol: TCP
+          env:
+          - name: HYPOMOS_OrleansMinioStorage__Endpoint
+            value: "grain-storage:9000"
         restartPolicy: Always
 - apiVersion: v1
   kind: Service

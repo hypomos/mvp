@@ -5,6 +5,7 @@
 
     using Hypomos.GrainInterfaces;
     using Hypomos.Grains;
+    using Hypomos.Silo.Hosting;
     using Hypomos.Silo.Storage;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,7 @@
 #if DEBUG
                 .AddJsonFile("appsettings.Development.json", true)
 #endif
-                .AddEnvironmentVariables()
+                .AddEnvironmentVariables("HYPOMOS_")
                 .Build();
 
             return new HostBuilder()
@@ -43,10 +44,10 @@
                         .AddMemoryGrainStorageAsDefault()
                         .AddSimpleMessageStreamProvider(Constants.SmsProvider)
                         .AddMemoryGrainStorage("PubSubStore")
-                        //.AddMinioGrainStorage("MinioPersisted", options =>
-                        //{
-                        //    config.GetSection("OrleansMinioStorage").Bind(options);
-                        //})
+                        .AddMinioGrainStorage("minio-orleans", options =>
+                        {
+                            config.GetSection("OrleansMinioStorage").Bind(options);
+                        })
 #if DEBUG
                         .UseLocalhostClustering()
 #else
@@ -68,21 +69,21 @@
                 })
                 .ConfigureServices(services =>
                 {
-                    var minioOrleans = "minio-orleans";
+                    //var minioOrleans = "minio-orleans";
 
-                    services.AddOptions<MinioGrainStorageOptions>(minioOrleans);
-                    services.AddSingletonNamedService(minioOrleans, MinioGrainStorageFactory.Create)
-                        .AddSingletonNamedService(minioOrleans,
-                            (s, n) =>
-                                (ILifecycleParticipant<ISiloLifecycle>) s.GetRequiredServiceByName<IGrainStorage>(n));
+                    //services.AddOptions<MinioGrainStorageOptions>(minioOrleans);
+                    //services.AddSingletonNamedService(minioOrleans, MinioGrainStorageFactory.Create)
+                    //    .AddSingletonNamedService(minioOrleans,
+                    //        (s, n) =>
+                    //            (ILifecycleParticipant<ISiloLifecycle>) s.GetRequiredServiceByName<IGrainStorage>(n));
 
-                    services.Configure<MinioGrainStorageOptions>(minioOrleans, config =>
-                    {
-                        config.AccessKey = "minio";
-                        config.SecretKey = "minio123";
-                        config.Endpoint = "localhost:9000";
-                        config.Container = "grain-storage";
-                    });
+                    //services.Configure<MinioGrainStorageOptions>(minioOrleans, config =>
+                    //{
+                    //    config.AccessKey = "minio";
+                    //    config.SecretKey = "minio123";
+                    //    config.Endpoint = "localhost:9000";
+                    //    config.Container = "grain-storage";
+                    //});
 
                     services.Configure<ConsoleLifetimeOptions>(options => { options.SuppressStatusMessages = true; });
                 })
