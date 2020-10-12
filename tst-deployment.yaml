@@ -26,7 +26,7 @@ items:
         imagePullSecrets:
         - name: harbor-hypomos
         containers:
-        - image: ${CICD_REGISTRY}/hypomos/silo:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos-silo:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-silo
           ports:
@@ -71,7 +71,7 @@ items:
         imagePullSecrets:
         - name: harbor-hypomos
         containers:
-        - image: ${CICD_REGISTRY}/hypomos/identity:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos-identity:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-identity
           ports:
@@ -116,7 +116,7 @@ items:
         imagePullSecrets:
         - name: harbor-hypomos
         containers:
-        - image: ${CICD_REGISTRY}/hypomos/api:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos-api:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-api
           ports:
@@ -161,7 +161,7 @@ items:
         imagePullSecrets:
         - name: harbor-hypomos
         containers:
-        - image: ${CICD_REGISTRY}/hypomos/app:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_REGISTRY}/hypomos-app:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
           name: hypomos-app
           ports:
