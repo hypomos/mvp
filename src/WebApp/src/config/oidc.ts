@@ -1,7 +1,7 @@
 import { VuexOidcClientSettings } from 'vuex-oidc';
 
-const STS_DOMAIN: string = "http://localhost:5000";
-const BASE: string = "http://localhost:3000";
+const STS_DOMAIN: string = import.meta.env.VITE_HYPOMOS_OIDC;
+const BASE: string = import.meta.env.VITE_HYPOMOS_APP;
 
 export const oidcSettings: VuexOidcClientSettings = {
   authority: STS_DOMAIN,

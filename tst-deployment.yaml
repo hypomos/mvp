@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: List
 items:
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: hypomos-tst
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
     labels:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
     name: hypomos-silo
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     selector:
       matchLabels:
@@ -34,7 +38,7 @@ items:
   kind: Service
   metadata:
     name: hypomos-silo
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     ports:
     - name: orleans
@@ -52,7 +56,7 @@ items:
     labels:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-identity
     name: hypomos-identity
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     selector:
       matchLabels:
@@ -79,7 +83,7 @@ items:
   kind: Service
   metadata:
     name: hypomos-identity
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     ports:
     - name: http
@@ -97,7 +101,7 @@ items:
     labels:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-api
     name: hypomos-api
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     selector:
       matchLabels:
@@ -124,7 +128,7 @@ items:
   kind: Service
   metadata:
     name: hypomos-api
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     ports:
     - name: http
@@ -142,7 +146,7 @@ items:
     labels:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
     name: hypomos-app
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     selector:
       matchLabels:
@@ -169,7 +173,7 @@ items:
   kind: Service
   metadata:
     name: hypomos-app
-    namespace: hypomos-dev
+    namespace: hypomos-tst
   spec:
     ports:
     - name: http
@@ -180,3 +184,46 @@ items:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
       sessionAffinity: None
     type: ClusterIP
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: hypomos-tst
+    namespace: hypomos-tst
+  spec:
+    rules:
+    - host: hypomos-tst.cloud.bwalti.net
+      http:
+        paths:
+        - path: /api
+          pathType: ImplementationSpecific
+          backend:
+            serviceName: hypomos-api
+            servicePort: 80
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            serviceName: hypomos-app
+            servicePort: 80
+    tls:
+    - hosts:
+      - hypomos-tst.cloud.bwalti.net
+      secretName: hypomos-tst-le
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: hypomos-tst-id
+    namespace: hypomos-tst
+  spec:
+    rules:
+    - host: hypomos-tst-id.cloud.bwalti.net
+      http:
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            serviceName: hypomos-identity
+            servicePort: 80
+    tls:
+    - hosts:
+      - hypomos-tst-id.cloud.bwalti.net
+      secretName: hypomos-tst-le

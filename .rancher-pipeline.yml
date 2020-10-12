@@ -31,10 +31,16 @@ stages:
       buildContext: ./src/WebApp/
       tag: hypomos-app:dev
       registry: 127.0.0.1:34577
+    env:
+      PLUGIN_BUILD_ARGS: "mode=testing"
 - name: Deploy
   steps:
   - applyYamlConfig:
-      path: ./deployment.yaml
+      path: ./tst-issuer.yaml
+  - applyYamlConfig:
+      path: ./tst-certificate.yaml
+  - applyYamlConfig:
+      path: ./tst-deployment.yaml
   when:
     branch:
       include:
