@@ -79,6 +79,9 @@ items:
             name: http
             protocol: TCP
         restartPolicy: Always
+        env:
+        - name: HYPOMOS_ConnectionStrings__DefaultConnection
+          value: Server=hypomos-db;Database=hypomos;User Id=sa;Password=yourStrong(!)Password;
 - apiVersion: v1
   kind: Service
   metadata:
