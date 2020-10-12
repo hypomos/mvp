@@ -12,6 +12,7 @@ namespace Hypomos.IdentityServer
     using IdentityServerHost.Quickstart.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,14 @@ namespace Hypomos.IdentityServer
         {
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            
+            services.Configure<ForwardedHeadersOptions>(
+                options =>
+                {
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                    options.KnownNetworks.Clear();
+                    options.KnownProxies.Clear();
+                });
 
             services.AddAuthentication()
                 .AddMicrosoftAccount("Microsoft", options =>
@@ -80,6 +89,8 @@ namespace Hypomos.IdentityServer
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseForwardedHeaders();
+
             if (this.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
