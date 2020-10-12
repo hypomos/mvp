@@ -24,7 +24,7 @@ items:
           workload.user.cattle.io/workloadselector: deployment-default-hypomos-silo
       spec:
         imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: harbor-hypomos
         containers:
         - image: ${CICD_REGISTRY}/hypomos/silo:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
@@ -69,7 +69,7 @@ items:
           workload.user.cattle.io/workloadselector: deployment-default-hypomos-identity
       spec:
         imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: harbor-hypomos
         containers:
         - image: ${CICD_REGISTRY}/hypomos/identity:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
@@ -114,7 +114,7 @@ items:
           workload.user.cattle.io/workloadselector: deployment-default-hypomos-api
       spec:
         imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: harbor-hypomos
         containers:
         - image: ${CICD_REGISTRY}/hypomos/api:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
@@ -159,7 +159,7 @@ items:
           workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
       spec:
         imagePullSecrets:
-        - name: pipeline-docker-registry
+        - name: harbor-hypomos
         containers:
         - image: ${CICD_REGISTRY}/hypomos/app:${CICD_EXECUTION_SEQUENCE}
           imagePullPolicy: Always
