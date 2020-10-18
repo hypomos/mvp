@@ -226,7 +226,7 @@ items:
             name: http
             protocol: TCP
           env:
-          - name: HYPOMOS_Spring__Cloud_Kubernetes_NameSpace
+          - name: HYPOMOS_Spring__Cloud__Kubernetes__NameSpace
             value: hypomos-tst
         restartPolicy: Always
 - apiVersion: v1

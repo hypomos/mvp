@@ -76,6 +76,12 @@ services:
   bindings:
   - protocol: https
     port: 5010
+
+- name: blazor
+  project: src/Hypomos.BlazorApp/Hypomos.BlazorApp.csproj
+  bindings:
+  - protocol: http
+    port: 5020
   
 - name: app
   dockerFile: src/WebApp/Dockerfile

@@ -38,9 +38,11 @@ namespace Hypomos.BlazorApp
                 .ConfigureAppConfiguration(
                     (context, builder) =>
                     {
-                        builder.AddJsonFile("appsettings.json");
-                        builder.AddEnvironmentVariables("HYPOMOS_");
-                        builder.AddKubernetes(loggerFactory: GetLoggerFactory());
+
+                        builder.AddJsonFile("appsettings.json")
+                                .AddEnvironmentVariables("HYPOMOS_")
+                                .AddKubernetes(loggerFactory: GetLoggerFactory());
+
                         Console.WriteLine(Platform.IsKubernetes ? "!!! WE ARE ON K8S !!!" : "!!! WE ARE ---NOT--- ON K8S !!!");
                     })
                 .ConfigureLogging(
