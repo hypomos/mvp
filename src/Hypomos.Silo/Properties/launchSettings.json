@@ -1,7 +1,10 @@
 {
   "profiles": {
     "Hypomos.Silo": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "environmentVariables": {
+        // "HYPOMOS_OrleansMinioStorage__Endpoint":  "grain-storage:9000"
+      }
     }
   }
 }
