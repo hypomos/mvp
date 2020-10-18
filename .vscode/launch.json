@@ -13,8 +13,8 @@
                 "${workspaceRoot}/build.cake",
                 "--debug",
                 "--verbosity=diagnostic",
-                "--target=Dockerize"
-                //"--target=Docker-Build"
+                //"--target=Dockerize"
+                "--target=Build"
             ],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": true,

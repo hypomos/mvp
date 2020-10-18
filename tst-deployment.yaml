@@ -201,6 +201,51 @@ items:
   kind: Deployment
   metadata:
     labels:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-blazorapp
+    name: hypomos-blazorapp
+    namespace: hypomos-tst
+  spec:
+    selector:
+      matchLabels:
+        workload.user.cattle.io/workloadselector: deployment-default-hypomos-blazorapp
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          workload.user.cattle.io/workloadselector: deployment-default-hypomos-blazorapp
+      spec:
+        imagePullSecrets:
+        - name: harbor-hypomos
+        containers:
+        - image: ${CICD_REGISTRY}/hypomos-blazorapp:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          name: hypomos-blazorapp
+          ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+        restartPolicy: Always
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: hypomos-blazorapp
+    namespace: hypomos-tst
+  spec:
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      workload.user.cattle.io/workloadselector: deployment-default-hypomos-blazorapp
+      sessionAffinity: None
+    type: LoadBalancer
+
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
       workload.user.cattle.io/workloadselector: deployment-default-hypomos-app
     name: hypomos-app
     namespace: hypomos-tst

@@ -30,6 +30,12 @@ stages:
       pushRemote: true
       registry: harbor.cloud.bwalti.net/hypomos
   - publishImageConfig:
+      dockerfilePath: ./artifacts/Hypomos.BlazorApp/Dockerfile
+      buildContext: ./artifacts/Hypomos.BlazorApp
+      tag: hypomos-blazorapp:${CICD_EXECUTION_SEQUENCE}
+      pushRemote: true
+      registry: harbor.cloud.bwalti.net/hypomos
+  - publishImageConfig:
       dockerfilePath: ./src/WebApp/Dockerfile
       buildContext: ./src/WebApp/
       tag: hypomos-app:${CICD_EXECUTION_SEQUENCE}
