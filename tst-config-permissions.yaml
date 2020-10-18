@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: config-reader
+  namespace: hypomos-tst
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["ConfigMaps", "Secrets"]
+  verbs: ["get", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: RoleBinding
+metadata:
+  name: default-read-config
+subjects:
+- kind: ServiceAccount
+  name: default # Name is case sensitive
+  namespace: hypomos-tst
+roleRef:
+  kind: Role
+  name: config-reader
+  apiGroup: rbac.authorization.k8s.io

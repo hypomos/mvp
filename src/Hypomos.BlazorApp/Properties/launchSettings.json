@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Hypomos.Blazor.Steeltoe": {
+    "Hypomos.BlazorApp": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

@@ -225,6 +225,9 @@ items:
           - containerPort: 80
             name: http
             protocol: TCP
+          env:
+          - name: HYPOMOS_Spring__Cloud_Kubernetes_NameSpace
+            value: hypomos-tst
         restartPolicy: Always
 - apiVersion: v1
   kind: Service
