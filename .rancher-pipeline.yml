@@ -46,6 +46,8 @@ stages:
 - name: Deploy
   steps:
   - applyYamlConfig:
+      path: ./tst-config-permissions.yaml
+  - applyYamlConfig:
       path: ./tst-issuer.yaml
   - applyYamlConfig:
       path: ./tst-certificate.yaml
