@@ -57,9 +57,9 @@ namespace Hypomos.IdentityServer
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(
-                    builder =>
+                    (context, builder) =>
                     {
-                        builder.AddJsonFile("appsettings.json");
+                        builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json");
                         builder.AddEnvironmentVariables("HYPOMOS_");
                     })
                 .UseSerilog()

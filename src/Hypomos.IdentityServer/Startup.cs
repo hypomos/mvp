@@ -5,18 +5,20 @@ namespace Hypomos.IdentityServer
 {
     using System.Linq;
     using System.Reflection;
-    using IdentityServer4;
+    using Hypomos.IdentityServer.Middleware;
     using IdentityServer4.EntityFramework.DbContexts;
     using IdentityServer4.EntityFramework.Mappers;
-    using IdentityServer4.Test;
+    using IdentityServer4.Services;
     using IdentityServerHost.Quickstart.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     public class Startup
     {
@@ -32,9 +34,9 @@ namespace Hypomos.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // uncomment, if you want to add an MVC-based UI
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
             services.Configure<ForwardedHeadersOptions>(
                 options =>
                 {
@@ -44,23 +46,23 @@ namespace Hypomos.IdentityServer
                 });
 
             services.AddAuthentication()
-                .AddMicrosoftAccount("Microsoft", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                .AddMicrosoftAccount(
+                    "Microsoft",
+                    options =>
+                    {
+                        this.Configuration.GetSection("MicrosoftAccountOptions")
+                            .Bind(options);
+                    });
 
-                    options.ClientId = "66b69578-2ab1-4d0e-ac50-041bfa4efc50";
-                    options.ClientSecret = "wj874ezZOoo1ReLQAml/EHRG/WvIJ:c.";
+            var migrationsAssembly = typeof(Startup).GetTypeInfo()
+                .Assembly.GetName()
+                .Name;
+            var connectionString = this.Configuration.GetConnectionString("DefaultConnection");
 
-                    options.SaveTokens = true;
-                    //options.Scope.Add("id_token");
-                });
-
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            string connectionString = this.Configuration.GetConnectionString("DefaultConnection");
-            
             var builder = services.AddIdentityServer(
                     options =>
                     {
+                        options.IssuerUri = "https://localhost:5101/identity-server";
                         // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                         // options.EmitStaticAudienceClaim = true;
                     })
@@ -68,20 +70,24 @@ namespace Hypomos.IdentityServer
                 .AddOperationalStore(
                     options =>
                     {
-                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
+                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
                     })
                 .AddConfigurationStore(
                     options =>
                     {
-                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
-                            sql => sql.MigrationsAssembly(migrationsAssembly));
+                        options.ConfigureDbContext = b => b.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
                     });
-                //.AddInMemoryIdentityResources(Config.IdentityResources)
-                //.AddInMemoryApiScopes(Config.ApiScopes)
-                //.AddInMemoryClients(Config.Clients);
 
-            //services.AddScoped<TestUserStore>(provider => new TestUserStore(TestUsers.Users));
+            services.AddSingleton<ICorsPolicyService>(
+                provider =>
+                {
+                    var logger = provider.GetService<ILogger<DefaultCorsPolicyService>>();
+
+                    return new DefaultCorsPolicyService(logger)
+                    {
+                        AllowAll = true
+                    };
+                });
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -89,70 +95,85 @@ namespace Hypomos.IdentityServer
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseMiddleware<HttpInspectorMiddleware>();
+
+            app.UseCookiePolicy();
             app.UseForwardedHeaders();
+            app.UsePathBase("/identity-server");
 
             if (this.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            InitializeDatabase(app);
+            this.InitializeDatabase(app);
 
-            app.UseHsts();
-            
-            // uncomment if you want to add MVC
-            app.UseStaticFiles();
-            app.UseRouting();
+            app.Use(
+                async (context, next) =>
+                {
+                    context.Request.Scheme = "https";
+                    context.Request.PathBase = "/identity-server";
+                    context.Request.Host = new HostString("localhost", 5101);
 
-            app.UseAuthentication();
+                    await next.Invoke();
+                });
 
-            app.UseIdentityServer(new IdentityServerMiddlewareOptions
-            {
-                AuthenticationMiddleware = builder => builder.UseCors(b => b.AllowAnyOrigin())
-            });
+            app.UseIdentityServer();
 
-            // uncomment, if you want to add MVC
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
+            app.UseRouting()
+                .UseCors()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseStaticFiles()
+                .UseEndpoints(
+                    builder =>
+                    {
+                        builder.MapDefaultControllerRoute();
+                    });
         }
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+
+            var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+            logger.LogInformation("Initliazing DB...");
+            serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>()
+                .Database.Migrate();
+
+            var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            context.Database.Migrate();
+            if (!context.Clients.Any())
             {
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-
-                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                if (!context.Clients.Any())
+                logger.LogInformation("No Clients found, thus initialize with Config.Clients");
+                foreach (var client in Config.Clients)
                 {
-                    foreach (var client in Config.Clients)
-                    {
-                        context.Clients.Add(client.ToEntity());
-                    }
-                    context.SaveChanges();
+                    context.Clients.Add(client.ToEntity());
                 }
 
-                if (!context.IdentityResources.Any())
+                context.SaveChanges();
+            }
+
+            if (!context.IdentityResources.Any())
+            {
+                logger.LogInformation("No IdentityResources found, thus initializing...");
+                foreach (var resource in Config.IdentityResources)
                 {
-                    foreach (var resource in Config.IdentityResources)
-                    {
-                        context.IdentityResources.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
+                    context.IdentityResources.Add(resource.ToEntity());
                 }
 
-                if (!context.ApiScopes.Any())
+                context.SaveChanges();
+            }
+
+            if (!context.ApiScopes.Any())
+            {
+                logger.LogInformation("No APIs found, thus initializing...");
+                foreach (var resource in Config.ApiScopes)
                 {
-                    foreach (var resource in Config.ApiScopes)
-                    {
-                        context.ApiScopes.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
+                    context.ApiScopes.Add(resource.ToEntity());
                 }
+
+                context.SaveChanges();
             }
         }
     }

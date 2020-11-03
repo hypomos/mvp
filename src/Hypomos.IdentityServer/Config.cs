@@ -37,7 +37,7 @@ namespace Hypomos.IdentityServer
                     AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:5010/swagger/oauth2-redirect.html"
+                        "https://localhost:5101/api/swagger/oauth2-redirect.html"
                     },
                     AccessTokenType = AccessTokenType.Jwt,
                     AllowAccessTokensViaBrowser = true,
@@ -57,20 +57,20 @@ namespace Hypomos.IdentityServer
 
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:3000/",
-                        "http://localhost:3000"
+                        "https://localhost:5101/",
+                        "https://localhost:5101"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://localhost:3000"
+                        "https://localhost:5101"
                     },
 
                     AllowedScopes = AllScopes(),
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:3000/",
-                        "http://localhost:3000/oidc-callback",
-                        "http://localhost:3000/silent-renew"
+                        "https://localhost:5101/",
+                        "https://localhost:5101/oidc-callback",
+                        "https://localhost:5101/silent-renew"
                     },
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false

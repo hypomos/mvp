@@ -36,6 +36,12 @@
       "Projects": {
         "Hypomos.IdentityServer": {}
       }
-    } 
+    },
+    "YarpProxy + Identity": {
+      "Projects": {
+        "Hypomos.IdentityServer": {},
+        "YarpProxy": {}
+      }
+    }
   }
 }
