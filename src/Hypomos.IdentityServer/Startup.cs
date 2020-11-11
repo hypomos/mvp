@@ -6,6 +6,7 @@ namespace Hypomos.IdentityServer
     using System.Linq;
     using System.Reflection;
     using Hypomos.IdentityServer.Middleware;
+    using IdentityServer4;
     using IdentityServer4.EntityFramework.DbContexts;
     using IdentityServer4.EntityFramework.Mappers;
     using IdentityServer4.Services;
@@ -52,6 +53,8 @@ namespace Hypomos.IdentityServer
                     {
                         this.Configuration.GetSection("MicrosoftAccountOptions")
                             .Bind(options);
+
+                        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     });
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo()
@@ -83,10 +86,7 @@ namespace Hypomos.IdentityServer
                 {
                     var logger = provider.GetService<ILogger<DefaultCorsPolicyService>>();
 
-                    return new DefaultCorsPolicyService(logger)
-                    {
-                        AllowAll = true
-                    };
+                    return new DefaultCorsPolicyService(logger) { AllowAll = true };
                 });
 
             // not recommended for production - you need to store your key material somewhere secure
@@ -134,7 +134,8 @@ namespace Hypomos.IdentityServer
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()
+                .CreateScope();
 
             var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
             logger.LogInformation("Initliazing DB...");
