@@ -23,7 +23,7 @@ export const store = createStore<State>({
   modules: {
     oidcStore: vuexOidcCreateStoreModule(
       oidcSettings,
-      { isAuthenticatedBy: 'access_token' },
+      { isAuthenticatedBy: 'id_token' },
       {
         userLoaded: (user) => console.log('OIDC user is loaded:', user),
         userUnloaded: () => console.log('OIDC user is unloaded'),

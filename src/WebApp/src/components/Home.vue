@@ -12,7 +12,7 @@
     <article class="prose">
       <h1>Welcome to Hypomos</h1>
 
-      <p>Please login to enjoy it's full functionality :)</p>
+      <p>Please <RouterLink :to="{ name: 'app' }">login</RouterLink> to enjoy it's full functionality :)</p>
     </article>
   </main>
 </template>

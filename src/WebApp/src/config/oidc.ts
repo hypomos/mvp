@@ -7,12 +7,12 @@ export const oidcSettings: VuexOidcClientSettings = {
   authority: STS_DOMAIN,
   clientId: 'hypomos-web-app',
   redirectUri: `${BASE}/oidc-callback`,
-  responseType: 'id_token token',
+  responseType: 'code',
   scope: 'openid profile hypomos',
   
   automaticSilentRenew: true,
-  silentRedirectUri: `${BASE}/silent-renew`,
+  // silentRedirectUri: `${BASE}/silent-renew`,
     
   postLogoutRedirectUri: `${BASE}/`,
-  filterProtocolClaims: true,
+  // filterProtocolClaims: true,
 };

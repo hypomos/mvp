@@ -26,34 +26,34 @@ namespace Hypomos.IdentityServer
         public static IEnumerable<Client> Clients =>
             new[]
             {
-                new Client
-                {
-                    ClientId = "swagger-api-id",
-                    ClientSecrets =
-                    {
-                        new Secret("some-even-more-secret-secret".Sha256())
-                    },
-                    AllowedScopes = AllScopes(),
-                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
-                    RedirectUris = new List<string>
-                    {
-                        "https://localhost:5101/api/swagger/oauth2-redirect.html"
-                    },
-                    AccessTokenType = AccessTokenType.Jwt,
-                    AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false
-                },
+                //new Client
+                //{
+                //    ClientId = "swagger-api-id",
+                //    ClientSecrets =
+                //    {
+                //        new Secret("some-even-more-secret-secret".Sha256())
+                //    },
+                //    AllowedScopes = AllScopes(),
+                //    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+                //    RedirectUris = new List<string>
+                //    {
+                //        "https://localhost:5101/api/swagger/oauth2-redirect.html"
+                //    },
+                //    AccessTokenType = AccessTokenType.Jwt,
+                //    AllowAccessTokensViaBrowser = true,
+                //    RequireConsent = false
+                //},
                 new Client
                 {
                     ClientName = "Hypomos",
                     ClientId = "hypomos-web-app",
-                    AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = 330,
-                    IdentityTokenLifetime = 300,
+                    //AccessTokenType = AccessTokenType.Reference,
+                    //AccessTokenLifetime = 330,
+                    //IdentityTokenLifetime = 300,
 
-                    RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
+                    RequireClientSecret = false,
 
                     PostLogoutRedirectUris = new List<string>
                     {
@@ -72,8 +72,8 @@ namespace Hypomos.IdentityServer
                         "https://localhost:5101/oidc-callback",
                         "https://localhost:5101/silent-renew"
                     },
-                    AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false
+                    //AllowAccessTokensViaBrowser = true,
+                    //RequireConsent = false
                 }
             };
 
