@@ -1,3 +1,0 @@
-VITE_HYPOMOS_APP=http://localhost:3000
-VITE_HYPOMOS_API=http://localhost:5010
-VITE_HYPOMOS_OIDC=http://localhost:5000
