@@ -20,8 +20,16 @@ import { defineComponent, ref } from 'vue';
 import { useSidebar } from '../hooks/useSidebar';
 import Sidebar from '../components/Sidebar/Sidebar.vue';
 import Header from '../components/Header/Header.vue';
+import { authenticatedRequest } from '../services/axios-auth';
 
 export default defineComponent({
+  // mounted() {
+  //   authenticatedRequest('/api/', 'GET')
+  //     .then(response => {
+  //       debugger;
+  //     });
+  // },
+
   components: {
     Header,
     Sidebar,

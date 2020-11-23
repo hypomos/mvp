@@ -13,11 +13,7 @@
   >
     <div class="flex items-center justify-center mt-8">
       <div class="flex items-center">
-        <img
-          class="h-12 w-12"
-          src="../../assets/logo.svg"
-          alt="Hyperion Cosmos - Hypomos"
-        >
+        <Logo class="w-12 h-12 text-yellow-400" />
         <span class="text-white text-2xl mx-2 font-semibold">Hypomos</span>
       </div>
     </div>
@@ -161,6 +157,7 @@
 import { defineComponent, ref } from 'vue';
 
 import { useSidebar } from '../../hooks/useSidebar';
+import Logo from './Logo.vue';
 
 export default defineComponent({
   setup() {
@@ -176,6 +173,10 @@ export default defineComponent({
       activeClass,
       inactiveClass,
     };
+  },
+
+  components: {
+    Logo,
   },
 });
 </script>
