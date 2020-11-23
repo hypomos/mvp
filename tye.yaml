@@ -77,11 +77,12 @@ services:
   - protocol: https
     port: 5010
 
-- name: blazor
-  project: src/Hypomos.BlazorApp/Hypomos.BlazorApp.csproj
+- name: yarp
+  project: src/YarpProxy/YarpProxy.csproj
   bindings:
-  - protocol: http
-    port: 5020
+  - name: https
+    protocol: https
+    port: 5101
   
 - name: app
   dockerFile: src/WebApp/Dockerfile
