@@ -1,0 +1,5 @@
+{
+    "HypomosApp": "https://localhost:5101",
+    "HypomosApi": "https://localhost:5101/api",
+    "HypomosOidc": "https://localhost:5101/identity-server/"
+}

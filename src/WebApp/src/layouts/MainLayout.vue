@@ -1,5 +1,9 @@
 <template>
-  <div class="flex h-screen bg-gray-200 font-roboto">
+  <div v-if="!isInitialized">
+    Loading...
+  </div>
+
+  <div class="flex h-screen bg-gray-200 font-roboto" v-if="isInitialized">
     <Sidebar />
 
     <div class="flex-1 flex flex-col overflow-hidden">
@@ -29,6 +33,19 @@ export default defineComponent({
   //       debugger;
   //     });
   // },
+
+  data() {
+    return {
+      isInitialized: false
+    };
+  },
+
+  async mounted() {
+    var result = await fetch('config.json');
+    var json = await result.json() as { HypomosApp: string, HypomosApi: string, HypomosOidc: string};
+
+    this.isInitialized = true;    
+  },
 
   components: {
     Header,

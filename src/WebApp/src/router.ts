@@ -39,7 +39,8 @@ export const router = createRouter({
       name: 'hello',
       component: HelloWorld,
       meta: {
-        isPublic: true
+        isPublic: true,
+        layout: 'empty'
       },
       children: [
         {
@@ -54,7 +55,8 @@ export const router = createRouter({
       name: 'silent-renew',
       component: OidcSilentRenew,
       meta: {
-        isPublic: true
+        isPublic: true,
+        layout: 'empty'
       }
     },
     {
@@ -62,7 +64,8 @@ export const router = createRouter({
       name: 'oidcCallback',
       component: OidcCallback,
       meta: {
-        isPublic: true
+        isPublic: true,
+        layout: 'empty'
       }
     },
     {
@@ -70,7 +73,8 @@ export const router = createRouter({
       name: 'oidcError',
       component: OidcError,
       meta: {
-        isPublic: true
+        isPublic: true,
+        layout: 'empty'
       }
     },
     {
@@ -78,7 +82,8 @@ export const router = createRouter({
       name: 'secret',
       component: Secret,
       meta: {
-        isPublic: false
+        isPublic: false,
+        layout: 'empty'
       }
     }
   ],
