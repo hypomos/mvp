@@ -3,27 +3,30 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "cross-env NODE_ENV=production vite build"
   },
   "dependencies": {
     "@headlessui/vue": "^0.2.0",
-    "@tailwindcss/typography": "^0.3.1",
-    "@vueuse/core": "^4.0.0-beta.40",
+    "tailwindcss": "^2.0.2",
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/line-clamp": "^0.2.0",
+    "@tailwindcss/typography": "^0.4.0",
+    "@vueuse/core": "^4.0.12",
     "axios": "^0.21",
-    "oidc-client": "^1.10.1",
-    "vue": "^3.0.2",
-    "vue-router": "^4.0.0-rc.2",
-    "vuex": "^4.0.0-rc.1",
+    "oidc-client": "^1.11.3",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0",
     "vuex-oidc": "^3.10.1"
   },
   "devDependencies": {
-    "@tailwindcss/custom-forms": "^0.2.1",
-    "@vue/compiler-sfc": "^3.0.2",
-    "@vue/devtools": "^5.3.3",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.35",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
-    "vite": "^1.0.0-rc.9"
+    "vite": "^2.0.0-beta.63",
+    "@vitejs/plugin-vue": "^1.1.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.2.4",
+    "rollup-plugin-commonjs": "^10.1.0"
   }
 }
