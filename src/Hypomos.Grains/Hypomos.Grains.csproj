@@ -12,7 +12,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.4.0" />
-    <PackageReference Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.4.0" />
+    <PackageReference Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.4.1" />
     <PackageReference Include="Minio" Version="3.1.13" />
   </ItemGroup>
 
