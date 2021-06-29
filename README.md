@@ -35,21 +35,21 @@ Therefore if a user decides, that a certain media item should be removed, it get
   from there (in this case, we probably want this share to be valid only a certain amount of time, forcing clients to download the photos and thus freeing photographers storage)
 
 * You are a family of four, everyone has a SmartPhone and two members of the family even use a conventional camera. How do you store "common" media items (which all family members might have access to) and where do you store "private" stuff (you know that stuff which not every family member needs to see..)?
-  In Hypomos every family member would have his/her own storage(s) and could share dynamically all "family" media items (e.g. defined with labels)
+  In Hypomos every family member would have his/her own storage(s) and could share dynamically all "family" media items (e.g. defined with labels) whereas private items stay private and no accidental "oops I uploaded it to the family storage" happens.
   
 # More ideas
 
-Hypomos should not only allow to reduce disk space overall. It could also provide some additional sugar:
+Hypomos should not only allow to reduce disk space overall. It could also provide some additional benefits:
 
 * allow dia shows of certain collections
+* measure statistics (skipped in dia show, liked, not liked, opened that many times, ...) which not only allows some housekeeping mechanisms
 * create "automagic" collections (long time not seen, most liked, ...)
-* measure statistics (skipped in dia show, liked, not liked, opened that many times, ...) to allow some housekeeping mechanisms
 * calculate image similarity metrics (and therefore also allow "housekeeping" of very similar images)
-* doing some image analysis (cloud services), like classification and face recognition (if consent has been given by user). Put these information into "searchable labels" (allowing dynamic collections)
+* doing some image analysis (using cloud services), like classification and face recognition (if consent has been given by media item owner). Put these information into "searchable labels" (allowing dynamic collections)
 * do housekeeping based on statistics, metadata and other information (above points) :)
-* hot / cold storage: you might want to photoshop or manipulate "newer" content, but older content could be moved to cheaper cloud storage 
+* hot / not-so-hot storage: you might want to photoshop or manipulate "newer" content, but older content could be moved to cheaper cloud storage 
   (e.g. Azure Blob Storage) which does not integrate that well with a desktop OS. Thus the system could automatically move files from one storage to another one.
-  still allowing user to mark certain photos as "have to be kept warm" so that it might get moved to e.g. OneDrive for simpler manipulation
+  still allowing users to mark certain photos as "have to be kept hot" so that it might get moved to e.g. OneDrive for simpler manipulation
 * approval processes need to be possible on either side (sharing based on dynamic filter / receiving for event)
 * if user once deleted a photo, and it get's re-uploaded again, Hypomos could detect (based on thumbprint) that this has already been marked as "unwanted", thus it could automatically get marked for housekeeping :)
 
